@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AFT // ЗОДИАКАЛЬНЫЙ СЕКТОР</title>
+  <style>
+    :root { --bg: #050005; --text-main: #E0B0FF; --text-toxic: #DF00FF; --text-glow: #BF00FF; --border-color: #8A2BE2; }
+    html, body { margin: 0; padding: 0; width: 100%; min-height: 100vh; background-color: var(--bg); box-sizing: border-box; font-family: 'Courier New', Courier, monospace; }
+    body { padding: 15px; color: var(--text-main); position: relative; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; }
+    body::before { content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0; z-index: 9999; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(0,0,0,0.3), rgba(0,0,0,0.3) 1px, transparent 1px, transparent 3px); }
+    .terminal-container { width: 100%; max-width: 800px; margin-top: 20px; padding: 20px 0; }
+    h1 { font-size: clamp(24px, 5vw, 36px); text-transform: uppercase; margin: 0 auto 10px auto; letter-spacing: 5px; text-align: center; color: var(--text-main); text-shadow: 0 0 5px var(--text-toxic), 0 0 15px var(--text-glow); position: relative; overflow: hidden; white-space: nowrap; border-right: 2px solid transparent; width: max-content; max-width: 100%; animation: typingTitle 1.5s steps(20) 0.2s forwards, blinkCursor 0.8s step-end infinite; }
+    .subtitle { text-align: center; font-size: 14px; color: rgba(224, 176, 255, 0.7); margin: 0 auto 30px auto; letter-spacing: 2px; text-transform: uppercase; overflow: hidden; white-space: nowrap; border-right: 2px solid transparent; width: max-content; max-width: 100%; animation: typingText 2s steps(30) 1s forwards, blinkCursor 0.8s step-end infinite; opacity: 0; }
+    .warning-box { width: 100%; border: 1px solid #FF0000; background: rgba(255,0,0,0.05); padding: 15px; margin-bottom: 30px; text-align: center; font-size: 14px; color: #FF5555; box-shadow: 0 0 15px rgba(255,0,0,0.2); opacity: 0; animation: fadeIn 0.5s 2s forwards; }
+    .zodiac-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; opacity: 0; animation: fadeIn 0.5s 2.5s forwards; }
+    .zodiac-card { position: relative; display: block; text-decoration: none; padding: 20px; background: rgba(20, 0, 30, 0.7); border: 1px solid var(--z-color, var(--border-color)); border-radius: 8px; transition: all 0.3s ease; overflow: hidden; box-shadow: inset 0 0 15px rgba(0,0,0,0.5), 0 0 10px var(--z-color, rgba(138,43,226,0.1)); animation: card-frame-glitch 5s infinite; }
+    .zodiac-card::before { content: ""; position: absolute; inset: 0; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05), transparent); transform: translateX(-100%); transition: transform 0.5s ease; }
+    .zodiac-card:hover { transform: translateY(-3px) scale(1.02); border-color: var(--z-color); box-shadow: 0 0 20px var(--z-color), inset 0 0 20px rgba(255,255,255,0.1); }
+    .zodiac-card:hover::before { transform: translateX(100%); }
+    .zodiac-icon { font-size: 36px; margin-bottom: 10px; filter: drop-shadow(0 0 8px var(--z-color)); }
+    .zodiac-title { font-size: 18px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; color: var(--z-color); text-shadow: 0 0 5px var(--z-color); margin-bottom: 8px; }
+    .zodiac-desc { font-size: 13px; line-height: 1.4; color: #CCC; }
+    .status { font-size: 11px; font-weight: bold; text-transform: uppercase; margin-top: 10px; color: var(--z-color); opacity: 0.8; border-top: 1px dashed var(--z-color); padding-top: 8px; }
+    .z-aries      { --z-color: #E83A3A; } .z-taurus     { --z-color: #FF5E3A; } .z-gemini     { --z-color: #FFB13B; }
+    .z-cancer     { --z-color: #FFD54F; } .z-leo        { --z-color: #FFD700; } .z-virgo      { --z-color: #9CCC65; }
+    .z-libra      { --z-color: #66BB6A; } .z-scorpio    { --z-color: #4DB6AC; } .z-sagittarius{ --z-color: #42A5F5; }
+    .z-capricorn  { --z-color: #AB47BC; } .z-aquarius   { --z-color: #EC407A; } .z-pisces     { --z-color: #E53935; }
+    .btn-wrapper { width: 100%; display: flex; justify-content: center; margin-top: 40px; opacity: 0; animation: fadeIn 0.5s 3.5s forwards; }
+    .btn-back { padding: 12px 30px; background: transparent; border: 2px solid var(--text-main); color: var(--text-main); text-decoration: none; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s; text-align: center; }
+    .btn-back:hover { background: var(--text-main); color: #000; box-shadow: 0 0 20px var(--text-main); }
+    @keyframes typingTitle { from { max-width: 0; } to { max-width: 100%; } }
+    @keyframes typingText { from { max-width: 0; opacity: 1; } to { max-width: 100%; opacity: 1; } }
+    @keyframes blinkCursor { 50% { border-color: var(--text-main); } }
+    @keyframes fadeIn { to { opacity: 1; } }
+    @keyframes card-frame-glitch { 0%, 90%, 100% { transform: translate(0); border-color: var(--z-color); } 92% { transform: translate(1px, -1px); border-color: #FFF; } 94% { transform: translate(-1px, 1px); border-color: var(--z-color); } }
+    @media (max-width: 500px) { h1, .subtitle { white-space: normal; animation: fadeIn 1s forwards; border: none; width: 100%; } .zodiac-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="terminal-container">
+    <h1>ЗОДИАКАЛЬНЫЙ СЕКТОР</h1>
+    <div class="subtitle">// 12 ДРЕВНИХ СУЩНОСТЕЙ //</div>
+    <div class="warning-box">⚠️ ВНИМАНИЕ: ЗНАКИ ЗОДИАКА — ЭТО НЕ ПРОСТО СОЗВЕЗДИЯ. ЭТО ЖИВЫЕ АРХЕТИПЫ, ВЛИЯЮЩИЕ НА ПСИХИКУ. НЕ ПОЗВОЛЯЙТЕ ИМ ВЗЯТЬ КОНТРОЛЬ.</div>
+    <div class="zodiac-grid">
+      <a href="#" class="zodiac-card z-aries"><div class="zodiac-icon">♈️</div><div class="zodiac-title">ОВЕН</div><div class="zodiac-desc">Огонь. Импульс. Агрессия. Они всегда идут первыми, не думая о последствиях.</div><div class="status">АНОМАЛИЯ: ПЕРВИЧНЫЙ ВЗРЫВ</div></a>
+      <a href="#" class="zodiac-card z-taurus"><div class="zodiac-icon">♉️</div><div class="zodiac-title">ТЕЛЕЦ</div><div class="zodiac-desc">Земля. Упрямство. Стабильность. Они не двигаются с места, пока не получат желаемое.</div><div class="status">АНОМАЛИЯ: СТАТИЧЕСКАЯ МАССА</div></a>
+      <a href="#" class="zodiac-card z-gemini"><div class="zodiac-icon">♊️</div><div class="zodiac-title">БЛИЗНЕЦЫ</div><div class="zodiac-desc">Воздух. Двойственность. Ложь. Никогда не знаешь, кто перед тобой — оригинал или копия.</div><div class="status">АНОМАЛИЯ: РАЗДВОЕНИЕ ЛИЧНОСТИ</div></a>
+      <a href="#" class="zodiac-card z-cancer"><div class="zodiac-icon">♋️</div><div class="zodiac-title">РАК</div><div class="zodiac-desc">Вода. Эмпатия. Паранойя. Они чувствуют всё, но прячутся в свою раковину.</div><div class="status">АНОМАЛИЯ: ЭМОЦИОНАЛЬНЫЙ ВАМПИРИЗМ</div></a>
+      <a href="#" class="zodiac-card z-leo"><div class="zodiac-icon">♌️</div><div class="zodiac-title">ЛЕВ</div><div class="zodiac-desc">Огонь. Эго. Власть. Они рождены, чтобы быть в центре внимания. Иначе они уничтожат сцену.</div><div class="status">АНОМАЛИЯ: КУЛЬТ ЛИЧНОСТИ</div></a>
+      <a href="#" class="zodiac-card z-virgo"><div class="zodiac-icon">♍️</div><div class="zodiac-title">ДЕВА</div><div class="zodiac-desc">Земля. Анализ. Паранойя. Они замечают каждую деталь. И каждую ошибку.</div><div class="status">АНОМАЛИЯ: ОБСЕССИВНЫЙ АНАЛИЗ</div></a>
+      <a href="#" class="zodiac-card z-libra"><div class="zodiac-icon">♎️</div><div class="zodiac-title">ВЕСЫ</div><div class="zodiac-desc">Воздух. Баланс. Нерешительность. Они взвешивают всё, пока не станет слишком поздно.</div><div class="status">АНОМАЛИЯ: НАРУШЕНИЕ РАВНОВЕСИЯ</div></a>
+      <a href="#" class="zodiac-card z-scorpio"><div class="zodiac-icon">♏️</div><div class="zodiac-title">СКОРПИОН</div><div class="zodiac-desc">Вода. Тьма. Трансформация. Они не боятся смерти. Они ищут её.</div><div class="status">АНОМАЛИЯ: ПОГРУЖЕНИЕ В БЕЗДНУ</div></a>
+      <a href="#" class="zodiac-card z-sagittarius"><div class="zodiac-icon">♐️</div><div class="zodiac-title">СТРЕЛЕЦ</div><div class="zodiac-desc">Огонь. Свобода. Хаос. Они бегут за горизонт, сжигая всё на своем пути.</div><div class="status">АНОМАЛИЯ: НЕКОНТРОЛИРУЕМЫЙ ПОЛЕТ</div></a>
+      <a href="#" class="zodiac-card z-capricorn"><div class="zodiac-icon">♑️</div><div class="zodiac-title">КОЗЕРОГ</div><div class="zodiac-desc">Земля. Амбиции. Холод. Они пойдут по головам, чтобы достичь вершины.</div><div class="status">АНОМАЛИЯ: МЕХАНИЧЕСКИЙ РАСЧЕТ</div></a>
+      <a href="#" class="zodiac-card z-aquarius"><div class="zodiac-icon">♒️</div><div class="zodiac-title">ВОДОЛЕЙ</div><div class="zodiac-desc">Воздух. Отчуждение. Гениальность. Они смотрят на мир как на эксперимент.</div><div class="status">АНОМАЛИЯ: ВНЕШНЕЕ НАБЛЮДЕНИЕ</div></a>
+      <a href="#" class="zodiac-card z-pisces"><div class="zodiac-icon">♓️</div><div class="zodiac-title">РЫБЫ</div><div class="zodiac-desc">Вода. Иллюзия. Жертва. Они растворяются в чужих мирах, теряя себя.</div><div class="status">АНОМАЛИЯ: ПОЛНАЯ ДИССОЦИАЦИЯ</div></a>
+    </div>
+    <div class="btn-wrapper"><a href="wmt.html" class="btn-back">&lt;&lt; НАЗАД В WMT</a></div>
+  </div>
+</body>
+</html>
