@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AFT // ШЛЮЗ ДОСТУПА</title>
   <style>
-    :root { --bg: #050005; --text-main: #E0B0FF; --text-toxic: #DF00FF; --border-color: #8A2BE2; --panel-bg: rgba(15, 0, 20, 0.85); }
+    :root { --bg: #050005; --text-main: #E0B0FF; --text-toxic: #DF00FF; --text-glow: #BF00FF; --border-color: #8A2BE2; --panel-bg: rgba(15, 0, 20, 0.85); }
     html, body { margin: 0; padding: 0; width: 100%; min-height: 100vh; background-color: var(--bg); box-sizing: border-box; }
     body { padding: 15px; color: var(--text-main); font-family: 'Courier New', Courier, monospace; position: relative; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; }
     body::before { content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0; z-index: 9999; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(0,0,0,0.3), rgba(0,0,0,0.3) 1px, transparent 1px, transparent 3px); }
@@ -23,6 +23,11 @@
     .status-msg.show { opacity: 1; }
     .status-msg.ok { color: #00FA9A; text-shadow: 0 0 10px #00FA9A; }
     .status-msg.bad { color: #FF0000; text-shadow: 0 0 10px #FF0000; }
+    
+    /* НОВАЯ КНОПКА ВЫХОДА */
+    .btn-exit { display: inline-block; margin-top: 30px; color: rgba(224, 176, 255, 0.5); text-decoration: none; font-size: 14px; border-bottom: 1px dashed rgba(224, 176, 255, 0.3); padding-bottom: 2px; opacity: 0; animation: fadeIn 0.5s 4s forwards; transition: all 0.3s; }
+    .btn-exit:hover { color: #FFF; border-color: #FFF; text-shadow: 0 0 10px #FFF; }
+
     @keyframes typingTitle { from { max-width: 0; } to { max-width: 100%; } }
     @keyframes typingText { from { max-width: 0; opacity: 1; } to { max-width: 100%; opacity: 1; } }
     @keyframes blinkCursor { 50% { border-color: var(--text-main); } }
@@ -38,9 +43,12 @@
     <div class="input-wrapper"><input type="text" id="codeInput" class="code-input" placeholder="UA:____" autocomplete="off"></div>
     <div class="btn-wrapper"><button class="btn-submit" id="submitBtn">ВОЙТИ</button></div>
     <div class="status-msg" id="statusMsg"></div>
+    
+    <!-- КНОПКА ВЫХОДА -->
+    <a href="level13.html" class="btn-exit">&lt;&lt; ВЫЙТИ В ХАБ</a>
   </div>
   <script>
-    const VALID_CODES = ['UA2014', 'UA2022'];
+    const VALID_CODES = ['UA:2014', 'UA:2022'];
     const input = document.getElementById('codeInput');
     const btn = document.getElementById('submitBtn');
     const msg = document.getElementById('statusMsg');
