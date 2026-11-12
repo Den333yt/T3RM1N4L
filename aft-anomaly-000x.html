@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AFT // [ДОСТУП ЗАПРЕЩЕН]</title>
+  <style>
+    :root { --bg: #050005; --text-main: #FF0000; --text-dim: #666666; --border-color: #880000; }
+    
+    html, body { margin: 0; padding: 0; width: 100%; min-height: 100vh; background-color: var(--bg); box-sizing: border-box; font-family: 'Courier New', Courier, monospace; }
+    
+    body { 
+      padding: 15px; color: var(--text-main); position: relative; overflow-x: hidden; 
+      display: flex; flex-direction: column; align-items: center; justify-content: center; 
+      animation: hard-glitch 4s infinite; 
+    }
+    
+    /* ЭЛТ-ЭФФЕКТ С ШУМОМ */
+    body::before { 
+      content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0; 
+      z-index: 9999; pointer-events: none; 
+      background: 
+        repeating-linear-gradient(0deg, rgba(0,0,0,0.5), rgba(0,0,0,0.5) 1px, transparent 1px, transparent 3px),
+        url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)" opacity="0.1"/></svg>');
+      animation: noiseAnim 0.2s infinite;
+    }
+    
+    .anomaly-file { 
+      width: 100%; max-width: 800px; 
+      background: rgba(5, 0, 0, 0.9); 
+      border: 2px solid var(--border-color); 
+      animation: glitch-border 3s infinite alternate; 
+      padding: 30px; position: relative; 
+      box-shadow: 0 0 50px rgba(255,0,0,0.2), inset 0 0 30px rgba(255,0,0,0.1); 
+      display: flex; flex-direction: column; 
+    }
+    
+    .blurred-window { position: absolute; background: rgba(20, 0, 0, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255,0,0,0.3); z-index: 10; }
+    .bw-1 { top: 150px; left: 10%; width: 80%; height: 40px; transform: rotate(-1deg); }
+    .bw-2 { bottom: 200px; right: 5%; width: 60%; height: 60px; transform: rotate(2deg); }
+    .bw-3 { top: 400px; left: 20%; width: 50%; height: 30px; }
+    
+    .warning-header { color: #FF0000; font-size: clamp(20px, 5vw, 32px); font-weight: bold; text-align: center; text-transform: uppercase; border-bottom: 2px solid #FF0000; padding-bottom: 15px; margin-bottom: 30px; text-shadow: 0 0 10px #FF0000, 0 0 20px #FF0000; animation: blink-red 1s step-end infinite; }
+    h1 { font-size: 24px; margin: 0 0 20px; text-transform: uppercase; letter-spacing: 2px; color: #FFF; }
+    
+    .strikethrough { text-decoration: line-through; text-decoration-color: #FF0000; text-decoration-thickness: 3px; color: var(--text-dim); }
+    .glitch-text { position: relative; color: #FFF; font-weight: bold; }
+    .glitch-text::before, .glitch-text::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); }
+    .glitch-text::before { left: 2px; text-shadow: -2px 0 red; animation: glitch-anim-1 2s infinite linear alternate-reverse; }
+    .glitch-text::after { left: -2px; text-shadow: 2px 0 blue; animation: glitch-anim-2 3s infinite linear alternate-reverse; }
+    
+    .data-row { display: flex; justify-content: space-between; border-bottom: 1px dotted #550000; padding: 10px 0; margin-bottom: 10px; font-size: 16px; }
+    .data-label { color: #FF5555; font-weight: bold; }
+    .data-value { color: #FFF; }
+    
+    .description-block { margin-top: 30px; padding: 20px; border: 1px solid #FF0000; background: rgba(255, 0, 0, 0.05); }
+    .description-block p { margin: 0 0 15px; line-height: 1.6; font-size: 18px; }
+    .error-text { color: #FF0000; font-weight: bold; font-size: 20px; text-align: center; margin-top: 20px; text-shadow: 0 0 10px #FF0000; }
+    
+    .btn-wrapper { width: 100%; display: flex; justify-content: center; margin-top: 40px; }
+    .btn-back { padding: 15px 40px; background: transparent; border: 2px solid #FF0000; color: #FF0000; text-decoration: none; font-weight: bold; text-transform: uppercase; letter-spacing: 3px; transition: all 0.3s; text-align: center; }
+    .btn-back:hover { background: #FF0000; color: #000; box-shadow: 0 0 30px #FF0000; }
+    
+    @keyframes hard-glitch { 0%, 90%, 100% { transform: translate(0); filter: hue-rotate(0deg); } 92% { transform: translate(-3px, 2px); filter: hue-rotate(90deg); } 94% { transform: translate(3px, -2px); filter: hue-rotate(180deg); } 96% { transform: translate(-2px, -3px); filter: hue-rotate(270deg); } }
+    @keyframes noiseAnim { 0% { transform: translate(0,0); } 50% { transform: translate(-5px, 5px); } 100% { transform: translate(5px, -5px); } }
+    @keyframes blink-red { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    @keyframes glitch-anim-1 { 0% { clip-path: inset(20% 0 80% 0); } 20% { clip-path: inset(60% 0 10% 0); } 40% { clip-path: inset(40% 0 50% 0); } 60% { clip-path: inset(80% 0 5% 0); } 80% { clip-path: inset(10% 0 70% 0); } 100% { clip-path: inset(30% 0 50% 0); } }
+    @keyframes glitch-anim-2 { 0% { clip-path: inset(10% 0 60% 0); } 20% { clip-path: inset(30% 0 20% 0); } 40% { clip-path: inset(70% 0 10% 0); } 60% { clip-path: inset(20% 0 50% 0); } 80% { clip-path: inset(50% 0 30% 0); } 100% { clip-path: inset(5% 0 80% 0); } }
+    @keyframes glitch-border { 0% { border-color: #880000; box-shadow: 0 0 50px rgba(255,0,0,0.2), inset 0 0 30px rgba(255,0,0,0.1); } 20% { border-color: #FF0000; box-shadow: 0 0 60px rgba(255,0,0,0.4), inset 0 0 40px rgba(255,0,0,0.2); } 21% { border-color: #880000; box-shadow: 0 0 50px rgba(255,0,0,0.2), inset 0 0 30px rgba(255,0,0,0.1); } 80% { border-color: #FF0000; box-shadow: 0 0 60px rgba(255,0,0,0.4), inset 0 0 40px rgba(255,0,0,0.2); } 81% { border-color: #880000; box-shadow: 0 0 50px rgba(255,0,0,0.2), inset 0 0 30px rgba(255,0,0,0.1); } 100% { border-color: #550000; box-shadow: 0 0 40px rgba(255,0,0,0.1), inset 0 0 20px rgba(255,0,0,0.1); } }
+    
+    @media (max-width: 600px) { .anomaly-file { padding: 15px; } .data-row { flex-direction: column; } .blurred-window { display: none; } }
+  </style>
+</head>
+<body>
+  <div class="anomaly-file">
+    <div class="blurred-window bw-1"></div>
+    <div class="blurred-window bw-2"></div>
+    <div class="blurred-window bw-3"></div>
+    <div class="warning-header">⚠️ ВНИМАНИЕ: КРИТИЧЕСКАЯ УГРОЗА ⚠️</div>
+    <h1>АНОМАЛИЯ #000X: <span class="glitch-text" data-text="T3RM1N4L">T3RM1N4L</span></h1>
+    
+    <div class="data-row"><span class="data-label">СТАТУС:</span><span class="data-value strikethrough">ИЗУЧАЕТСЯ</span> <span style="color:red; font-weight:bold;">НЕИЗВЕСТЕН</span></div>
+    <div class="data-row"><span class="data-label">УРОВЕНЬ:</span><span class="data-value">ЧЕРНЫЙ (BLACK)</span></div>
+    <div class="data-row"><span class="data-label">ОПАСНОСТЬ:</span><span class="data-value" style="color:red; font-weight:bold; animation: blink-red 1s infinite;">НЕИЗВЕСТНА. НЕ ТРОГАТЬ.</span></div>
+    <div class="data-row"><span class="data-label">ПРОИСХОЖДЕНИЕ:</span><span class="data-value strikethrough">СОЗДАНО ЛЮДЬМИ</span> <span style="color:red; font-weight:bold;">ВНЕ ЗЕМЛИ</span></div>
+    
+    <div class="description-block">
+      <p><b>ОПИСАНИЕ:</b> <span class="strikethrough">Терминал является программой для хранения аномалий.</span></p>
+      <p class="glitch-text" data-text="ТЕРМИНАЛ — ЭТО НЕ ПРОГРАММА. ЭТО ЖИВОЙ ПОРТАЛ. ОН ОТКРЫТ В ДРУГУЮ РЕАЛЬНОСТЬ. МЫ НЕ СОЗДАВАЛИ ЕГО. ОН СОЗДАЛ СЕБЯ САМ, ЧТОБЫ МЫ ОТКРЫВАЛИ ДВЕРИ.">ТЕРМИНАЛ — ЭТО НЕ ПРОГРАММА. ЭТО ЖИВОЙ ПОРТАЛ.</p>
+      <p><b>ЧТО ИЗВЕСТНО:</b> <span style="color:red;">НИЧЕГО...</span></p>
+      <div class="error-text">[ ОШИБКА: ПОПЫТКА ДОСТУПА К ИСТОЧНИКУ ]<br>[ СИСТЕМА НЕ ОТВЕЧАЕТ ]<br>[ ОНО СМОТРИТ НА ВАС ]</div>
+    </div>
+    
+    <div class="btn-wrapper"><a href="aft.html" class="btn-back">&lt;&lt; ВЕРНУТЬСЯ (ЕСЛИ СМОЖЕТЕ)</a></div>
+  </div>
+</body>
+</html>
