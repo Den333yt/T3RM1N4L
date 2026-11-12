@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SDO-1 // СЕКРЕТНЫЙ ПРОТОКОЛ</title>
+  <style>
+    :root { --bg: #050005; --text-main: #b0559e; }
+    html, body { margin: 0; padding: 0; width: 100%; min-height: 100vh; background-color: var(--bg); box-sizing: border-box; }
+    body { padding: 16px; color: var(--text-main); font-family: 'Courier New', Courier, monospace; position: relative; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    body::before { content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0; z-index: 9999; pointer-events: none; background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.3) 50%); background-size: 100% 4px; }
+    .heart-corner { position: absolute; top: 20px; right: 20px; font-size: 40px; color: #ff1493; text-shadow: 0 0 10px #ff1493, 0 0 20px #ff1493; animation: heartbeat 1.5s infinite; z-index: 10; }
+    .terminal-window { width: 100%; max-width: 800px; padding: 20px; position: relative; }
+    .code-form { width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 15px; margin-bottom: 30px; }
+    .prompt-text { font-size: 18px; font-weight: bold; text-shadow: 0 0 8px var(--text-main); }
+    .input-wrapper { display: flex; align-items: center; width: 100%; }
+    .input-arrow { font-size: 20px; color: var(--text-main); margin-right: 10px; text-shadow: 0 0 8px var(--text-main); }
+    .code-input { background: transparent; border: none; border-bottom: 2px solid var(--text-main); font-family: 'Courier New', Courier, monospace; font-size: 20px; font-weight: bold; padding: 10px 5px; letter-spacing: 2px; outline: none; width: 100%; max-width: 400px; color: #ffffff; -webkit-text-fill-color: #ffffff; caret-color: var(--text-main); }
+    .code-input:focus { border-bottom-color: #fff; box-shadow: 0 10px 10px -10px #fff; }
+    .code-input.error { border-bottom-color: #ff3333; color: #ff3333; -webkit-text-fill-color: #ff3333; animation: shake 0.4s; }
+    .terminal-btn { display: inline-block; padding: 10px 25px; background: transparent; border: 2px solid var(--text-main); color: var(--text-main); font-family: 'Courier New', Courier, monospace; font-size: 16px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; margin-top: 10px; box-shadow: 0 0 10px rgba(176,85,158,0.2); text-shadow: 0 0 5px var(--text-main); transition: all 0.3s ease; }
+    .terminal-btn:hover { background: var(--text-main); color: #000; text-shadow: none; box-shadow: 0 0 25px var(--text-main); }
+    .secret-result { display: none; opacity: 0; text-align: center; margin-top: 40px; width: 100%; }
+    .secret-result.show { display: block; animation: fadeIn 1s forwards; }
+    .love-text { font-size: clamp(24px, 5vw, 36px); color: #ff1493; font-weight: bold; letter-spacing: 2px; text-shadow: 0 0 10px #ff1493, 0 0 20px #ff1493; overflow: hidden; white-space: nowrap; margin: 0 auto 20px auto; border-right: 3px solid #ff1493; animation: typing 2.5s steps(30, end) forwards, blink-caret 0.8s step-end infinite; }
+    .best-girl-text { font-size: clamp(18px, 4vw, 24px); color: #ffffff; font-weight: bold; letter-spacing: 2px; text-shadow: 0 0 10px var(--text-main); opacity: 0; animation: fadeInText 1.5s 2.5s forwards; }
+    @keyframes heartbeat { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.15); } 30% { transform: scale(1); } 45% { transform: scale(1.15); } 60% { transform: scale(1); } }
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+    @keyframes fadeIn { to { opacity: 1; } }
+    @keyframes typing { from { width: 0; } to { width: 100%; } }
+    @keyframes blink-caret { 50% { border-color: transparent; } }
+    @keyframes fadeInText { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 500px) { .heart-corner { top: 10px; right: 10px; font-size: 30px; } .code-form { align-items: center; text-align: center; } .input-wrapper { justify-content: center; } .code-input { text-align: center; } .love-text { white-space: normal; border-right: none; animation: fadeIn 1s forwards; } }
+  </style>
+</head>
+<body>
+  <div class="heart-corner">❤️</div>
+  <div class="terminal-window">
+    <div class="code-form" id="formBlock">
+      <div class="prompt-text">&gt; ВВЕДИТЕ СЕКРЕТНЫЙ КОД:</div>
+      <div class="input-wrapper">
+        <span class="input-arrow">&gt;</span>
+        <input type="text" id="codeInput" class="code-input" placeholder="..." autocomplete="off" spellcheck="false">
+      </div>
+      <button class="terminal-btn" id="submitBtn">[ ПРОВЕРИТЬ ]</button>
+    </div>
+    <div class="secret-result" id="resultBlock">
+      <div class="love-text">I Love You</div>
+      <div class="best-girl-text">you best girl</div>
+    </div>
+  </div>
+  <script>
+    const VALID_PASSWORD = "I LOVE YOU";
+    const input = document.getElementById('codeInput');
+    const submitBtn = document.getElementById('submitBtn');
+    const formBlock = document.getElementById('formBlock');
+    const resultBlock = document.getElementById('resultBlock');
+    function normalize(str) { return str.trim().toUpperCase(); }
+    function checkCode() {
+      const value = normalize(input.value);
+      if (!value) { input.classList.add('error'); setTimeout(() => input.classList.remove('error'), 800); return; }
+      if (value === VALID_PASSWORD || value.replace(/\s+/g, '') === "ILOVEYOU") {
+        formBlock.style.display = 'none';
+        resultBlock.classList.add('show');
+      } else {
+        input.classList.add('error'); input.value = ''; setTimeout(() => input.classList.remove('error'), 800);
+      }
+    }
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); checkCode(); } });
+    submitBtn.addEventListener('click', checkCode);
+    input.addEventListener('input', () => { input.classList.remove('error'); });
+  </script>
+</body>
+</html>
