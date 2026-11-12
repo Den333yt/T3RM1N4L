@@ -20,9 +20,17 @@
     @keyframes blink { from, to { border-color: transparent; } 50% { border-color: #b0559e; } }
     @keyframes monitor-flicker { 0% { opacity: 0.98; } 50% { opacity: 1; } 100% { opacity: 0.99; } }
     @keyframes fadeInButton { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
     .button-container { width: 100%; display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-top: 25px; opacity: 0; }
+    
+    /* Базовый стиль кнопок */
     .terminal-btn { display: inline-block; padding: 12px 24px; background-color: transparent; color: #b0559e; border: 2px solid #b0559e; font-family: 'Courier New', Courier, monospace; font-size: 15px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; box-shadow: 0 0 10px rgba(176,85,158,0.2); text-shadow: 0 0 4px #b0559e; transition: all 0.3s ease; }
     .terminal-btn:hover { background-color: #b0559e; color: #050005; box-shadow: 0 0 25px rgba(176,85,158,0.6); text-shadow: none; }
+
+    /* Оранжевая кнопка для USOV */
+    .btn-usov { color: #FF8C00; border-color: #FF8C00; box-shadow: 0 0 10px rgba(255,140,0,0.2); text-shadow: 0 0 5px #FF8C00; }
+    .btn-usov:hover { background-color: #FF8C00; color: #050005; box-shadow: 0 0 25px rgba(255,140,0,0.7); text-shadow: none; }
+
     .active .line-1 { animation: typing 1.2s steps(40) 0.0s forwards, blink 0.5s step-end 1.2s 1; }
     .active .line-2 { animation: typing 1.2s steps(40) 1.6s forwards, blink 0.5s step-end 2.8s 1; }
     .active .line-3 { animation: typing 1.2s steps(40) 3.2s forwards, blink 0.5s step-end 4.4s 1; }
@@ -32,6 +40,7 @@
     .active .line-7 { animation: typing 1.2s steps(40) 9.6s forwards, blink 0.5s step-end 10.8s 1; }
     .active .line-8 { animation: typing 1.2s steps(40) 11.2s forwards, blink 0.8s step-end 12.4s 1; }
     .active .button-container { animation: fadeInButton 0.6s ease-out 13.0s forwards; }
+    
     @media (max-width: 500px) { h1 { white-space: normal; animation: fadeInButton 0.5s forwards; border: none; } }
   </style>
 </head>
@@ -46,8 +55,12 @@
     <div class="line-wrapper"><div class="content-text line-6">- БАЗА ДАННЫХ РАСШИФРОВАНА СУКЦЕССИВНО.</div></div>
     <div class="line-wrapper"><div class="content-text line-7">- Каждая строка появляется плавно, развернута горизонтально и адаптирована.</div></div>
     <div class="line-wrapper" style="margin-top: 15px;"><div class="content-text line-8" style="color: #803d73;">- [ КОНЕЦ ДАННЫХ. СИСТЕМА ОЖИДАЕТ КОМАНДЫ... ]</div></div>
+    
     <div class="button-container">
+      <!-- Кнопка в главный хаб -->
       <button class="terminal-btn" onclick="window.location.href='level13.html'">[ ПОДКЛЮЧИТЬСЯ К ТЕРМИНАЛУ ]</button>
+      <!-- Кнопка сразу в USOV -->
+      <a href="master-usov/usov.html" class="terminal-btn btn-usov">[ ПЕРЕЙТИ В USOV ]</a>
     </div>
   </div>
 </body>
