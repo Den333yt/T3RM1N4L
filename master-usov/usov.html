@@ -6,12 +6,8 @@
   <title>USOV // ГЛОБАЛЬНЫЙ СЕКТОР</title>
   <style>
     :root { --bg: #050505; --text-main: #FF8C00; --text-glow: #FF4500; --border-color: #FF8C00; --panel-bg: rgba(20, 10, 0, 0.85); }
-    
-    /* СТРАХОВКА ОТ ВЫЛЕЗАНИЯ */
     html, body { margin: 0; padding: 0; width: 100%; min-height: 100vh; background-color: var(--bg); box-sizing: border-box; font-family: 'Courier New', Courier, monospace; }
-    
     body { padding: 15px; color: var(--text-main); position: relative; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; background: radial-gradient(900px 600px at 15% 10%, rgba(255,140,0,0.08), transparent 60%), radial-gradient(900px 600px at 90% 95%, rgba(255,69,0,0.08), transparent 60%), var(--bg); }
-    
     body::before { content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0; z-index: 9999; pointer-events: none; background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.3) 50%), repeating-linear-gradient(90deg, rgba(255,140,0,0.03), rgba(255,140,0,0.01), rgba(255,140,0,0.03)); background-size: 100% 4px, 3px 100%; }
     
     .usov-container { width: 100%; max-width: 800px; padding: 40px 30px; background: var(--panel-bg); border: 2px solid var(--border-color); box-shadow: 0 0 25px rgba(255, 140, 0, 0.5), inset 0 0 30px rgba(255, 140, 0, 0.1); border-radius: 8px; position: relative; text-align: center; margin-top: 20px; box-sizing: border-box; }
@@ -34,8 +30,6 @@
     @keyframes fadeInText { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     
     @keyframes showDisclaimer { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 0.4; transform: translateY(0); } }
-    
-    /* ДИСКЛЕЙМЕР ВЫНЕСЕН ЗА РАМКУ */
     .disclaimer { width: 100%; max-width: 800px; text-align: center; margin-top: 30px; padding-bottom: 20px; pointer-events: none; font-size: 11px; color: #888; letter-spacing: 1px; opacity: 0; animation: showDisclaimer 1s ease-out 9s forwards; }
 
     @media (max-width: 600px) { .usov-container { padding: 30px 15px; } }
@@ -53,11 +47,11 @@
     </div>
 
     <div class="btn-wrapper">
-      <a href="../level13.html" class="btn-back">&lt;&lt; НАЗАД В ХАБ</a>
+      <!-- ИСПРАВЛЕНА ССЫЛКА НА БАЗУ ДАННЫХ -->
+      <a href="../database.html" class="btn-back">&lt;&lt; НАЗАД В БАЗУ ДАННЫХ</a>
     </div>
   </div>
 
-  <!-- ДИСКЛЕЙМЕР СНАРУЖИ -->
   <div class="disclaimer">
     This is a work of fiction. All characters, organizations (including USOV, SDP, AFT), anomalies, and events are fictitious. Any resemblance to actual events or organizations is purely coincidental. This is an ARG (Alternate Reality Game) / art project.
   </div>
