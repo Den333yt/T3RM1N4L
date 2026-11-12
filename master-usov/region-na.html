@@ -16,10 +16,22 @@
     .subtitle { font-size: 14px; color: rgba(255, 140, 0, 0.7); margin-bottom: 40px; letter-spacing: 2px; opacity: 0; animation: fadeInText 1.5s ease-out 0.5s forwards; }
     
     .cards-grid { display: flex; flex-direction: column; gap: 15px; }
+    
+    /* Стиль для активной карточки (США) */
     .country-card { position: relative; display: block; text-decoration: none; padding: 20px; background: rgba(255, 140, 0, 0.05); border: 1px solid rgba(255, 140, 0, 0.3); border-radius: 8px; transition: all 0.3s; opacity: 0; animation: fadeInText 1.5s ease-out 1s forwards; text-align: left; box-sizing: border-box; }
-    .country-card:nth-child(2) { animation-delay: 1.5s; }
     .country-card:hover { transform: translateY(-3px); border-color: var(--text-main); box-shadow: 0 0 20px rgba(255, 140, 0, 0.5); }
     
+    /* Стиль для сломанной карточки (Канада) */
+    .country-card.glitch-locked { 
+      background: rgba(50, 0, 0, 0.3); 
+      border-color: #FF0000; 
+      cursor: not-allowed; 
+      pointer-events: none; /* Делает её некликабельной */
+      animation: glitch-box 3s infinite; 
+    }
+    .country-card.glitch-locked .country-title { color: #FF0000; text-shadow: 0 0 10px #FF0000; }
+    .country-card.glitch-locked .country-desc { color: #FF5555; font-weight: bold; animation: blink-text 1s step-end infinite; }
+
     .country-title { font-size: 20px; font-weight: bold; text-transform: uppercase; color: #FFF; text-shadow: 0 0 5px var(--text-main); margin-bottom: 8px; }
     .country-desc { font-size: 14px; line-height: 1.5; color: #CCC; }
     .country-icon { position: absolute; top: 15px; right: 15px; font-size: 30px; filter: drop-shadow(0 0 8px var(--text-glow)); }
@@ -31,7 +43,15 @@
     @keyframes fadeInText { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes showDisclaimer { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 0.4; transform: translateY(0); } }
     
-    /* ДИСКЛЕЙМЕР СНАРУЖИ */
+    /* Анимации глитча для Канады */
+    @keyframes glitch-box {
+      0%, 90%, 100% { transform: translate(0); }
+      92% { transform: translate(-2px, 2px); box-shadow: 0 0 20px red; }
+      94% { transform: translate(2px, -2px); box-shadow: 0 0 20px blue; }
+      96% { transform: translate(-1px, -1px); }
+    }
+    @keyframes blink-text { 50% { opacity: 0; } }
+
     .disclaimer { width: 100%; max-width: 800px; text-align: center; margin-top: 30px; padding-bottom: 20px; pointer-events: none; font-size: 11px; color: #888; letter-spacing: 1px; opacity: 0; animation: showDisclaimer 1s ease-out 9s forwards; }
   </style>
 </head>
@@ -41,17 +61,19 @@
     <div class="subtitle">// СЕВЕРНАЯ АМЕРИКА //</div>
     
     <div class="cards-grid">
-      <a href="#" class="country-card">
+      <!-- США (ведет на шлюз с паролем) -->
+      <a href="usov-gate.html" class="country-card">
         <div class="country-icon">🇺🇸</div>
         <div class="country-title">USA</div>
-        <div class="country-desc">Зона 51, эксперименты с временем, правительственные заговоры.</div>
+        <div class="country-desc">Зона 51, эксперименты с временем. ТРЕБУЕТСЯ КОД ДОСТУПА.</div>
       </a>
       
-      <a href="#" class="country-card">
+      <!-- КАНАДА (глитч, некликабельно) -->
+      <div class="country-card glitch-locked">
         <div class="country-icon">🇨🇦</div>
         <div class="country-title">KN (CANADA)</div>
-        <div class="country-desc">Северные пустоши, аномалии льда и вечной мерзлоты.</div>
-      </a>
+        <div class="country-desc">[ ОШИБКА: СИГНАЛ ПОТЕРЯН. ДАННЫЕ НЕДОСТУПНЫ. ]</div>
+      </div>
     </div>
 
     <div class="btn-wrapper">
@@ -59,7 +81,6 @@
     </div>
   </div>
 
-  <!-- ДИСКЛЕЙМЕР СНАРУЖИ -->
   <div class="disclaimer">
     This is a work of fiction. All characters, organizations (including USOV, SDP, AFT), anomalies, and events are fictitious. Any resemblance to actual events or organizations is purely coincidental. This is an ARG (Alternate Reality Game) / art project.
   </div>
