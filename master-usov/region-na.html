@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>USOV // РЕГИОН NA</title>
+  <style>
+    :root { --bg: #050505; --text-main: #FF8C00; --text-glow: #FF4500; --border-color: #FF8C00; --panel-bg: rgba(20, 10, 0, 0.85); }
+    
+    html, body { margin: 0; padding: 0; width: 100%; min-height: 100vh; background-color: var(--bg); box-sizing: border-box; font-family: 'Courier New', Courier, monospace; }
+    body { padding: 15px; color: var(--text-main); position: relative; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; background: radial-gradient(900px 600px at 15% 10%, rgba(255,140,0,0.08), transparent 60%), var(--bg); }
+    body::before { content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0; z-index: 9999; pointer-events: none; background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.3) 50%); background-size: 100% 4px; }
+    
+    .usov-container { width: 100%; max-width: 800px; padding: 40px 30px; background: var(--panel-bg); border: 2px solid var(--border-color); box-shadow: 0 0 25px rgba(255, 140, 0, 0.5); border-radius: 8px; position: relative; text-align: center; margin-top: 20px; box-sizing: border-box; }
+    h1 { font-size: 28px; text-transform: uppercase; margin: 0 0 10px; letter-spacing: 5px; color: var(--text-main); text-shadow: 0 0 10px var(--text-glow); opacity: 0; animation: fadeInText 1.5s ease-out 0.2s forwards; }
+    .subtitle { font-size: 14px; color: rgba(255, 140, 0, 0.7); margin-bottom: 40px; letter-spacing: 2px; opacity: 0; animation: fadeInText 1.5s ease-out 0.5s forwards; }
+    
+    .cards-grid { display: flex; flex-direction: column; gap: 15px; }
+    .country-card { position: relative; display: block; text-decoration: none; padding: 20px; background: rgba(255, 140, 0, 0.05); border: 1px solid rgba(255, 140, 0, 0.3); border-radius: 8px; transition: all 0.3s; opacity: 0; animation: fadeInText 1.5s ease-out 1s forwards; text-align: left; box-sizing: border-box; }
+    .country-card:nth-child(2) { animation-delay: 1.5s; }
+    .country-card:hover { transform: translateY(-3px); border-color: var(--text-main); box-shadow: 0 0 20px rgba(255, 140, 0, 0.5); }
+    
+    .country-title { font-size: 20px; font-weight: bold; text-transform: uppercase; color: #FFF; text-shadow: 0 0 5px var(--text-main); margin-bottom: 8px; }
+    .country-desc { font-size: 14px; line-height: 1.5; color: #CCC; }
+    .country-icon { position: absolute; top: 15px; right: 15px; font-size: 30px; filter: drop-shadow(0 0 8px var(--text-glow)); }
+    
+    .btn-wrapper { width: 100%; display: flex; justify-content: center; margin-top: 40px; opacity: 0; animation: fadeInText 1.5s ease-out 2s forwards; }
+    .btn-back { padding: 12px 30px; background: transparent; border: 2px solid var(--text-main); color: var(--text-main); text-decoration: none; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s; box-sizing: border-box; }
+    .btn-back:hover { background: var(--text-main); color: #000; box-shadow: 0 0 25px var(--text-main); }
+    
+    @keyframes fadeInText { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes showDisclaimer { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 0.4; transform: translateY(0); } }
+    
+    /* ДИСКЛЕЙМЕР СНАРУЖИ */
+    .disclaimer { width: 100%; max-width: 800px; text-align: center; margin-top: 30px; padding-bottom: 20px; pointer-events: none; font-size: 11px; color: #888; letter-spacing: 1px; opacity: 0; animation: showDisclaimer 1s ease-out 9s forwards; }
+  </style>
+</head>
+<body>
+  <div class="usov-container">
+    <h1>РЕГИОН: NA</h1>
+    <div class="subtitle">// СЕВЕРНАЯ АМЕРИКА //</div>
+    
+    <div class="cards-grid">
+      <a href="#" class="country-card">
+        <div class="country-icon">🇺🇸</div>
+        <div class="country-title">USA</div>
+        <div class="country-desc">Зона 51, эксперименты с временем, правительственные заговоры.</div>
+      </a>
+      
+      <a href="#" class="country-card">
+        <div class="country-icon">🇨🇦</div>
+        <div class="country-title">KN (CANADA)</div>
+        <div class="country-desc">Северные пустоши, аномалии льда и вечной мерзлоты.</div>
+      </a>
+    </div>
+
+    <div class="btn-wrapper">
+      <a href="usov.html" class="btn-back">&lt;&lt; НАЗАД В USOV</a>
+    </div>
+  </div>
+
+  <!-- ДИСКЛЕЙМЕР СНАРУЖИ -->
+  <div class="disclaimer">
+    This is a work of fiction. All characters, organizations (including USOV, SDP, AFT), anomalies, and events are fictitious. Any resemblance to actual events or organizations is purely coincidental. This is an ARG (Alternate Reality Game) / art project.
+  </div>
+</body>
+</html>
