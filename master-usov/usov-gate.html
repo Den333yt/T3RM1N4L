@@ -6,13 +6,29 @@
   <title>USOV // ВЕРИФИКАЦИЯ USA</title>
   <style>
     :root { --bg: #050505; --text-main: #FF8C00; --text-red: #FF0000; --panel-bg: rgba(20, 10, 0, 0.85); }
+    
     html, body { margin: 0; padding: 0; width: 100%; min-height: 100vh; background-color: var(--bg); box-sizing: border-box; font-family: 'Courier New', Courier, monospace; }
     body { padding: 15px; color: var(--text-main); position: relative; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; }
     body::before { content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0; z-index: 9999; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(0,0,0,0.3), rgba(0,0,0,0.3) 1px, transparent 1px, transparent 3px); }
     
-    .gate-container { width: 100%; max-width: 600px; padding: 40px 20px; background: var(--panel-bg); border: 2px solid var(--text-main); box-shadow: 0 0 30px rgba(255,140,0,0.4); text-align: center; }
-    h1 { color: var(--text-main); text-shadow: 0 0 10px var(--text-main); margin: 0 0 10px; font-size: 24px; letter-spacing: 2px; overflow: hidden; white-space: nowrap; border-right: 2px solid transparent; width: max-content; max-width: 100%; animation: typingTitle 1.5s steps(15) 0.2s forwards, blinkCursor 0.8s step-end infinite; }
-    p { overflow: hidden; white-space: nowrap; border-right: 2px solid transparent; margin: 0 auto 20px auto; width: max-content; max-width: 100%; animation: typingText 2s steps(40) 1s forwards, blinkCursor 0.8s step-end infinite; opacity: 0; }
+    .gate-container { 
+      width: 100%; max-width: 600px; padding: 40px 20px; background: var(--panel-bg); 
+      border: 2px solid var(--text-main); box-shadow: 0 0 30px rgba(255,140,0,0.4); 
+      text-align: center; 
+      display: flex; flex-direction: column; align-items: center; /* Центрируем всё внутри */
+    }
+    
+    h1 { 
+      color: var(--text-main); text-shadow: 0 0 10px var(--text-main); margin: 0 0 10px; font-size: 24px; letter-spacing: 2px; 
+      overflow: hidden; white-space: nowrap; border-right: 2px solid transparent; width: max-content; max-width: 100%; 
+      animation: typingTitle 1.5s steps(15) 0.2s forwards, blinkCursor 0.8s step-end infinite; 
+    }
+    
+    p { 
+      overflow: hidden; white-space: nowrap; border-right: 2px solid transparent; margin: 0 auto 20px auto; 
+      width: max-content; max-width: 100%; 
+      animation: typingText 2s steps(40) 1s forwards, blinkCursor 0.8s step-end infinite; opacity: 0; 
+    }
     
     .input-wrapper { display: flex; justify-content: center; width: 100%; margin-bottom: 20px; opacity: 0; animation: fadeIn 0.5s 3s forwards; }
     .code-input { background: rgba(0,0,0,0.6); border: 2px solid var(--text-main); color: #FFF; font-family: 'Courier New', Courier, monospace; font-size: 18px; padding: 15px; letter-spacing: 4px; text-align: center; outline: none; width: 100%; max-width: 400px; text-transform: uppercase; box-shadow: 0 0 10px rgba(255,140,0,0.2); }
@@ -23,19 +39,19 @@
     .btn-submit { padding: 12px 30px; background: var(--text-main); color: #000; border: none; font-family: 'Courier New', Courier, monospace; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.3s; text-transform: uppercase; box-shadow: 0 0 15px rgba(255,140,0,0.4); }
     .btn-submit:hover { background: #FFF; box-shadow: 0 0 20px #FFF; }
     
-    .status-msg { margin-top: 20px; font-weight: bold; min-height: 1.5em; letter-spacing: 1px; opacity: 0; transition: opacity 0.3s; }
+    .status-msg { margin-top: 20px; font-weight: bold; min-height: 1.5em; letter-spacing: 1px; opacity: 0; transition: opacity 0.3s; text-align: center; width: 100%; }
     .status-msg.show { opacity: 1; }
     .status-msg.ok { color: #00FA9A; text-shadow: 0 0 10px #00FA9A; }
     .status-msg.bad { color: var(--text-red); text-shadow: 0 0 10px var(--text-red); }
+    
+    .btn-exit { display: inline-block; margin-top: 30px; color: rgba(255, 140, 0, 0.5); text-decoration: none; font-size: 14px; border-bottom: 1px dashed rgba(255, 140, 0, 0.3); padding-bottom: 2px; opacity: 0; animation: fadeIn 0.5s 4s forwards; transition: all 0.3s; }
+    .btn-exit:hover { color: #FFF; border-color: #FFF; text-shadow: 0 0 10px #FFF; }
     
     @keyframes typingTitle { from { max-width: 0; } to { max-width: 100%; } }
     @keyframes typingText { from { max-width: 0; opacity: 1; } to { max-width: 100%; opacity: 1; } }
     @keyframes blinkCursor { 50% { border-color: var(--text-main); } }
     @keyframes fadeIn { to { opacity: 1; } }
     @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
-    
-    .btn-exit { display: inline-block; margin-top: 30px; color: rgba(255, 140, 0, 0.5); text-decoration: none; font-size: 14px; border-bottom: 1px dashed rgba(255, 140, 0, 0.3); padding-bottom: 2px; opacity: 0; animation: fadeIn 0.5s 4s forwards; transition: all 0.3s; }
-    .btn-exit:hover { color: #FFF; border-color: #FFF; text-shadow: 0 0 10px #FFF; }
     
     @media (max-width: 500px) { h1, p { white-space: normal; animation: fadeIn 1s forwards; border: none; width: 100%; } }
   </style>
@@ -44,22 +60,32 @@
   <div class="gate-container">
     <h1>СЕКТОР USA</h1>
     <p>ВВЕДИТЕ КОД ДОСТУПА К АРХИВАМ ЗОНЫ 51</p>
-    <div class="input-wrapper"><input type="text" id="codeInput" class="code-input" placeholder="____" autocomplete="off"></div>
-    <div class="btn-wrapper"><button class="btn-submit" id="submitBtn">ПОДТВЕРДИТЬ</button></div>
+    
+    <div class="input-wrapper">
+      <input type="text" id="codeInput" class="code-input" placeholder="____" autocomplete="off">
+    </div>
+    
+    <div class="btn-wrapper">
+      <button class="btn-submit" id="submitBtn">ПОДТВЕРДИТЬ</button>
+    </div>
+    
     <div class="status-msg" id="statusMsg"></div>
+    
     <a href="region-na.html" class="btn-exit">&lt;&lt; НАЗАД В РЕГИОН</a>
   </div>
+  
   <script>
     const VALID_CODES = ['USA-51', 'AREA-51'];
     const input = document.getElementById('codeInput');
     const btn = document.getElementById('submitBtn');
     const msg = document.getElementById('statusMsg');
+    
     function check() {
       const val = input.value.trim().toUpperCase();
       if (VALID_CODES.includes(val)) {
         msg.textContent = '[ ДОСТУП РАЗРЕШЁН. СЕКТОР USA ОТКРЫТ. ]';
         msg.className = 'status-msg show ok';
-        setTimeout(() => { window.location.href = '#'; }, 1500); // Пока ведет в никуда, потом сделаешь страницу USA
+        setTimeout(() => { window.location.href = '#'; }, 1500); 
       } else {
         input.classList.add('error');
         msg.textContent = '[ ОШИБКА: НЕВЕРНЫЙ КОД ]';
@@ -67,6 +93,7 @@
         setTimeout(() => input.classList.remove('error'), 800);
       }
     }
+    
     btn.addEventListener('click', check);
     input.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
   </script>
