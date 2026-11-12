@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>АРХИВ: СЕКТОР SDO-1</title>
+  <style>
+    html, body { margin: 0; padding: 0; width: 100%; min-height: 100vh; background-color: #050005; box-sizing: border-box; }
+    body { padding: 15px; color: #b0559e; font-family: 'Courier New', Courier, monospace; position: relative; animation: monitor-flicker 0.05s infinite; overflow-x: hidden; display: flex; flex-direction: column; justify-content: flex-start; align-items: stretch; }
+    body::before { content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0; background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.25) 50%); z-index: 9999; background-size: 100% 4px; pointer-events: none; }
+    .terminal-container { width: 100%; max-width: 100%; display: block; box-sizing: border-box; text-align: left; }
+    h1 { font-size: 24px; text-transform: uppercase; border-bottom: 2px dashed #b0559e; padding-bottom: 10px; margin: 0 auto 25px auto; letter-spacing: 2px; text-shadow: 0 0 6px #b0559e; text-align: center; width: max-content; max-width: 100%; overflow: hidden; white-space: nowrap; border-right: 2px solid transparent; animation: typingTitle 1.5s steps(25) 0.2s forwards, blinkCursor 0.8s step-end infinite; }
+    .line-wrapper { width: 100%; max-width: 100%; display: block; margin-bottom: 14px; box-sizing: border-box; }
+    .content-text { opacity: 0; white-space: normal; word-break: break-word; font-size: 17px; display: inline-block; max-width: 100%; overflow: hidden; border-right: 3px solid transparent; line-height: 1.5; text-shadow: 0 0 4px #b0559e; }
+    @media (min-width: 768px) { body { padding: 30px; } h1 { font-size: 28px; } .content-text { white-space: nowrap; font-size: 18px; } }
+    @keyframes typingTitle { from { max-width: 0; } to { max-width: 100%; } }
+    @keyframes blinkCursor { 50% { border-color: #b0559e; } }
+    @keyframes typing { from { max-width: 0; opacity: 1; } to { max-width: 100%; opacity: 1; } }
+    @keyframes blink { from, to { border-color: transparent; } 50% { border-color: #b0559e; } }
+    @keyframes monitor-flicker { 0% { opacity: 0.98; } 50% { opacity: 1; } 100% { opacity: 0.99; } }
+    @keyframes fadeInButton { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .button-container { width: 100%; display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-top: 25px; opacity: 0; }
+    .terminal-btn { display: inline-block; padding: 12px 28px; background-color: transparent; border: 2px solid; font-family: 'Courier New', Courier, monospace; font-size: 16px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; text-decoration: none; cursor: pointer; transition: all 0.3s ease; text-align: center; }
+    .btn-critical { color: #FF0000; border-color: #FF0000; box-shadow: 0 0 10px rgba(255,0,0,0.2); text-shadow: 0 0 4px #FF0000; }
+    .btn-critical:hover { background-color: #FF0000; color: #050005; box-shadow: 0 0 25px rgba(255,0,0,0.6); text-shadow: none; }
+    .btn-danger { color: #FF4500; border-color: #FF4500; box-shadow: 0 0 10px rgba(255,69,0,0.2); text-shadow: 0 0 4px #FF4500; }
+    .btn-danger:hover { background-color: #FF4500; color: #050005; box-shadow: 0 0 25px rgba(255,69,0,0.6); text-shadow: none; }
+    .btn-plasma { color: #ffffff; border-image: linear-gradient(90deg, #00FFFF, #FF0033) 1; background: linear-gradient(90deg, rgba(0,255,255,0.1), rgba(255,0,51,0.1)); text-shadow: 0 0 8px #00FFFF, 0 0 15px #FF0033; box-shadow: 0 0 15px rgba(0, 255, 255, 0.4), 0 0 25px rgba(255, 0, 51, 0.4); animation: plasma-pulse 2s infinite alternate; }
+    .btn-plasma:hover { background: linear-gradient(90deg, #00FFFF, #FF0033); color: #000; box-shadow: 0 0 40px rgba(0, 255, 255, 0.8), 0 0 60px rgba(255, 0, 51, 0.8); text-shadow: none; animation: none; }
+    @keyframes plasma-pulse { 0% { box-shadow: 0 0 10px rgba(0, 255, 255, 0.3), 0 0 15px rgba(255, 0, 51, 0.3); } 100% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.7), 0 0 30px rgba(255, 0, 51, 0.7); } }
+    .btn-safe { color: #00FA9A; border-color: #00FA9A; box-shadow: 0 0 10px rgba(0,250,154,0.2); text-shadow: 0 0 4px #00FA9A; }
+    .btn-safe:hover { background-color: #00FA9A; color: #050005; box-shadow: 0 0 25px rgba(0,250,154,0.6); text-shadow: none; }
+    .btn-back { color: #b0559e; border-color: #b0559e; box-shadow: 0 0 10px rgba(176,85,158,0.2); text-shadow: 0 0 4px #b0559e; }
+    .btn-back:hover { background-color: #b0559e; color: #050005; box-shadow: 0 0 25px rgba(176,85,158,0.6); text-shadow: none; }
+    .line-1 { animation: typing 1.2s steps(40) 0.0s forwards, blink 0.5s step-end 1.2s 1; }
+    .line-2 { animation: typing 1.2s steps(40) 1.5s forwards, blink 0.5s step-end 2.7s 1; }
+    .line-3 { animation: typing 1.2s steps(40) 3.0s forwards, blink 0.5s step-end 4.2s 1; }
+    .line-4 { animation: typing 1.2s steps(40) 4.5s forwards, blink 0.8s step-end 5.7s 1; }
+    .line-5 { animation: typing 1.2s steps(40) 6.0s forwards, blink 0.5s step-end 7.2s 1; }
+    .button-container { animation: fadeInButton 0.6s ease-out 7.0s forwards; }
+    @media (max-width: 500px) { h1 { white-space: normal; animation: fadeInButton 0.5s forwards; border: none; } }
+  </style>
+</head>
+<body>
+  <h1>АРХИВ: СЕКТОР SDO-1</h1>
+  <div class="terminal-container">
+    <div class="line-wrapper"><div class="content-text line-1">- ВХОД НА УРОВЕНЬ: СЕКТОР SDO-1... [УСПЕШНО]</div></div>
+    <div class="line-wrapper"><div class="content-text line-2">- Обнаружен изолированный защищенный подканал данных.</div></div>
+    <div class="line-wrapper"><div class="content-text line-3">- Доступ к файлам аномалий открыт.</div></div>
+    <div class="line-wrapper" style="margin-top: 15px;"><div class="content-text line-4" style="color: #803d73;">- [ КОНЕЦ ПОТОКА ДАННЫХ SDO-1. СИСТЕМА ОЖИДАЕТ... ]</div></div>
+    <div class="line-wrapper"><div class="content-text line-5">- Инициализация протокола глубокого сканирования...</div></div>
+    <div class="button-container">
+      <a href="file-001.html" class="terminal-btn btn-critical">[ ФАЙЛ #001: УТЕРЯНО ]</a>
+      <a href="file-ua-001.html" class="terminal-btn btn-danger">[ UA-001: РАДИАЦИЯ ]</a>
+      <a href="file-usa-001.html" class="terminal-btn btn-danger">[ USA-001: ВРАТА ]</a>
+      <a href="../uddr/uddr-gate.html" class="terminal-btn btn-plasma">[ UDDR: АЛЬТЕРНАТИВА ]</a>
+      <a href="file-lam.html" class="terminal-btn btn-safe">[ LAM: СИНХРОН ]</a>
+      <a href="../level3.html" class="terminal-btn btn-back">&lt;&lt; НАЗАД В ТЕРМИНАЛ</a>
+    </div>
+  </div>
+</body>
+</html>

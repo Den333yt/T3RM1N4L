@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>КАРТА ТЕРМИНАЛА</title>
+  <style>
+    :root { --bg-deep: #050005; --text-main: #00CED1; --c-green: #00FA9A; --c-blue: #00BFFF; --c-cyan: #00CED1; --c-purple: #7B68EE; --c-orange: #FF4500; --c-pink: #b0559e; }
+    html, body { margin: 0; padding: 0; width: 100%; min-height: 100vh; background-color: var(--bg-deep); box-sizing: border-box; }
+    body { padding: 15px; color: var(--text-main); font-family: 'Courier New', Courier, monospace; position: relative; animation: monitor-flicker 0.05s infinite; overflow-x: hidden; background: radial-gradient(900px 600px at 15% 10%, rgba(0,206,209,0.08), transparent 60%), radial-gradient(900px 600px at 90% 95%, rgba(123,104,238,0.08), transparent 60%), var(--bg-deep); }
+    body::before { content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0; background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.25) 50%); z-index: 9999; background-size: 100% 4px; pointer-events: none; }
+    h1 { font-size: clamp(22px, 4vw, 30px); text-transform: uppercase; letter-spacing: 4px; text-align: center; margin: 0 auto 8px auto; padding-bottom: 12px; border-bottom: 2px dashed var(--c-cyan); background: linear-gradient(90deg, var(--c-cyan), var(--c-purple), var(--c-cyan)); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 0 8px rgba(0,206,209,0.6)); animation: hue-slide 5s linear infinite, typingTitle 1.5s steps(15) 0.2s forwards; overflow: hidden; white-space: nowrap; width: max-content; max-width: 100%; }
+    .subtitle { text-align: center; font-size: 13px; color: rgba(0,206,209,0.6); letter-spacing: 3px; margin: 0 auto 26px auto; text-transform: uppercase; overflow: hidden; white-space: nowrap; border-right: 2px solid transparent; width: max-content; max-width: 100%; animation: typingText 2s steps(30) 1s forwards, blinkCursor 0.8s step-end infinite; opacity: 0; }
+    .map-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-bottom: 30px; opacity: 0; animation: fadeIn 0.5s 2.5s forwards; }
+    .map-card { position: relative; display: block; text-decoration: none; padding: 18px 20px; background: rgba(6,10,16,0.7); border: 1.5px solid var(--card-color, var(--c-cyan)); border-radius: 10px; color: var(--card-color, var(--c-cyan)); transition: all 0.3s ease; overflow: hidden; box-sizing: border-box; }
+    .map-card::before { content: ""; position: absolute; inset: 0; background: var(--card-color, var(--c-cyan)); opacity: 0; transition: opacity 0.3s ease; z-index: 0; }
+    .map-card > * { position: relative; z-index: 1; }
+    .map-card:hover { transform: translateY(-3px); box-shadow: 0 0 20px var(--card-color, var(--c-cyan)), 0 0 45px color-mix(in srgb, var(--card-color, var(--c-cyan)) 45%, transparent); color: #001a1a; }
+    .map-card:hover::before { opacity: 0.9; }
+    .map-title { font-size: 17px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; }
+    .map-desc { font-size: 13px; line-height: 1.5; color: rgba(255,255,255,0.65); letter-spacing: 0.5px; }
+    .map-card:hover .map-desc { color: rgba(0,0,0,0.75); }
+    .map-tag { position: absolute; top: 10px; right: 14px; font-size: 11px; letter-spacing: 2px; opacity: 0.6; }
+    .card-green  { --card-color: var(--c-green);  }
+    .card-blue   { --card-color: var(--c-blue);   }
+    .card-cyan   { --card-color: var(--c-cyan);   }
+    .card-purple { --card-color: var(--c-purple); }
+    .card-orange { --card-color: var(--c-orange); }
+    .card-pink   { --card-color: var(--c-pink);   }
+    .button-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; margin-top: 20px; opacity: 0; animation: fadeIn 0.5s 3s forwards; }
+    .terminal-btn { display: inline-block; padding: 12px 26px; background-color: transparent; color: var(--text-main); border: 2px solid var(--c-cyan); font-family: 'Courier New', Courier, monospace; font-size: 15px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; text-decoration: none; cursor: pointer; border-radius: 6px; box-shadow: 0 0 10px rgba(0,206,209,0.25); text-shadow: 0 0 4px rgba(0,206,209,0.8); transition: all 0.3s ease; }
+    .terminal-btn:hover { background: var(--c-cyan); color: #001a1a; box-shadow: 0 0 22px rgba(0,206,209,0.7); text-shadow: none; transform: translateY(-2px); }
+    @keyframes typingTitle { from { max-width: 0; } to { max-width: 100%; } }
+    @keyframes typingText { from { max-width: 0; opacity: 1; } to { max-width: 100%; opacity: 1; } }
+    @keyframes blinkCursor { 50% { border-color: var(--text-main); } }
+    @keyframes fadeIn { to { opacity: 1; } }
+    @keyframes hue-slide { to { background-position: 200% center; } }
+    @keyframes monitor-flicker { 0% { opacity: 0.98; } 50% { opacity: 1; } 100% { opacity: 0.99; } }
+    @media (max-width: 500px) { h1, .subtitle { white-space: normal; animation: fadeIn 1s forwards; border: none; width: 100%; } }
+    @media (min-width: 768px) { body { padding: 30px; } }
+  </style>
+</head>
+<body>
+  <h1>КАРТА ТЕРМИНАЛА</h1>
+  <div class="subtitle">// выбери точку входа //</div>
+  <div class="map-grid">
+    <a href="../index.html" class="map-card card-pink"><span class="map-tag">#01</span><div class="map-title">▸ BOOT-ЭКРАН</div><div class="map-desc">Заставка загрузки системы. Начало терминала.</div></a>
+    <a href="sector.html" class="map-card card-cyan"><span class="map-tag">#02</span><div class="map-title">▸ ГЛАВНЫЙ УЗЕЛ</div><div class="map-desc">Внутренняя главная страница сектора SDP-2.</div></a>
+    <a href="../master-sdo/sdo-1.html" class="map-card card-orange"><span class="map-tag">#03</span><div class="map-title">▸ СЕКТОР SDO-1</div><div class="map-desc">Архив аномалий и необъяснимых событий.</div></a>
+  </div>
+  <div class="button-row"><a href="sector.html" class="terminal-btn">&lt;&lt; НАЗАД НА ГЛАВНУЮ</a></div>
+</body>
+</html>
