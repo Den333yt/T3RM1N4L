@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>T3RM1N4L // ПРОФИЛЬ</title>
+  <style>
+    :root { --bg: #050005; --main-color: #00FA9A; --border-color: #00FA9A; }
+    body { background-color: var(--bg); color: var(--main-color); font-family: 'Courier New', monospace; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; text-shadow: 0 0 5px var(--main-color); padding: 20px; box-sizing: border-box; }
+    
+    .profile-card { width: 100%; max-width: 600px; border: 2px solid var(--border-color); background: rgba(0,10,0,0.8); padding: 30px; border-radius: 12px; box-shadow: 0 0 30px rgba(0,250,154,0.2); }
+    h1 { text-align: center; text-transform: uppercase; border-bottom: 2px dashed var(--border-color); padding-bottom: 10px; margin-top: 0; }
+    
+    .info-row { display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 10px 0; font-size: 18px; }
+    .info-row span:last-child { font-weight: bold; color: #FFF; }
+    
+    .menu-buttons { display: flex; flex-direction: column; gap: 15px; margin-top: 30px; }
+    .btn { display: block; padding: 15px; border: 2px solid var(--main-color); color: var(--main-color); text-decoration: none; text-align: center; font-size: 16px; font-weight: bold; transition: 0.3s; text-transform: uppercase; }
+    .btn:hover { background: var(--main-color); color: #000; box-shadow: 0 0 20px var(--main-color); }
+    .btn-red { border-color: #FF0000; color: #FF0000; }
+    .btn-red:hover { background: #FF0000; color: #000; box-shadow: 0 0 20px #FF0000; }
+  </style>
+</head>
+<body>
+
+  <div class="profile-card">
+    <h1>ПРОФИЛЬ АГЕНТА</h1>
+    
+    <div class="info-row"><span>ПОЗЫВНОЙ:</span> <span id="ui-nick">---</span></div>
+    <div class="info-row"><span>НОМЕР:</span> <span id="ui-number">---</span></div>
+    <div class="info-row"><span>УРОВЕНЬ ДОСТУПА:</span> <span id="ui-level">---</span></div>
+
+    <div class="menu-buttons">
+      <a href="level13.html" class="btn">[ ПЕРЕЙТИ В ХАБ ]</a>
+      <a href="wmt.html" class="btn">[ WMT СЕКТОР ]</a>
+      <!-- Ссылка на Сатану, но она защищена -->
+      <a href="satan.html" class="btn btn-red">[ ТЕМНЫЙ ТЕРМИНАЛ ]</a>
+      <button onclick="logout()" class="btn" style="border-color:#888; color:#888;">[ ВЫЙТИ ]</button>
+    </div>
+  </div>
+
+  <script>
+    // Проверяем, залогинен ли пользователь
+    const user = localStorage.getItem('t3rm_user');
+    const level = localStorage.getItem('t3rm_level');
+    const number = localStorage.getItem('t3rm_number');
+
+    if (!user) {
+      // Если не залогинен — кидаем на страницу входа
+      window.location.href = 'login.html';
+    } else {
+      // Заполняем данные
+      document.getElementById('ui-nick').innerText = user;
+      document.getElementById('ui-number').innerText = number;
+      document.getElementById('ui-level').innerText = level;
+    }
+
+    function logout() {
+      localStorage.clear(); // Очищаем память
+      window.location.href = 'login.html';
+    }
+  </script>
+
+</body>
+</html>
