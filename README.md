@@ -1,7 +1,9 @@
 # T3RM1N4L
-ANOMALY ASG GAME
+ANOMALY ARG GAME
 OPENSOURCE 
 This is an ARG (Alternate Reality Game) / art project. All characters and organizations are fictitious.
+
+All the data, countries, offices, agents, and everything that happens in the game is fictional and has no connection to the real world, is not connected to it, and is not supported. This is nothing more than a game, like many other games.
 
 Ссылкa: [ LIVE TERMINAL ](https://den333yt.github.io/T3RM1N4L/).
 
