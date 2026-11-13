@@ -130,6 +130,13 @@
   <a href="level13.html" class="btn-back">&lt;&lt; БЕЖАТЬ ОТСЮДА</a>
 
   <script>
+        // ПРОВЕРКА УРОВНЯ ДОСТУПА
+    const userLevel = parseInt(localStorage.getItem('t3rm_level')) || 0;
+
+    // Если уровень меньше 4 — не пускаем!
+    if (userLevel < 4) {
+      document.body.innerHTML = "<h1 style='color:red; text-align:center; margin-top:20vh;'>[ ДОСТУП ЗАПРЕЩЕН ]</h1><p style='color:red; text-align:center;'>ВАШ УРОВЕНЬ ДОПУСКА НЕДОСТАТОЧЕН ДЛЯ ЭТОГО СЕКТОРА.</p>";
+    }
     // ПРАВИЛЬНЫЙ ПАРОЛЬ
     const CORRECT_PASSWORD = "SATAN"; 
 
