@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WMT // ПЕРВОИСТОЧНИК</title>
+  <style>
+    /* БАЗОВЫЕ ПЕРЕМЕННЫЕ (Желтая тема) */
+    :root { 
+      --bg: #050005; 
+      --border-color: #FFD700; 
+      --main-color: #FFD700; 
+      --icon-content: "✝️"; 
+      --border-radius: 12px; 
+      --box-glow: 0 0 30px rgba(255, 215, 0, 0.4), inset 0 0 20px rgba(255, 215, 0, 0.1); 
+      --border-style: solid; 
+      --bg-panel: rgba(10, 8, 0, 0.85); 
+    }
+
+    /* СБРОС И ЦЕНТРИРОВАНИЕ */
+    html, body { 
+      margin: 0; padding: 0; width: 100%; min-height: 100vh; 
+      background-color: var(--bg); box-sizing: border-box; 
+      overflow-x: hidden;
+    }
+
+    body { 
+      color: var(--main-color); font-family: 'Courier New', Courier, monospace; 
+      display: flex; flex-direction: column; align-items: center; justify-content: center; 
+      text-shadow: 0 0 5px var(--main-color); 
+      position: relative; padding: 20px;
+      background-image: linear-gradient(rgba(255, 215, 0, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 215, 0, 0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* ЭЛТ-ЭФФЕКТ */
+    body::before { 
+      content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0; 
+      background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,0.9) 100%), linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.25) 50%); 
+      background-size: 100% 100%, 100% 4px; 
+      z-index: 9999; pointer-events: none; 
+      animation: crt-flicker 0.15s infinite; 
+    }
+
+    /* ГЛАВНЫЙ КОНТЕЙНЕР */
+    .doc-container { 
+      width: 100%; max-width: 800px; margin-top: 20px; padding: 20px; 
+      border: 3px var(--border-style) var(--border-color); background: var(--bg-panel); 
+      border-radius: var(--border-radius); box-shadow: var(--box-glow); position: relative; 
+      backdrop-filter: blur(5px); text-align: center;
+    }
+    .doc-container::after { content: var(--icon-content); position: absolute; top: 15px; right: 15px; font-size: 32px; filter: drop-shadow(0 0 15px var(--main-color)); animation: pulse-icon 2s infinite; }
+
+    h1 { font-size: clamp(24px, 6vw, 36px); text-transform: uppercase; margin: 0 0 20px; color: var(--main-color); letter-spacing: 5px; text-shadow: 0 0 20px var(--main-color); opacity: 0; animation: fadeIn 0.5s 0.5s forwards; }
+
+    /* НЕОНОВЫЙ КРЕСТ */
+    .neon-cross {
+      width: 80px; height: 120px; position: relative; margin: 30px auto; 
+      filter: drop-shadow(0 0 15px #FFD700) drop-shadow(0 0 30px #FFAA00);
+      animation: pulse-cross 2s infinite alternate;
+    }
+    .neon-cross::before { 
+      content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 20px; height: 100%; background: #FFD700; border-radius: 5px;
+      box-shadow: 0 0 10px #FFD700, inset 0 0 10px #FFF;
+    }
+    .neon-cross::after { 
+      content: ""; position: absolute; top: 30%; left: 0;
+      width: 100%; height: 20px; background: #FFD700; border-radius: 5px;
+      box-shadow: 0 0 10px #FFD700, inset 0 0 10px #FFF;
+    }
+
+    /* ТЕКСТ */
+    .description { line-height: 1.6; font-size: 16px; margin-bottom: 20px; color: #fff; text-align: left; } 
+    .description b { color: var(--main-color); text-shadow: 0 0 8px var(--main-color); font-size: 17px; }
+    
+    .description p { opacity: 0; margin: 0 0 15px 0; }
+    .description p:nth-child(1) { animation: fadeIn 0.5s 1.5s forwards; }
+    .description p:nth-child(2) { animation: fadeIn 0.5s 2.5s forwards; }
+    .description p:nth-child(3) { animation: fadeIn 0.5s 3.5s forwards; }
+
+    /* ВАЖНАЯ ПЛАШКА */
+    .warning-box {
+      border: 2px solid #FFD700; background: rgba(255, 215, 0, 0.1); padding: 15px; 
+      margin: 20px 0; font-weight: bold; text-transform: uppercase; letter-spacing: 2px;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+      opacity: 0; animation: fadeIn 0.5s 4.5s forwards;
+    }
+
+    /* БЛОК УЛИКИ (Квадратная кнопка) */
+    .ulika-container { 
+      width: 100%; margin-top: 15px; padding: 20px; 
+      border: 2px solid var(--border-color); background: rgba(0,0,0,0.4); 
+      border-radius: var(--border-radius); box-shadow: inset 0 0 15px var(--box-glow); 
+      box-sizing: border-box; opacity: 0; animation: fadeIn 0.5s 6s forwards; 
+    }
+    .ulika-container h3 { margin-top: 0; color: var(--main-color); text-transform: uppercase; font-size: 16px; border-bottom: 1px dashed var(--border-color); padding-bottom: 5px; text-align: center;}
+    .ulika-content { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px; justify-content: center; }
+    
+    .preview-link { display: flex; align-items: center; justify-content: center; width: 150px; height: 150px; border: 2px solid var(--border-color); background: #000; color: var(--main-color); text-decoration: none; font-weight: bold; text-align: center; transition: all 0.3s; box-shadow: 0 0 10px var(--box-glow); border-radius: var(--border-radius); cursor: pointer; font-size: 16px;}
+    .preview-link:hover { background: var(--border-color); color: #000; box-shadow: 0 0 25px var(--main-color); transform: scale(1.05); }
+
+    /* КНОПКА НАЗАД */
+    .btn-back { 
+      display: inline-block; margin-top: 20px; padding: 12px 24px; background: transparent; 
+      color: var(--main-color); border: 2px solid var(--main-color); font-family: 'Courier New', monospace; 
+      font-size: 15px; font-weight: bold; text-transform: uppercase; cursor: pointer; text-decoration: none; 
+      transition: all 0.3s; opacity: 0; animation: fadeIn 0.5s 7s forwards; border-radius: var(--border-radius); width: 100%; box-sizing: border-box;
+    }
+    .btn-back:hover { background: var(--main-color); color: #000; box-shadow: 0 0 30px var(--main-color); }
+
+    /* МОДАЛЬНОЕ ОКНО (Записка) */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.95); z-index: 10000; justify-content: center; align-items: center; cursor: pointer; padding: 20px;}
+    .modal-overlay.show { display: flex; animation: fadeIn 0.3s ease-out; }
+    .modal-content { position: relative; cursor: default; animation: zoomIn 0.4s ease-out; max-width: 90%; width: 380px; }
+    .close-btn { position: absolute; top: -40px; right: 0; color: var(--main-color); font-family: 'Courier New', monospace; font-size: 16px; cursor: pointer; text-shadow: 0 0 5px var(--main-color); }
+    
+    .big-zapiska { width: 100%; min-height: 440px; background-color: #0d0a00; background-image: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 60%), repeating-linear-gradient(45deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.2) 2px, transparent 2px, transparent 4px); padding: 35px 25px; box-sizing: border-box; clip-path: polygon(2% 5%, 10% 1%, 18% 6%, 28% 2%, 40% 7%, 55% 1%, 68% 5%, 78% 0%, 88% 6%, 98% 3%, 96% 20%, 100% 38%, 95% 55%, 99% 70%, 96% 85%, 100% 98%, 88% 95%, 75% 100%, 60% 96%, 45% 100%, 30% 95%, 15% 99%, 5% 94%, 0% 96%, 3% 80%, 0% 60%, 4% 45%, 0% 30%, 2% 15%, 0% 8%); box-shadow: inset 0 0 60px rgba(0,0,0,0.9), inset 0 0 20px rgba(255,215,0,0.3); display: flex; flex-direction: column; justify-content: center; }
+    .tekst-zapiski { color: var(--main-color); font-family: 'Courier New', monospace; font-size: 16px; line-height: 1.8; text-shadow: 0 0 8px rgba(255, 215, 0, 0.7); transform: skewX(-1deg); text-align: center; }
+
+    /* АНИМАЦИИ */
+    @keyframes crt-flicker { 0% { opacity: 0.95; } 50% { opacity: 1; } 100% { opacity: 0.98; } }
+    @keyframes pulse-icon { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.1); } }
+    @keyframes pulse-cross { from { filter: drop-shadow(0 0 15px #FFD700) drop-shadow(0 0 30px #FFAA00); } to { filter: drop-shadow(0 0 25px #FFD700) drop-shadow(0 0 50px #FFAA00); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  </style>
+</head>
+<body>
+
+  <div class="doc-container">
+    <h1>WMT // ПЕРВОИСТОЧНИК</h1>
+    
+    <!-- Неоновый крест -->
+    <div class="neon-cross"></div>
+
+    <div class="description">
+      <p><b>СТАТУС:</b> НЕ ЯВЛЯЕТСЯ АНОМАЛИЕЙ. ОБЪЕКТ СУЩЕСТВОВАЛ ДО СОЗДАНИЯ СИСТЕМЫ.</p>
+      <p><b>ОПИСАНИЕ:</b> Христианство. Это не сбой, не мутация и не артефакт. Это <b>Основа</b>, на которой держится всё остальное. Мы не знаем, как и когда оно появилось. Оно было всегда.</p>
+      <p><b>ВЛИЯНИЕ:</b> Сканеры фиксируют невероятную силу. Это не та сила, которую можно изучить или подчинить. Это <b>Сила, от которой невозможно уйти</b>.</p>
+    </div>
+
+    <div class="warning-box">
+      ⚠️ ВНИМАНИЕ: ОБЪЕКТ ОБЛАДАЕТ ВЫСШЕЙ СТЕПЕНЬЮ ВОЗДЕЙСТВИЯ. ВСЕ ПОПЫТКИ ПРОТИВОДЕЙСТВИЯ БЕСПОЛЕЗНЫ.
+    </div>
+  </div>
+
+  <!-- БЛОК УЛИКИ -->
+  <div class="ulika-container">
+    <h3>✝️ АРХИВ ПЕРВОИСТОЧНИКА</h3>
+    <div class="ulika-content">
+      <div class="preview-link" onclick="openEvidence()">
+        [ ОТКРЫТЬ<br>ЗАПИСИ ]
+      </div>
+    </div>
+  </div>
+
+  <!-- Кнопка назад в WMT -->
+  <a href="wmt.html" class="btn-back">&lt;&lt; НАЗАД В WMT</a>
+
+  <!-- МОДАЛЬНОЕ ОКНО -->
+  <div class="modal-overlay" id="evidenceModal" onclick="closeEvidence()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <span class="close-btn" onclick="closeEvidence()">[ ЗАКРЫТЬ ]</span>
+      
+      <div class="big-zapiska">
+        <div class="tekst-zapiski">
+          <p>«<b>Любите врагов ваших</b>...»</p>
+          <p>«Не судите, да не судимы будете...»</p>
+          <p>«Просите, и дано будет вам; ищите, и найдете; стучите, и отворят вам...»</p>
+          <p style="margin-top: 30px; font-size: 14px; color: #888;">[ ИСТОЧНИК НЕ ИЗВЕСТЕН. ОН БЫЛ ДО НАС. ]</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openEvidence() { document.getElementById('evidenceModal').classList.add('show'); }
+    function closeEvidence() { document.getElementById('evidenceModal').classList.remove('show'); }
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeEvidence(); });
+  </script>
+
+</body>
+</html>
