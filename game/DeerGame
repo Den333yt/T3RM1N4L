@@ -1,0 +1,883 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Depth — pixel mine</title><meta name="color-scheme" content="dark">
+<style>
+:root {
+  color-scheme: dark;
+  --bg:#120f19;
+  --pn:#1a1626;
+  --ln:#322a46;
+  --ink:#eee9f7;
+  --mut:#9a92b3;
+  --gr:#4be08a;
+  --au:#ffc857;
+}
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background: #000;
+  color: var(--ink);
+  font:
+    14px/1.35 system-ui,
+    -apple-system,
+    "Segoe UI",
+    sans-serif;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+#app {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg);
+}
+canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+.scr,
+#top,
+#acts,
+#res {
+  position: fixed;
+  display: none;
+}
+.ic {
+  width: 1.2em;
+  height: 1.2em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: -.22em;
+}
+.oi {
+  width: 2em;
+  height: 2em;
+  image-rendering: pixelated;
+  vertical-align: middle;
+}
+.mut {
+  color: var(--mut);
+}
+.btn {
+  font: inherit;
+  font-weight: 700;
+  color: var(--ink);
+  background: linear-gradient(#352d4f, #272039);
+  border: 1px solid #4b4170;
+  border-radius: 10px;
+  padding: .45rem .85rem;
+  box-shadow: 0 3px 0 #120e20, 0 6px 14px #0008;
+  cursor: pointer;
+}
+.btn:active {
+  transform: translateY(2px);
+}
+.btn:disabled {
+  opacity: .45;
+}
+.btn.big {
+  font-size: 1.1rem;
+  min-width: 13rem;
+  padding: .75rem 1.4rem;
+  letter-spacing: .12em;
+}
+.pri {
+  background: linear-gradient(#ffd56b, #e99a1f);
+  color: #2a1a00;
+  border-color: #fff4;
+}
+.warn {
+  background: linear-gradient(#a53a3a, #6e2020);
+}
+#menu {
+  inset: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .7rem;
+  background:
+    radial-gradient(
+      ellipse at 50% 45%,
+      #0004,
+      #000d);
+}
+h1 {
+  margin: 0;
+  font-size: clamp(2.4rem, 15vh, 5rem);
+  letter-spacing: .2em;
+  padding-left: .2em;
+  background:
+    linear-gradient(
+      #fff2c4,
+      #ffb02e 55%,
+      #c2590d);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 4px 14px #ff9a2a66);
+}
+.sub {
+  margin: 0 0 .6rem;
+  color: var(--mut);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-size: .8rem;
+}
+#rt2 {
+  position: absolute;
+  top: max(10px, env(safe-area-inset-top));
+  right: max(12px, env(safe-area-inset-right));
+}
+#top {
+  top: 0;
+  left: 0;
+  right: 0;
+  align-items: center;
+  gap: .5rem;
+  padding: max(6px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) 0 max(10px, env(safe-area-inset-left));
+  pointer-events: none;
+  z-index: 4;
+}
+#top > * {
+  pointer-events: auto;
+}
+#tt {
+  font-weight: 800;
+}
+#tm {
+  display: none;
+  flex: 1;
+  max-width: 15rem;
+  height: 1.7rem;
+  background: #000b;
+  border: 1px solid #fff3;
+  border-radius: 99px;
+  position: relative;
+  overflow: hidden;
+}
+#tm i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background:
+    linear-gradient(
+      90deg,
+      #e99a1f,
+      #4be08a);
+}
+#tm b {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: .85rem;
+}
+body.m-mine #tm {
+  display: block;
+}
+#pills {
+  margin-left: auto;
+}
+.pill {
+  display: inline-block;
+  background: #000a;
+  border: 1px solid #fff2;
+  border-radius: 99px;
+  padding: .15rem .8rem;
+  font-weight: 800;
+  font-size: 1.05rem;
+  font-variant-numeric: tabular-nums;
+}
+#tree {
+  inset: 0;
+  padding: calc(46px + max(6px, env(safe-area-inset-top))) 0 0 max(8px, env(safe-area-inset-left));
+  background:
+    radial-gradient(
+      ellipse at 30% 20%,
+      #241c3a,
+      #120f19 70%);
+  gap: .4rem;
+}
+#rail {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  width: 5rem;
+  margin: .4rem 0 max(.5rem, env(safe-area-inset-bottom));
+}
+.tb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .1rem;
+  padding: .35rem .1rem;
+  font-size: .62rem;
+  line-height: 1.1;
+  flex: 1;
+}
+.tb .ic {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+.tb.on {
+  background: linear-gradient(#ffd56b, #e99a1f);
+  color: #2a1a00;
+}
+#sc {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  touch-action: none;
+}
+#zw {
+  position: relative;
+}
+#in {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+}
+#info {
+  display: none;
+  position: absolute;
+  z-index: 8;
+  width: 15rem;
+  background: var(--pn);
+  border: 2px solid #5b4d86;
+  border-radius: 14px;
+  padding: .7rem;
+  font-size: .82rem;
+  box-shadow: 0 10px 30px #000b;
+}
+#info h3 {
+  margin: 0 0 .3rem;
+  font-size: 1rem;
+  padding-right: 2rem;
+}
+#info p {
+  margin: .1rem 0 .5rem;
+  color: var(--mut);
+}
+#info .x {
+  position: absolute;
+  top: .4rem;
+  right: .4rem;
+  width: 1.9rem;
+  height: 1.9rem;
+  padding: 0;
+}
+#info.mini > :not(h3):not(#cl):not(#mi) {
+  display: none;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: .5rem;
+  padding: .2rem 0;
+  border-bottom: 1px solid #fff1;
+}
+.row span {
+  color: var(--mut);
+}
+.gr {
+  color: var(--gr);
+}
+.au {
+  color: var(--au);
+}
+.buy {
+  width: 100%;
+  margin: .5rem 0 .3rem;
+}
+.rk {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  margin: .4rem 0;
+}
+.rk .btn {
+  flex: none;
+  padding: .4rem .7rem;
+}
+.rin {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  font: inherit;
+  text-align: center;
+  background: #000a;
+  color: var(--ink);
+  border: 1px solid #4b4170;
+  border-radius: 8px;
+  padding: .35rem;
+}
+#wd {
+  position: sticky;
+  top: .4rem;
+  left: .4rem;
+  height: 0;
+  z-index: 3;
+}
+.wc {
+  width: 15rem;
+  background: #1a1626f0;
+  border: 1px solid var(--ln);
+  border-radius: 12px;
+  padding: .55rem;
+  font-size: .78rem;
+}
+.bar {
+  height: .95rem;
+  background: #000a;
+  border-radius: 99px;
+  overflow: hidden;
+  position: relative;
+  margin: .35rem 0;
+}
+.bar i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background:
+    linear-gradient(
+      90deg,
+      #e99a1f,
+      #4be08a);
+}
+.bar b {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: .68rem;
+}
+#ln {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+}
+#ln line {
+  stroke: #3a3158;
+  stroke-width: 3;
+}
+#ln line.lit {
+  stroke: #b98a2c;
+}
+.nd {
+  position: absolute;
+  width: 58px;
+  height: 58px;
+  margin: -29px 0 0 -29px;
+  border-radius: 12px;
+  background: conic-gradient(var(--au) var(--p), #322a46 0);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px #0008;
+}
+.nd i {
+  font-style: normal;
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  background: #1d1830;
+  display: grid;
+  place-items: center;
+  color: #f1ecff;
+}
+.nd i .ic {
+  width: 28px;
+  height: 28px;
+}
+.nd i .oi {
+  width: 32px;
+  height: 32px;
+}
+.v {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+}
+.v::after {
+  content: "$";
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  font: 800 13px/1 system-ui;
+  color: #ffc83a;
+  text-shadow: 0 0 3px #000, 0 0 3px #000;
+}
+.nd b {
+  position: absolute;
+  bottom: -9px;
+  font-size: 11px;
+  background: #100c1a;
+  border: 1px solid var(--ln);
+  border-radius: 9px;
+  padding: 0 6px;
+}
+.nd.can {
+  box-shadow: 0 0 0 3px #4be08a55, 0 0 18px #4be08a88;
+}
+.nd.sel {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+.nd.max i {
+  background: #3a2d12;
+}
+.nd.tz {
+  opacity: .4;
+  filter: grayscale(1);
+  background: #322a46;
+  cursor: default;
+}
+.pop {
+  animation: pop .55s cubic-bezier(.3, 1.6, .5, 1);
+}
+@keyframes pop {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+#acts {
+  right: max(14px, env(safe-area-inset-right));
+  bottom: max(12px, env(safe-area-inset-bottom));
+  z-index: 5;
+  gap: .5rem;
+  align-items: center;
+}
+#go {
+  font-size: 1.05rem;
+  padding: .8rem 1.3rem;
+  letter-spacing: .05em;
+  background: linear-gradient(#5ee58f, #1fa653);
+  border-color: #9fffc4aa;
+  color: #06240f;
+  animation: pl 2s infinite;
+}
+@keyframes pl {
+  50% {
+    box-shadow: 0 3px 0 #120e20, 0 0 26px #4be08acc;
+  }
+}
+body.m-menu #menu,
+body.m-tree #tree,
+body.m-tree #acts {
+  display: flex;
+}
+body.m-tree #top,
+body.m-mine #top {
+  display: flex;
+}
+#res {
+  inset: 0;
+  background: #000a;
+  place-items: center;
+  z-index: 9;
+}
+#res.on {
+  display: grid;
+}
+#rc {
+  background: var(--pn);
+  border: 2px solid #4b4170;
+  border-radius: 14px;
+  padding: 1rem 1.3rem;
+  min-width: 16rem;
+  max-height: calc(100% - 1.5rem);
+  overflow: auto;
+  text-align: center;
+  animation: pop .5s cubic-bezier(.3, 1.6, .5, 1);
+}
+#rc h2 {
+  margin: 0 0 .6rem;
+}
+.rr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: .25rem 0;
+  border-bottom: 1px solid #fff1;
+}
+.rr b {
+  color: var(--gr);
+}
+.tot {
+  font-size: 1.15rem;
+}
+.rb {
+  display: flex;
+  gap: .5rem;
+  justify-content: center;
+  margin-top: .8rem;
+}
+#modal {
+  position: fixed;
+  inset: 0;
+  background: #000b;
+  display: none;
+  place-items: center;
+  z-index: 10;
+}
+#modal.open {
+  display: grid;
+}
+#md {
+  background: var(--pn);
+  border: 1px solid var(--ln);
+  border-radius: 16px;
+  padding: 1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  min-width: 15rem;
+  max-height: calc(100% - 1.5rem);
+  overflow: auto;
+}
+#md h2 {
+  margin: 0 0 .2rem;
+}
+.lc {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: .1rem;
+}
+.lc.on {
+  outline: 2px solid var(--au);
+}
+.lc small {
+  color: var(--mut);
+  font-weight: 400;
+}
+@keyframes bump {
+  40% {
+    transform: scale(1.2);
+    filter: brightness(1.4);
+  }
+}
+.pill.bump {
+  animation: bump .28s;
+}
+@keyframes ring {
+  from {
+    box-shadow: 0 0 0 0 #ffd56bd0;
+  }
+  to {
+    box-shadow: 0 0 0 26px #ffd56b00;
+  }
+}
+.nd.buyfx {
+  animation: ring .6s;
+}
+#flash {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 30;
+}
+#flash.on {
+  animation: flsh .9s;
+}
+@keyframes flsh {
+  0% {
+    opacity: .9;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+#rc .rr {
+  animation: rin .35s both;
+}
+#rc .rr:nth-child(3) {
+  animation-delay: .08s;
+}
+#rc .rr:nth-child(4) {
+  animation-delay: .16s;
+}
+#rc .rr:nth-child(5) {
+  animation-delay: .24s;
+}
+#rc .rr:nth-child(6) {
+  animation-delay: .32s;
+}
+@keyframes rin {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+}
+#tm.low {
+  animation: lowp .5s infinite;
+}
+@keyframes lowp {
+  50% {
+    background: #6a1414;
+  }
+}
+h1 {
+  animation: shim 3.5s ease-in-out infinite;
+}
+@keyframes shim {
+  50% {
+    filter: drop-shadow(0 4px 26px #ffd56bdd);
+  }
+}
+.tb.on {
+  animation: tbp .35s;
+}
+@keyframes tbp {
+  40% {
+    transform: scale(1.08);
+  }
+}
+
+#madeby {
+  position: fixed;
+  left: max(12px, env(safe-area-inset-left));
+  bottom: max(10px, env(safe-area-inset-bottom));
+  z-index: 50;
+  color: #9a92b3;
+  font: 700 12px/1 system-ui, -apple-system, "Segoe UI", sans-serif;
+  letter-spacing: .04em;
+  text-shadow: 0 2px 4px #000;
+  pointer-events: none;
+}
+</style></head><body class="m-menu"><div id="app">
+<canvas id="cv"></canvas>
+<div id="madeby">Made by IMPOSTOR</div>
+<div id="top"><button id="back" class="btn"></button><div id="tt"></div><div id="tm"><i></i><b></b></div><div id="pills"></div><button class="btn rt"></button></div>
+<section id="menu" class="scr"><button id="rt2" class="btn rt"></button><h1 id="h1"></h1><p class="sub" id="sub"></p>
+<button id="start" class="btn big pri"></button><button id="sets" class="btn big"></button></section>
+<section id="tree" class="scr"><div id="rail"></div><div id="sc"><div id="wd"></div><div id="zw"><div id="in"></div></div></div></section><div id="info"></div>
+<div id="acts"><button id="loc" class="btn"></button><button id="go" class="btn"></button></div>
+<div id="res"><div id="rc"></div></div>
+<div id="modal"><div id="md"></div></div><div id="flash"></div>
+</div>
+<script>
+addEventListener("error", (e) => {
+  const d = document.createElement("div");
+  d.style.cssText = "position:fixed;left:0;right:0;bottom:0;z-index:99;background:#a00;color:#fff;font:11px monospace;padding:4px;max-height:30%;overflow:auto";
+  d.textContent = "Error: " + e.message + " @" + e.lineno;
+  document.body.appendChild(d);
+});
+const $ = (q) => document.querySelector(q), rnd = Math.random, TAU = Math.PI * 2, cos = Math.cos, sin = Math.sin;
+const IC = {
+  pick: '<path d="M5 19L15 9M7 7Q17 4 17 15"/>',
+  picks: '<path d="M4 20L12 12M6 8Q14 5 14 14"/><path d="M18 3v6M15 6h6"/>',
+  flame: '<path d="M12 3c1 4 5 6 5 11a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-4 0-7 1-10z"/>',
+  hammer: '<path d="M14 3l7 7-3 3-7-7zM12 11L4 19"/>',
+  bolt: '<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',
+  star: '<path d="M12 3l2.2 6.8L21 12l-6.8 2.2L12 21l-2.2-6.8L3 12l6.8-2.2z"/>',
+  target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 1v4M12 19v4M1 12h4M19 12h4"/>',
+  clover: '<circle cx="9" cy="9" r="3.5"/><circle cx="15" cy="9" r="3.5"/><circle cx="9" cy="15" r="3.5"/><circle cx="15" cy="15" r="3.5"/>',
+  bag: '<path d="M6 8h12l1 12H5zM9 8V6a3 3 0 0 1 6 0v2"/>',
+  gear: '<circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>',
+  heart: '<path d="M12 20s-8-5-8-11a4.5 4.5 0 0 1 8-2.5A4.5 4.5 0 0 1 20 9c0 6-8 11-8 11z"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  gem: '<path d="M6 4h12l4 6-10 11L2 10zM2 10h20M9 4l3 6 3-6"/>',
+  rock: '<path d="M4 18l2-9 6-5 7 4 1 10z"/><path d="M9 11l3 3 4-4"/>',
+  rewind: '<path d="M4 12a8 8 0 1 0 3-6.2M4 4v4h4"/>',
+  hour: '<path d="M6 3h12M6 21h12M7 3c0 6 5 6 5 9s-5 3-5 9M17 3c0 6-5 6-5 9s5 3 5 9"/>',
+  plusbox: '<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M12 8v8M8 12h8"/>',
+  moon: '<path d="M20 14.5A8.5 8.5 0 1 1 9.5 4 6.5 6.5 0 0 0 20 14.5z"/>',
+  worker: '<circle cx="12" cy="8" r="3.5"/><path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/>',
+  box: '<path d="M3 7l9-4 9 4v10l-9 4-9-4zM3 7l9 4 9-4M12 11v10"/>',
+  crown: '<path d="M3 18l2-10 5 5 2-8 2 8 5-5 2 10z"/>',
+  rebirth: '<path d="M20 11a8 8 0 0 0-14-4M4 4v4h4M4 13a8 8 0 0 0 14 4M20 20v-4h-4"/>',
+  mine: '<path d="M2 20l7-12 4 6 3-4 6 10z"/>',
+  check: '<path d="M5 12l5 5 9-10"/>',
+  x: '<path d="M6 6l12 12M18 6L6 18"/>',
+  back: '<path d="M15 5l-7 7 7 7"/>',
+  lock: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+  coin: '<circle cx="12" cy="12" r="9" fill="#ffc83a" stroke="#b8860b"/><text x="12" y="16.3" text-anchor="middle" font-size="12" font-weight="800" fill="#7a5200" stroke="none">$</text>'
+};
+const ic = (n) => `<svg class="ic" viewBox="0 0 24 24">${IC[n]}</svg>`;
+const TX = {
+  en: {
+    title: "DEPTH",
+    sub: "hold the field · picks mine · go deeper",
+    start: "START",
+    settings: "SETTINGS",
+    menu: "Menu",
+    tree: "Tree",
+    back: "Back",
+    exp: "EXPEDITION",
+    tMine: "Mining",
+    tExp: "Expedition",
+    tAuto: "Auto Income",
+    tReb: "Rebirth",
+    lvl: "Level",
+    now: "Now",
+    next: "Next",
+    maxL: "Max",
+    buy: "Buy",
+    have: "You have",
+    vault: "Worker storage",
+    collect: "Collect",
+    noWork: "Income 0. Hire workers in Auto Income.",
+    rebNo: "Rebirth #",
+    pts: "Points",
+    rebInfo: "Resets money and skills. Mines 2+: rock +20% HP but +25% money per rebirth. Next threshold ×1.5.",
+    allMines: "All mines open",
+    nextMine: "Next mine at",
+    rebirths: "rebirths",
+    resT: "Expedition over",
+    nothing: "Nothing mined. Hold the field!",
+    total: "Total",
+    again: "Again",
+    toTree: "To tree",
+    rebT: "Rebirth!",
+    gotPts: "Points",
+    rebCount: "Rebirths",
+    newMine: "New mine",
+    cont: "Continue",
+    setT: "Settings",
+    sound: "Sound",
+    shake: "Screen shake",
+    fxT: "Effects",
+    fxF: "full",
+    fxL: "light",
+    side: "Rotation side",
+    reset: "Reset progress",
+    sure: "Really reset all?",
+    lang: "Language",
+    on: "on",
+    off: "off",
+    hint: "HOLD THE FIELD WITH A FINGER",
+    mineSel: "Mine select",
+    sec: "s",
+    confirm: "Sure? Everything resets",
+    stone: "Stone",
+    copper: "Copper",
+    iron: "Iron",
+    gold: "Gold",
+    diamond: "Diamond",
+    mineName: ["Old Quarry", "Dark Cave", "Black Rift", "Chalk Cliff", "White Abyss"],
+    open: "Open",
+    locked: "Locked",
+    workers: "workers",
+    auto: "auto",
+    none: "None",
+    mineTxt: "Mine",
+    hardness: "Hardness",
+    income: "Income",
+    nodeNames: {}
+  },
+  ru: {
+    title: "ГЛУБИНА",
+    sub: "зажми поле · кирки добывают · углубляйся",
+    start: "НАЧАТЬ",
+    settings: "НАСТРОЙКИ",
+    menu: "Меню",
+    tree: "Дерево",
+    back: "Назад",
+    exp: "ЭКСПЕДИЦИЯ",
+    tMine: "Добыча",
+    tExp: "Экспедиция",
+    tAuto: "Авто заработок",
+    tReb: "Перерождение",
+    lvl: "Уровень",
+    now: "Сейчас",
+    next: "Дальше",
+    maxL: "Максимум",
+    buy: "Купить",
+    have: "У тебя",
+    vault: "Хранилище рабочих",
+    collect: "Забрать",
+    noWork: "Доход 0. Найми рабочих в «Авто заработке».",
+    rebNo: "Перерождение №",
+    pts: "Очки",
+    rebInfo: "Сбросит деньги и навыки. В шахтах 2+: порода +20% HP, но +25% денег за перерождение. Следующий порог ×1.5.",
+    allMines: "Все шахты открыты",
+    nextMine: "Новая шахта за",
+    rebirths: "перерождений",
+    resT: "Экспедиция завершена",
+    nothing: "Ничего не добыто. Зажми поле и держи палец!",
+    total: "Итого",
+    again: "Ещё раз",
+    toTree: "В дерево",
+    rebT: "Перерождение!",
+    gotPts: "Очки",
+    rebCount: "Перерождений",
+    newMine: "Новая шахта",
+    cont: "Продолжить",
+    setT: "Настройки",
+    sound: "Звук",
+    shake: "Тряска экрана",
+    fxT: "Эффекты",
+    fxF: "полные",
+    fxL: "лёгкие",
+    side: "Сторона поворота",
+    reset: "Сбросить прогресс",
+    sure: "Точно сбросить всё?",
+    lang: "Язык",
+    on: "вкл",
+    off: "выкл",
+    hint: "ЗАЖМИ ПОЛЕ ПАЛЬЦЕМ",
+    mineSel: "Выбор шахты",
+    sec: "с",
+    confirm: "Точно? Всё сбросится",
+    stone: "Камень",
+    copper: "Медь",
+    iron: "Железо",
+    gold: "Золото",
+    diamond: "Алмаз",
+    mineName: ["Старый карьер", "Тёмная пещера", "Чёрный разлом", "Меловой утёс", "Белая бездна"],
+    open: "Открыто",
+    locked: "Закрыто",
+    workers: "рабочих",
+    auto: "авто",
+    none: "Нет",
+    mineTxt: "Шахта",
+    hardness: "Крепость",
+    income: "Доход",
+    nodeNames: {}
+  }
+};
+const tx = (k2) => (TX[S.lang] || TX.en)[k2] ?? TX.en[k2] ?? k2;
+const RU = () => S.lang === "ru" ? 1 : 0;
+const ORE = [
+  { n: ["Stone", "Камень"], v: 5, hp: 3, w: 0 },
+  { n: ["Copper", "Медь"], v: 40, hp: 12, w: 10, o: ["#a8522a", "#e0813a", "#ffb067"], g: "#46c8a0" },
+  { n: ["Coal", "Уголь"], v: 110, hp: 25, w: 8, o: ["#15161b", "#2e3038", "#6c7282"] },
+  { n: ["Iron", "Железо"], v: 300, hp: 50, w: 6, o: ["#9a735a", "#d8b7a0", "#f2dccb"] },
+  { n: ["Gold", "Золото"], v: 5e3, hp: 200, w: 3, o: ["#c28a10", "#ffd23a", "#fff2a0"] },
+  { n: ["Diamond", "Алмаз"], v: 3e4, hp: 800, w: 1, o: ["#1fa7c8", "#5ee8ff", "#e8ffff"] }
+];
+const VN = ["vs", "vc", "vk", "vi", "vg", "vd"], UN = [0, "ucu", "uco", "uir", "ugo", "udi"];
+const LOC = [
+  { n: ["Old Quarry", "Старый карьер"], h: 1, l: 1, r: 0, p: ["#8d92a0", "#7b7f8c", "#6a6e7b"], a: "#a9aebb", b: "#3f424d" },
+  { n: ["Dark Cave", "Тёмная пещера"], h: 5, l: 3, r: 3, p: ["#6c707c", "#5d616d", "#4f525d"], a: "#868a99", b: "#2f323b" },
+  { n: ["Black Rift", "Чёрный разлом"], h: 30, l: 10, r: 5, p: ["#4a4d59", "#3e414c", "#33363f"], a: "#5f6372", b: "#1f2128" },
+  { n: ["Chalk Cliff", "Меловой утёс"], h: 200, l: 40, r: 10, p: ["#bbc0cb", "#a9aeba", "#989da9"], a: "#d9dde6", b: "#6b6f7b" },
+  { n: ["White Abyss", "Белая бездна"], h: 1500, l: 150, r: 15, p: ["#e4e8f0", "#d2d6e0", "#c1c6d2"], a: "#f8fafd", b: "#8c91a0" },
+  { n: ["Frost Vault", "Ледяное хранилище"], h: 11e3, l: 560, r: 20, p: ["#c9dcec", "#b6cde0", "#a3bdd3"], a: "#e8f3fb", b: "#6f8aa
