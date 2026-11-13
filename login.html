@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>T3RM1N4L // АВТОРИЗАЦИЯ</title>
+  <style>
+    :root { --bg: #050005; --main-color: #00FA9A; --border-color: #00FA9A; }
+    body { background-color: var(--bg); color: var(--main-color); font-family: 'Courier New', monospace; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; text-shadow: 0 0 5px var(--main-color); }
+    .login-box { width: 90%; max-width: 400px; padding: 30px; border: 2px solid transparent; background-image: linear-gradient(#050005, #050005), linear-gradient(90deg, #00FA9A, #00BFFF); background-origin: border-box; background-clip: padding-box, border-box; border-radius: 12px; display: flex; flex-direction: column; gap: 15px; box-shadow: 0 0 30px rgba(0,250,154,0.2); }
+    h1 { text-align: center; text-transform: uppercase; letter-spacing: 3px; margin-top: 0; }
+    .pole_vvoda { width: 100%; padding: 12px; background: rgba(0,0,0,0.5); border: 2px solid #00BFFF; color: #00FA9A; font-family: 'Courier New', monospace; font-size: 16px; box-sizing: border-box; outline: none; }
+    .pole_vvoda:focus { border-color: #00FA9A; box-shadow: 0 0 10px #00FA9A; }
+    .btn-submit { padding: 12px; background: transparent; color: #00FA9A; border: 2px solid #00FA9A; font-family: 'Courier New', monospace; font-size: 16px; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: 0.3s; }
+    .btn-submit:hover { background: #00FA9A; color: #000; box-shadow: 0 0 20px #00FA9A; }
+    .btn-back { text-align: center; text-decoration: none; color: #888; margin-top: 10px; font-size: 14px; }
+    .btn-back:hover { color: #FFF; }
+  </style>
+</head>
+<body>
+
+  <div class="login-box">
+    <h1>АВТОРИЗАЦИЯ</h1>
+    <input type="text" id="nick" class="pole_vvoda" placeholder="ПОЗЫВНОЙ (НИК)">
+    <input type="password" id="pass" class="pole_vvoda" placeholder="ПАРОЛЬ">
+    <button class="btn-submit" onclick="login()">ВОЙТИ В СИСТЕМУ</button>
+    <a href="index.html" class="btn-back">&lt;&lt; НА ГЛАВНУЮ</a>
+  </div>
+
+  <script>
+    // БАЗА АГЕНТОВ (Логин: { пароль, уровень })
+    const AGENTS = {
+      "Scorpion": { pass: "admin123", clearance: 4, number: "AGENT-001" },
+      "Agent0": { pass: "level13", clearance: 1, number: "AGENT-000" },
+      "Medic": { pass: "helpme", clearance: 2, number: "AGENT-007" },
+      "Den333yt": { pass: "qwerty", clearance: 5, number: "AGENT-D3N" }
+    };
+
+    function login() {
+      const nick = document.getElementById('nick').value.trim();
+      const pass = document.getElementById('pass').value;
+
+      // Проверка
+      if (AGENTS[nick] && AGENTS[nick].pass === pass) {
+        // Сохраняем данные в локальную память браузера
+        localStorage.setItem('t3rm_user', nick);
+        localStorage.setItem('t3rm_level', AGENTS[nick].clearance);
+        localStorage.setItem('t3rm_number', AGENTS[nick].number);
+        
+        alert(`ДОБРО ПОЖАЛОВАТЬ, ${nick}.\nУРОВЕНЬ ДОСТУПА: ${AGENTS[nick].clearance}`);
+        window.location.href = 'profile.html'; // Переход в личный кабинет
+      } else {
+        alert('ДОСТУП ЗАПРЕЩЕН. НЕВЕРНЫЙ НИК ИЛИ ПАРОЛЬ.');
+      }
+    }
+  </script>
+
+</body>
+</html>
