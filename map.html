@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>T3RM1N4L // КАРТА СЕКТОРОВ</title>
+  <style>
+    /* БАЗОВЫЕ ПЕРЕМЕННЫЕ */
+    :root { 
+      --bg: #050005; 
+      --main-color: #00FA9A; 
+      --border-color: #00FA9A; 
+      --bg-panel: rgba(0,10,0,0.85);
+    }
+
+    /* БАЗОВЫЕ СТИЛИ */
+    html, body { 
+      margin: 0; padding: 0; width: 100%; min-height: 100vh; 
+      background-color: var(--bg); box-sizing: border-box; 
+      overflow-x: hidden;
+    }
+
+    body { 
+      color: var(--main-color); font-family: 'Courier New', Courier, monospace; 
+      display: flex; flex-direction: column; align-items: center; justify-content: center; 
+      text-shadow: 0 0 5px var(--main-color); 
+      position: relative;
+      padding: 20px;
+    }
+
+    /* ЭЛТ-ЭФФЕКТ */
+    body::before { 
+      content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0; 
+      background: 
+        radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,0.9) 100%), 
+        linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.25) 50%); 
+      background-size: 100% 100%, 100% 4px; 
+      z-index: 9999; pointer-events: none; 
+      animation: crt-flicker 0.15s infinite; 
+    }
+
+    /* КОНТЕЙНЕР КАРТЫ */
+    .map-container {
+      width: 100%; max-width: 700px;
+      position: relative;
+      padding: 40px;
+      border: 2px solid var(--border-color);
+      background: var(--bg-panel);
+      border-radius: 12px;
+      box-shadow: 0 0 30px rgba(0, 250, 154, 0.2), inset 0 0 20px rgba(0, 250, 154, 0.1);
+      animation: fadeInBox 1s forwards;
+    }
+
+    h1 { text-align: center; text-transform: uppercase; letter-spacing: 3px; margin-top: 0; font-size: 24px; border-bottom: 2px dashed var(--border-color); padding-bottom: 10px; }
+    .subtitle { text-align: center; font-size: 12px; color: #666; margin-bottom: 30px; text-transform: uppercase; }
+
+    /* СЕТКА КАРТЫ */
+    .map-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      justify-items: center;
+      align-items: center;
+    }
+
+    /* КНОПКА-СЕКТОР */
+    .sector-node {
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      width: 120px; height: 120px;
+      border: 2px solid var(--node-color, #fff);
+      background: rgba(0,0,0,0.6);
+      color: var(--node-color, #fff);
+      text-decoration: none;
+      font-weight: bold; font-size: 14px;
+      text-transform: uppercase;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+      position: relative;
+      opacity: 0;
+      animation: fadeInNode 0.5s forwards;
+    }
+
+    .sector-node:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px var(--node-color), inset 0 0 20px rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.05);
+    }
+
+    /* Точка внутри узла */
+    .sector-node::before {
+      content: ""; position: absolute; top: 15px; width: 10px; height: 10px;
+      border-radius: 50%; background: var(--node-color);
+      box-shadow: 0 0 10px var(--node-color);
+    }
+
+    /* Заблокированный узел */
+    .sector-node.locked {
+      border-style: dashed;
+      opacity: 0.6;
+      filter: grayscale(1);
+      cursor: not-allowed;
+    }
+    .sector-node.locked::before { background: transparent; box-shadow: none; content: "🔒"; font-size: 20px; top: 10px; }
+    .sector-node.locked:hover { transform: none; box-shadow: inset 0 0 15px rgba(0,0,0,0.8); }
+
+    /* Цвета для конкретных секторов */
+    .node-wmt { --node-color: #FFD700; animation-delay: 0.2s; }
+    .node-aft { --node-color: #DF00FF; animation-delay: 0.4s; }
+    .node-sdo { --node-color: #b0559e; animation-delay: 0.6s; }
+    .node-usov { --node-color: #FF8C00; animation-delay: 0.8s; }
+    .node-sdp { --node-color: #00FA9A; animation-delay: 1.0s; }
+    .node-o1s { 
+      --node-color: #FFFFFF; grid-column: 2; grid-row: 2; width: 150px; height: 150px; 
+      font-size: 18px; border-width: 3px; animation-delay: 1.2s;
+    }
+
+    /* КНОПКА НАЗАД */
+    .btn-back { 
+      display: inline-block; margin-top: 40px; padding: 12px 24px; background: transparent; 
+      color: var(--main-color); border: 2px solid var(--main-color); font-family: 'Courier New', monospace; 
+      font-size: 15px; font-weight: bold; text-transform: uppercase; cursor: pointer; text-decoration: none; 
+      transition: all 0.3s; border-radius: 6px; text-align: center; width: 100%; box-sizing: border-box;
+      opacity: 0; animation: fadeInNode 0.5s 1.5s forwards;
+    }
+    .btn-back:hover { background: var(--main-color); color: #000; box-shadow: 0 0 30px var(--main-color); }
+
+    /* АНИМАЦИИ */
+    @keyframes crt-flicker { 0% { opacity: 0.95; } 50% { opacity: 1; } 100% { opacity: 0.98; } }
+    @keyframes fadeInBox { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    @keyframes fadeInNode { to { opacity: 1; } }
+
+    /* АДАПТИВ */
+    @media (max-width: 600px) {
+      .map-container { padding: 20px; }
+      .map-grid { grid-template-columns: repeat(2, 1fr); }
+      .sector-node { width: 100px; height: 100px; font-size: 12px; }
+      .node-o1s { grid-column: span 2; grid-row: auto; width: 100px; height: 100px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="map-container">
+    <h1>КАРТА СЕКТОРОВ</h1>
+    <div class="subtitle">// ВЫБЕРИТЕ НАПРАВЛЕНИЕ //</div>
+
+    <div class="map-grid">
+      
+      <!-- WMT (Желтый) -->
+      <a href="master-wmt/wmt.html" class="sector-node node-wmt"><br>WMT</a>
+
+      <!-- AFT (Фиолетовый, закрыт паролем) -->
+      <div class="sector-node node-aft locked" onclick="checkAftAccess()"><br>AFT</div>
+
+      <!-- SDO-1 (Розовый) -->
+      <a href="master-sdo/sdo-1.html" class="sector-node node-sdo"><br>SDO-1</a>
+
+      <!-- USOV (Оранжевый, ведет на глитч в S-1) -->
+      <a href="usov_s1.html" class="sector-node node-usov"><br>USOV</a>
+
+      <!-- O1-S (Центр, Белый) -->
+      <a href="level13.html" class="sector-node node-o1s"><br>O1-S</a>
+
+      <!-- SDP-2 (Зеленый) -->
+      <a href="master-sdp/sdp-2.html" class="sector-node node-sdp"><br>SDP-2</a>
+
+    </div>
+
+    <!-- КНОПКА НАЗАД (Правильный level13.html!) -->
+    <a href="level13.html" class="btn-back">&lt;&lt; НАЗАД В ХАБ</a>
+  </div>
+
+  <script>
+    // Логика проверки пароля для AFT
+    function checkAftAccess() {
+      const password = prompt("СЕКТОР AFT ЗАСЕКРЕЧЕН.\nВВЕДИТЕ КОД ДОСТУПА:");
+      
+      if (password) {
+        if (password === "UA:2014" || password === "UA:2022") {
+          alert("ДОСТУП РАЗРЕШЕН. ДЕШИФРОВКА...");
+          window.location.href = 'aft-login.html'; 
+        } else {
+          alert("ОШИБКА: НЕВЕРНЫЙ КОД. ДОСТУП ЗАПРЕЩЕН.");
+        }
+      }
+    }
+  </script>
+
+</body>
+</html>
