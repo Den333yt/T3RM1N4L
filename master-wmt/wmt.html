@@ -16,6 +16,20 @@
     .menu-list { display: flex; flex-direction: column; gap: 20px; margin-top: 30px; opacity: 0; animation: fadeIn 0.5s 3.5s forwards; }
     .wmt-btn { display: inline-block; padding: 15px 20px; background: rgba(255, 215, 0, 0.05); border: 2px solid var(--text-main); color: var(--text-main); font-size: 18px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; text-decoration: none; transition: all 0.3s ease; text-align: center; box-shadow: inset 0 0 10px rgba(255,215,0,0.1); }
     .wmt-btn:hover { background: var(--text-main); color: #000; box-shadow: 0 0 30px var(--text-main); }
+    
+    /* СПЕЦИАЛЬНЫЙ СТИЛЬ ДЛЯ ЗАСЕКРЕЧЕННОЙ КНОПКИ */
+    .wmt-btn.secret {
+      border-color: #DF00FF;
+      color: #DF00FF;
+      box-shadow: 0 0 15px rgba(223,0,255,0.3);
+      text-shadow: 0 0 5px #DF00FF;
+    }
+    .wmt-btn.secret:hover {
+      background: #DF00FF;
+      color: #000;
+      box-shadow: 0 0 30px #DF00FF;
+    }
+
     .btn-back { display: inline-block; margin-top: 30px; color: var(--text-main); text-decoration: none; border-bottom: 1px solid var(--text-main); padding-bottom: 2px; opacity: 0; animation: fadeIn 0.5s 4s forwards; }
     .btn-back:hover { color: #FFF; border-color: #FFF; text-shadow: 0 0 10px #FFF; }
     @keyframes typingTitle { from { max-width: 0; } to { max-width: 100%; } }
@@ -32,13 +46,33 @@
     <div class="subtitle">// WORLD MASTER TERMINAL //</div>
     <p>ЭТО НЕ АРХИВ. ЭТО НАБЛЮДЕНИЕ. ТО, ЧТО ВИДЯТ ЛЮДИ.</p>
     <div class="menu-list">
-      <!-- НОВАЯ КНОПКА -->
+      <!-- Обычные кнопки -->
       <a href="ancient-civs.html" class="wmt-btn">[ ДРЕВНИЕ ЦИВИЛИЗАЦИИ ]</a>
-      
       <a href="aft-zodiac.html" class="wmt-btn">[ 12 ЗНАКОВ ЗОДИАКА ]</a>
       <a href="plb-archive.html" class="wmt-btn">[ ПЛАНЕТЫ: БОГИ ]</a>
+      
+      <!-- СЕКРЕТНАЯ КНОПКА ПЕРВОИСТОЧНИКА -->
+      <button onclick="checkFaithAccess()" class="wmt-btn secret">[ ПЕРВОИСТОЧНИК 🔒 ]</button>
     </div>
     <a href="../level13.html" class="btn-back">&lt;&lt; НАЗАД В МАСТЕР-ХАБ</a>
   </div>
+
+  <script>
+    // Логика проверки пароля для Первоисточника
+    function checkFaithAccess() {
+      // Спрашиваем код
+      const password = prompt("ОБЪЕКТ ЗАСЕКРЕЧЕН.\nВВЕДИТЕ КОД ДОСТУПА ДЛЯ ДЕШИФРОВКИ:");
+      
+      if (password) {
+        // Если код верный (FAITH-777)
+        if (password.trim().toUpperCase() === "FAITH-777") {
+          alert("ДОСТУП РАЗРЕШЕН. ЗАГРУЗКА ПЕРВОИСТОЧНИКА...");
+          window.location.href = 'source.html'; // Переход на страницу
+        } else {
+          alert("ОШИБКА: НЕВЕРНЫЙ КОД. ПОПЫТКА ЗАФИКСИРОВАНА.");
+        }
+      }
+    }
+  </script>
 </body>
 </html>
