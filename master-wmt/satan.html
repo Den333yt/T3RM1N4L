@@ -8,9 +8,9 @@
     /* БАЗОВЫЕ ПЕРЕМЕННЫЕ (Черная тема) */
     :root { 
       --bg: #000000; 
-      --main-color: #FF0000; /* Кроваво-красный */
+      --main-color: #FF0000; 
       --border-color: #FF0000; 
-      --text-color: #880000; /* Темно-красный для основного текста */
+      --text-color: #880000; 
     }
 
     html, body { 
@@ -22,10 +22,7 @@
       color: var(--main-color); font-family: 'Courier New', Courier, monospace; 
       display: flex; flex-direction: column; align-items: center; justify-content: center; 
       text-shadow: 0 0 8px var(--main-color); 
-      position: relative;
-      padding: 20px;
-      
-      /* ЖЕСТКИЙ ГЛИТЧ ЭКРАНА (Легкая тряска) */
+      position: relative; padding: 20px;
       animation: shake 4s infinite; 
     }
 
@@ -33,8 +30,8 @@
     body::before { 
       content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0; 
       background: 
-        radial-gradient(circle, rgba(0,0,0,0) 40%, rgba(0,0,0,1) 100%), /* Сильная виньетка */
-        linear-gradient(rgba(0,0,0,0) 50%, rgba(255,0,0,0.1) 50%); /* Красные полоски */
+        radial-gradient(circle, rgba(0,0,0,0) 40%, rgba(0,0,0,1) 100%), 
+        linear-gradient(rgba(0,0,0,0) 50%, rgba(255,0,0,0.1) 50%); 
       background-size: 100% 100%, 100% 4px; 
       z-index: 9999; pointer-events: none; 
       animation: crt-flicker 0.1s infinite; 
@@ -44,7 +41,6 @@
     h1 { 
       font-size: 40px; text-transform: uppercase; letter-spacing: 10px; 
       color: var(--main-color); margin-bottom: 20px;
-      /* Глитч текста */
       animation: glitch-text 1s infinite linear alternate-reverse;
     }
 
@@ -78,12 +74,11 @@
     }
     .btn-submit:hover { background: var(--main-color); color: #000; box-shadow: 0 0 30px var(--main-color); }
 
-    /* СКРЫТАЯ ПОДСКАЗКА (Белый текст на белом фоне, виден только при выделении) */
-    .hidden-hint {
-      color: #000; background: #000; font-size: 12px; margin-top: 20px;
-      user-select: text; /* Разрешаем выделять */
+    /* ПОДСКАЗКА (Видна всегда, но замаскирована) */
+    .hint {
+      color: #550000; font-size: 14px; margin-top: 20px; text-align: center;
+      border-top: 1px solid #330000; padding-top: 10px;
     }
-    .hidden-hint::selection { background: #FF0000; color: #FFF; }
 
     /* КНОПКА НАЗАД */
     .btn-back { 
@@ -116,19 +111,19 @@
 
   <div class="warning-text">
     ЭТОТ СЕКТОР НЕ ЗНАЧИТСЯ НА КАРТАХ СИСТЕМЫ.<br>
-    ДЛЯ ДОСТУПА ТРЕБУЕТСЯ КОД, СОБРАННЫЙ ИЗ ГЛИТЧ-БУКВ РЕЛИГИЙ.<br>
+    ДЛЯ ДОСТУПА ТРЕБУЕТСЯ КОД, СОБРАННЫЙ ИЗ ИМЕН БОГОВ.<br>
     <span style="font-size: 12px; opacity: 0.6;">(Если ты не знаешь код — уходи. Немедленно.)</span>
   </div>
 
   <div class="input-group">
-    <!-- Поле ввода (класс pole_vvoda по нашей Библии) -->
+    <!-- Поле ввода (класс pole_vvoda) -->
     <input type="text" id="passInput" class="pole_vvoda" placeholder="ВВЕДИТЕ КОД" autocomplete="off">
     <button class="btn-submit" onclick="checkSatanPass()">[ ОТКРЫТЬ ВРАТА ]</button>
   </div>
 
-  <!-- СКРЫТАЯ ПОДСКАЗКА 1 (Выдели текст мышкой) -->
-  <div class="hidden-hint">
-    Ты ищешь правду? Ответ в вере, но с ошибкой. Убери "ER".
+  <!-- ПОДСКАЗКА -->
+  <div class="hint">
+    [ Собери имя Врага из 5 букв. Ищи их в секторах WMT. ]
   </div>
 
   <!-- КНОПКА ВОЗВРАТА -->
@@ -139,8 +134,8 @@
     // ЛОГИКА ПРОВЕРКИ ПАРОЛЯ
     // ==========================================
     
-    // ПРАВИЛЬНЫЙ ПАРОЛЬ (Без ошибки ER)
-    const CORRECT_PASSWORD = "FAITH-777"; 
+    // ПРАВИЛЬНЫЙ ПАРОЛЬ
+    const CORRECT_PASSWORD = "SATAN"; 
 
     function checkSatanPass() {
       const input = document.getElementById('passInput').value.toUpperCase().trim();
@@ -148,24 +143,15 @@
 
       // Если ввели правильный код
       if (input === CORRECT_PASSWORD) {
-        // Визуальный эффект успеха
         document.body.style.backgroundColor = "#330000";
         alert("ВРАТА ОТКРЫТЫ. ДОБРО ПОЖАЛОВАТЬ В БЕЗДНУ.");
         
         // Тут будет переход на секретную страницу Сатанизма
         // window.location.href = 'satan-inner.html'; 
         
-      } 
-      // Если ввели с ошибкой (подсказка)
-      else if (input === "FAITH-ER-777" || input === "FAITHER-777") {
-        alert("ОШИБКА СИСТЕМЫ. В КОДЕ ПРИСУТСТВУЕТ СБОЙ (ER). ПОПРОБУЙТЕ УБРАТЬ ЕГО.");
-        correct.style.borderColor = "#FFAA00"; // Оранжевая рамка при подсказке
-      } 
-      // Если вообще не то
-      else {
-        alert("ДОСТУП ЗАПРЕЩЕН. ПОПЫТКА ЗАФИКСИРОВАНА.");
+      } else {
+        alert("ДОСТУП ЗАПРЕЩЕН. НЕВЕРНЫЙ КОД.");
         correct.style.borderColor = "#FF0000";
-        // Тряска поля ввода при ошибке
         correct.style.animation = "shake 0.3s";
         setTimeout(() => correct.style.animation = "", 300);
       }
