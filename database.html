@@ -8,7 +8,7 @@
     /* БАЗОВЫЕ ПЕРЕМЕННЫЕ */
     :root { 
       --bg: #050005; 
-      --main-color: #b0559e; /* Розово-малиновый из твоей базы */
+      --main-color: #b0559e; /* Розово-малиновый */
       --border-color: #b0559e; 
     }
 
@@ -16,7 +16,7 @@
     html, body { 
       margin: 0; padding: 0; width: 100%; min-height: 100vh; 
       background-color: var(--bg); box-sizing: border-box; 
-      overflow-x: hidden; /* Скрываем горизонтальную прокрутку */
+      overflow-x: hidden; 
     }
 
     body { 
@@ -24,7 +24,6 @@
       font-family: 'Courier New', Courier, monospace; 
       padding: 15px;
       
-      /* ЦЕНТРИРОВАНИЕ ВСЕХ ЭЛЕМЕНТОВ ПО ВЕРТИКАЛИ И ГОРИЗОНТАЛИ */
       display: flex; 
       flex-direction: column; 
       align-items: center; 
@@ -35,7 +34,7 @@
       animation: monitor-flicker 0.05s infinite; 
     }
 
-    /* ЭЛТ-ЭФФЕКТ (Полоски и виньетка) */
+    /* ЭЛТ-ЭФФЕКТ */
     body::before { 
       content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0; 
       background: 
@@ -56,7 +55,7 @@
 
     /* КОНТЕЙНЕР С ТЕКСТОМ */
     .terminal-container { 
-      width: 100%; max-width: 800px; /* Ограничиваем ширину для ПК */
+      width: 100%; max-width: 800px; 
       display: flex; flex-direction: column; align-items: flex-start; 
       box-sizing: border-box; text-align: left; margin-bottom: 30px;
     }
@@ -67,7 +66,7 @@
       white-space: normal; 
     }
     
-    /* Анимации появления текста (печатная машинка) */
+    /* Анимации появления текста */
     .active .line-1 { animation: typingText 1s steps(40) 0.0s forwards, fadeIn 0.1s forwards; }
     .active .line-2 { animation: typingText 1s steps(40) 1.5s forwards, fadeIn 0.1s 1.5s forwards; }
     .active .line-3 { animation: typingText 1s steps(40) 3.0s forwards, fadeIn 0.1s 3.0s forwards; }
@@ -83,7 +82,7 @@
       box-shadow: 0 0 20px rgba(0, 255, 204, 0.3), inset 0 0 15px rgba(0,255,204,0.1); 
       border-radius: 6px; padding: 20px; margin-bottom: 30px; 
       max-width: 500px; width: 100%; text-align: center; position: relative; 
-      z-index: 10; opacity: 0; animation: fadeIn 0.5s 11s forwards; /* Появляется после текста */
+      z-index: 10; opacity: 0; animation: fadeIn 0.5s 11s forwards; 
     }
 
     .stroka_statusa { color: #ffaa00; font-size: 13px; letter-spacing: 1px; margin-bottom: 10px; }
@@ -94,7 +93,7 @@
     /* КНОПКИ */
     .button-container { 
       width: 100%; display: flex; justify-content: center; flex-wrap: wrap; 
-      gap: 15px; opacity: 0; animation: fadeIn 0.5s 12s forwards; /* Появляются последними */
+      gap: 15px; opacity: 0; animation: fadeIn 0.5s 12s forwards; 
     }
 
     .terminal-btn { 
@@ -118,23 +117,24 @@
     @keyframes monitor-flicker { 0% { opacity: 0.98; } 50% { opacity: 1; } 100% { opacity: 0.99; } }
     @keyframes crt-flicker { 0% { opacity: 0.95; } 50% { opacity: 1; } 100% { opacity: 0.98; } }
 
-    /* АДАПТАЦИЯ ПОД МОБИЛЬНЫЕ */
+    /* АДАПТАЦИЯ */
     @media (max-width: 600px) { 
       h1 { white-space: normal; border: none; animation: fadeIn 0.5s forwards; font-size: 20px; }
       .terminal-btn { width: 100%; text-align: center; }
     }
-	    /* СТИЛЬ ДЛЯ ДИСКЛЕЙМЕРА */
+
+    /* ДИСКЛЕЙМЕР */
     .disclaimer {
-      margin-top: auto; /* Прижимает блок к низу экрана */
-      padding: 20px 15px 10px 15px; /* Отступы */
-      font-size: 11px; /* Маленький шрифт */
-      color: rgba(176, 85, 158, 0.6); /* Полупрозрачный цвет (под цвет твоей темы) */
+      margin-top: auto; 
+      padding: 20px 15px 10px 15px; 
+      font-size: 11px; 
+      color: rgba(176, 85, 158, 0.6); 
       text-align: center;
       letter-spacing: 1px;
       max-width: 800px;
       line-height: 1.4;
       opacity: 0;
-      animation: fadeIn 1s 15s forwards; /* Появится только в самом конце (через 15 секунд) */
+      animation: fadeIn 1s 15s forwards; 
     }
   </style>
 </head>
@@ -164,11 +164,14 @@
 
   <!-- КНОПКИ -->
   <div class="button-container">
-    <button class="terminal-btn" onclick="window.location.href='level13.html'">[ ПОДКЛЮЧИТЬСЯ К ТЕРМИНАЛУ ]</button>
+    <!-- КНОПКА ВХОДА (Ведет на login.html) -->
+    <a href="login.html" class="terminal-btn">[ ВОЙТИ В СИСТЕМУ ]</a>
+    
+    <!-- КНОПКА USOV -->
     <a href="master-usov/usov_s1.html" class="terminal-btn btn-usov">[ ПЕРЕЙТИ В USOV ]</a>
   </div>
   
-    <!-- ДИСКЛЕЙМЕР -->
+  <!-- ДИСКЛЕЙМЕР -->
   <div class="disclaimer">
     This is a work of fiction. All characters, organizations (including USOV, SDP, AFT), anomalies, and events are fictitious. Any resemblance to actual events or organizations is purely coincidental. This is an ARG (Alternate Reality Game) / art project.
   </div>
@@ -177,7 +180,6 @@
     // ЛОГИКА ТАЙМЕРА
     const data_starta = new Date("2026-12-01T00:00:00").getTime();
     
-    // Функция обновления таймера
     function updateTimer() {
       const seychas = new Date().getTime();
       const ostatok = data_starta - seychas;
@@ -193,7 +195,7 @@
         t1.style.color = "#00ff66";
         t2.innerHTML = "ДОСТУП ОТКРЫТ";
         t2.style.color = "#00ff66";
-        return false; // Останавливаем
+        return false; 
       }
       
       const d = Math.floor(ostatok / (1000 * 60 * 60 * 24));
@@ -207,12 +209,10 @@
       return true;
     }
 
-    // Запускаем интервал
     const interval = setInterval(() => {
       if (!updateTimer()) clearInterval(interval);
     }, 1000);
     
-    // Первый запуск (чтобы не ждать секунду)
     updateTimer();
   </script>
 
