@@ -134,7 +134,12 @@
     // ЛОГИКА ПРОВЕРКИ ПАРОЛЯ
     // ==========================================
     
-    // ПРАВИЛЬНЫЙ ПАРОЛЬ
+     <script>
+    // ==========================================
+    // ЛОГИКА ПРОВЕРКИ ПАРОЛЯ
+    // ==========================================
+    
+    // ПРАВИЛЬНЫЙ ПАРОЛЬ (Без ошибки ER)
     const CORRECT_PASSWORD = "SATAN"; 
 
     function checkSatanPass() {
@@ -146,10 +151,11 @@
         document.body.style.backgroundColor = "#330000";
         alert("ВРАТА ОТКРЫТЫ. ДОБРО ПОЖАЛОВАТЬ В БЕЗДНУ.");
         
-        // Тут будет переход на секретную страницу Сатанизма
-        // window.location.href = 'satan-inner.html'; 
+        // ПЕРЕХОД НА СТРАНИЦУ БЕЗДНЫ
+        window.location.href = 'satan-inner.html'; 
         
       } else {
+        // Если код неверный
         alert("ДОСТУП ЗАПРЕЩЕН. НЕВЕРНЫЙ КОД.");
         correct.style.borderColor = "#FF0000";
         correct.style.animation = "shake 0.3s";
