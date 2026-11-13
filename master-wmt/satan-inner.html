@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>БЕЗДНА // ВРАТА ОТКРЫТЫ</title>
+  <style>
+    /* БАЗОВЫЕ ПЕРЕМЕННЫЕ */
+    :root { 
+      --bg: #050000; /* Почти черный с красным оттенком */
+      --main-color: #FF0000; 
+      --text-color: #FF3333; 
+    }
+
+    html, body { 
+      margin: 0; padding: 0; width: 100%; min-height: 100vh; 
+      background-color: var(--bg); box-sizing: border-box; overflow: hidden;
+    }
+
+    body { 
+      color: var(--main-color); font-family: 'Courier New', Courier, monospace; 
+      display: flex; flex-direction: column; align-items: center; justify-content: center; 
+      text-shadow: 0 0 10px var(--main-color); 
+      position: relative;
+      padding: 20px;
+      
+      /* Жесткая тряска всего экрана */
+      animation: shake-hard 0.15s infinite; 
+    }
+
+    /* ЭЛТ-ЭФФЕКТ (Полоски и виньетка) */
+    body::before { 
+      content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0; 
+      background: 
+        radial-gradient(circle, rgba(0,0,0,0) 30%, rgba(0,0,0,1) 100%), 
+        linear-gradient(rgba(0,0,0,0) 50%, rgba(255,0,0,0.15) 50%); 
+      background-size: 100% 100%, 100% 4px; 
+      z-index: 9999; pointer-events: none; 
+      animation: crt-flicker 0.1s infinite; 
+    }
+
+    /* ЗАГОЛОВОК С ГЛИТЧЕМ */
+    h1 { 
+      font-size: 50px; text-transform: uppercase; letter-spacing: 10px; 
+      color: #FFF; margin-bottom: 20px;
+      text-shadow: 3px 0 red, -3px 0 blue;
+      animation: glitch-text 0.5s infinite linear alternate-reverse;
+    }
+
+    /* ТЕКСТ */
+    .content-box {
+      max-width: 700px; 
+      background: rgba(50, 0, 0, 0.3);
+      border: 2px solid var(--main-color);
+      padding: 30px;
+      box-shadow: 0 0 50px rgba(255, 0, 0, 0.4), inset 0 0 20px rgba(255, 0, 0, 0.2);
+      text-align: center;
+      position: relative;
+    }
+
+    .content-box p {
+      font-size: 18px; line-height: 1.8; color: var(--text-color);
+      margin-bottom: 20px;
+    }
+    
+    .content-box b {
+      color: #FFF; text-shadow: 0 0 10px #FFF;
+    }
+
+    /* КНОПКА ВОЗВРАТА */
+    .btn-back { 
+      margin-top: 40px; 
+      background: transparent; color: #FF0000; 
+      border: 2px solid #FF0000; padding: 12px 30px; 
+      font-family: 'Courier New', monospace; font-size: 16px; font-weight: bold;
+      cursor: pointer; text-transform: uppercase; transition: 0.3s;
+      text-decoration: none;
+      box-shadow: 0 0 15px rgba(255,0,0,0.3);
+    }
+    .btn-back:hover { 
+      background: #FF0000; color: #000; box-shadow: 0 0 40px #FF0000; 
+    }
+
+    /* АНИМАЦИИ */
+    @keyframes crt-flicker { 0% { opacity: 0.9; } 50% { opacity: 1; } 100% { opacity: 0.95; } }
+    
+    @keyframes shake-hard { 
+      0% { transform: translate(0,0); } 
+      25% { transform: translate(-2px, 2px); } 
+      50% { transform: translate(2px, -2px); } 
+      75% { transform: translate(-1px, -1px); } 
+      100% { transform: translate(1px, 1px); } 
+    }
+    
+    @keyframes glitch-text {
+      0% { text-shadow: 3px 0 red, -3px 0 blue; transform: translate(0); }
+      25% { text-shadow: -3px 0 red, 3px 0 blue; transform: translate(-2px, 1px); }
+      50% { text-shadow: 3px 0 blue, -3px 0 red; transform: translate(2px, -1px); }
+      75% { text-shadow: -3px 0 blue, 3px 0 red; transform: translate(-1px, -2px); }
+      100% { text-shadow: 3px 0 red, -3px 0 blue; transform: translate(1px, 2px); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>БЕЗДНА</h1>
+
+  <div class="content-box">
+    <p><b>ВРАТА ОТКРЫТЫ.</b></p>
+    <p>Ты собрал имя. Ты произнес его. Теперь <b>Он</b> знает, что ты здесь.</p>
+    <p>Здесь нет религии. Нет планет. Нет зодиаков. Здесь только пустота, которая смотрит на тебя в ответ.</p>
+    <p style="font-size: 14px; color: #880000; margin-top: 30px;">[ ДАННЫЕ ФАЙЛА ПОВРЕЖДЕНЫ ]<br>[ ДАЛЬНЕЙШЕЕ ОПИСАНИЕ НЕДОСТУПНО ]</p>
+  </div>
+
+  <a href="../level13.html" class="btn-back">&lt;&lt; СБЕЖАТЬ В ХАБ</a>
+
+</body>
+</html>
