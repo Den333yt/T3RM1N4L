@@ -1,4 +1,4 @@
-# T3RM1N4L
+#T3RM1N4L
 ANOMALY ARG GAME
 OPENSOURCE 
 This is an ARG (Alternate Reality Game) / art project. All characters and organizations are fictitious.
@@ -10,3 +10,5 @@ All the data, countries, offices, agents, and everything that happens in the gam
 I ask you not to copy, but to view and observe how a beginner learns to write code. Thank you for understanding. I'm trying very hard, but it's a bit difficult for me.
 
 by.DEN333YT :}
+
+V1.0 - Добавлены новые терминалы новый лор. Лор можно найти будет на сайте или в оффициальном Discord канале
