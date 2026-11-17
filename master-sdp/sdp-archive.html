@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SDP-2 // МЕДИА-АРХИВ</title>
+  <style>
+    /* СТИЛЬ SDP-2 (Бирюзовый) */
+    :root { --bg: #050005; --main: #00CED1; --border: #00CED1; --panel: rgba(0,206,209,0.05); }
+    html, body { margin: 0; padding: 0; width: 100%; min-height: 100vh; background: var(--bg); color: var(--main); font-family: 'Courier New', Courier, monospace; box-sizing: border-box; }
+    body { padding: 20px; display: flex; flex-direction: column; align-items: center; animation: flicker 0.05s infinite; overflow-x: hidden; }
+    body::before { content: " "; position: fixed; inset: 0; background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.25) 50%); background-size: 100% 4px; z-index: 9999; pointer-events: none; }
+    
+    h1 { text-transform: uppercase; letter-spacing: 3px; border-bottom: 2px dashed var(--border); padding-bottom: 10px; text-align: center; font-size: 24px; }
+    .container { width: 100%; max-width: 900px; margin-top: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+    
+    .card { background: var(--panel); border: 1px solid var(--border); padding: 20px; text-align: center; transition: 0.3s; display: flex; flex-direction: column; }
+    .card:hover { box-shadow: 0 0 20px rgba(0,206,209,0.5); transform: translateY(-5px); border-color: #FFF; }
+    .card i { font-size: 40px; margin-bottom: 10px; }
+    .card h3 { text-transform: uppercase; margin: 0 0 10px 0; font-size: 16px; }
+    .card p { font-size: 13px; color: #888; flex-grow: 1; margin-bottom: 15px; }
+    .card a { display: block; padding: 10px; border: 1px solid var(--border); color: var(--main); text-decoration: none; text-transform: uppercase; font-weight: bold; font-size: 13px; transition: 0.3s; }
+    .card a:hover { background: var(--main); color: #000; box-shadow: 0 0 15px var(--main); }
+    
+    .back { margin-top: 40px; padding: 12px 24px; background: transparent; border: 2px solid var(--main); color: var(--main); text-decoration: none; font-weight: bold; text-transform: uppercase; transition: 0.3s; }
+    .back:hover { background: var(--main); color: #000; box-shadow: 0 0 20px var(--main); }
+    @keyframes flicker { 0% { opacity: 0.98; } 50% { opacity: 1; } 100% { opacity: 0.99; } }
+  </style>
+</head>
+<body>
+  <h1>МЕДИА-АРХИВ SDP-2</h1>
+  <p style="color:#888; text-align:center;">// РАСШИФРОВАННЫЕ ФАЙЛЫ ИЗ ХРАНИЛИЩА //</p>
+
+  <div class="container">
+    <!-- ФОТО -->
+    <div class="card">
+      <i>📷</i>
+      <h3>ФОТО-ОТЧЁТ</h3>
+      <p>Снимок ядра QWERTY. Сектор 0-1S. Дата: 12.11.2026.</p>
+      <!-- ВСТАВЬ СВОЮ КАРТИНКУ В HREF -->
+      <a href="../IMG_20261112_002409.jpg" target="_blank">[ ОТКРЫТЬ ]</a>
+    </div>
+
+    <!-- ВИДЕО -->
+    <div class="card">
+      <i>📹</i>
+      <h3>ВИДЕО-ЗАПИСЬ</h3>
+      <p>Запись аномальной активности в секторе SDP-2.</p>
+      <!-- ВСТАВЬ СВОЁ ВИДЕО В HREF -->
+      <a href="../video_2026-11-12_15-47-02.mp4" target="_blank">[ ОТКРЫТЬ ]</a>
+    </div>
+
+    <!-- АУДИО -->
+    <div class="card">
+      <i>🎙️</i>
+      <h3>АУДИО-ПЕРЕХВАТ</h3>
+      <p>Зашифрованная передача агентов. Требуется дешифратор.</p>
+      <a href="#" onclick="alert('АУДИО-ФАЙЛ ЗАШИФРОВАН. ДОСТУП ЗАПРЕЩЁН.')">[ ОТКРЫТЬ ]</a>
+    </div>
+
+    <!-- СХЕМА -->
+    <div class="card">
+      <i>📐</i>
+      <h3>СХЕМА СВЯЗЕЙ</h3>
+      <p>Карта переходов между секторами терминала.</p>
+      <a href="#" onclick="alert('СХЕМА ОБНОВЛЯЕТСЯ. ЖДИТЕ.')">[ ОТКРЫТЬ ]</a>
+    </div>
+  </div>
+
+  <!-- Кнопка возврата -->
+  <a href="sector.html" class="back">&lt;&lt; НАЗАД В СЕКТОР</a>
+</body>
+</html>
