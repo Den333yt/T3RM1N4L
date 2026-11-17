@@ -16,14 +16,14 @@
     @keyframes blink { from, to { border-color: transparent; } 50% { border-color: #b0559e; } }
     @keyframes monitor-flicker { 0% { opacity: 0.96; } 50% { opacity: 1; } 100% { opacity: 0.97; } }
     @keyframes fadeInButton { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-       body.started .line-1 { animation: typing 1.0s steps(30) 0.0s forwards, blink 0.5s step-end 1.0s 2; }
-    body.started .line-2 { animation: typing 1.0s steps(30) 1.2s forwards, blink 0.5s step-end 1.2s 2; }
-    body.started .line-3 { animation: typing 1.0s steps(30) 1.5s forwards, blink 0.5s step-end 1.5s 2; }
-    body.started .line-4 { animation: typing 1.0s steps(30) 2s forwards, blink 0.5s step-end 2s 2; }
-    body.started .line-5 { animation: typing 1.0s steps(30) 2.2s forwards, blink 0.5s step-end 2.5s 2; }
-    body.started .line-6 { animation: typing 1.0s steps(30) 2.5s forwards, blink 0.5s step-end 3s 2; }
-    body.started .line-7 { animation: typing 1.0s steps(30) 3s forwards, blink 0.5s step-end 3.2s 2; }
-    body.started .line-8 { animation: typing 1.0s steps(30) 3s forwards, blink 0.5s step-end 3.5s 2; }
+       body.started .line-1 { animation: typing 1.0s steps(30) 0.0s forwards, blink 0.5s step-end 0.0s 2; }
+    body.started .line-2 { animation: typing 1.0s steps(30) 1.2s forwards, blink 0.5s step-end 0.5s 2; }
+    body.started .line-3 { animation: typing 1.0s steps(30) 1.5s forwards, blink 0.5s step-end 1.0s 2; }
+    body.started .line-4 { animation: typing 1.0s steps(30) 2s forwards, blink 0.5s step-end 1.2s; }
+    body.started .line-5 { animation: typing 1.0s steps(30) 2.2s forwards, blink 0.5s step-end 1.5s 2; }
+    body.started .line-6 { animation: typing 1.0s steps(30) 2.5s forwards, blink 0.5s step-end 2s 2; }
+    body.started .line-7 { animation: typing 1.0s steps(30) 2.7s forwards, blink 0.5s step-end 2.2s 2; }
+    body.started .line-8 { animation: typing 1.0s steps(30) 3s forwards, blink 0.5s step-end 2.5s 2; }
     body.started .terminal-btn { animation: fadeInButton 0.4s ease-out 3.5s forwards; }
     .button-container { width: 100%; display: flex; justify-content: center; margin-top: 20px; clear: both; }
     .terminal-btn { padding: 12px 24px; background-color: transparent; color: #b0559e; border: 2px solid #b0559e; font-family: 'Courier New', Courier, monospace; font-size: 15px; font-weight: bold; cursor: pointer; text-shadow: 0 0 4px #b0559e; opacity: 0; box-shadow: 0 0 10px rgba(176,85,158,0.2); transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; }
