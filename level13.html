@@ -11,7 +11,8 @@
     
     .terminal-container { width: 100%; max-width: 100%; display: block; box-sizing: border-box; text-align: left; margin-bottom: auto; }
     
-    h1 { font-size: 24px; text-transform: uppercase; border-bottom: 2px dashed #b0559e; padding-bottom: 10px; margin: 0 auto 25px auto; letter-spacing: 2px; text-shadow: 0 0 6px #b0559e; text-align: center; width: max-content; max-width: 100%; overflow: hidden; white-space: nowrap; border-right: 2px solid transparent; animation: typingTitle 1.5s steps(20) 0.2s forwards, blinkCursor 0.8s step-end infinite; }
+    /* Заголовок ускорен (было 1.5s, стало 0.75s) */
+    h1 { font-size: 24px; text-transform: uppercase; border-bottom: 2px dashed #b0559e; padding-bottom: 10px; margin: 0 auto 25px auto; letter-spacing: 2px; text-shadow: 0 0 6px #b0559e; text-align: center; width: max-content; max-width: 100%; overflow: hidden; white-space: nowrap; border-right: 2px solid transparent; animation: typingTitle 0.75s steps(20) 0.1s forwards, blinkCursor 0.5s step-end infinite; }
     
     .line-wrapper { width: 100%; max-width: 100%; display: block; margin-bottom: 14px; box-sizing: border-box; }
     .content-text { opacity: 0; white-space: normal; word-break: break-word; font-size: 17px; display: inline-block; max-width: 100%; overflow: hidden; border-right: 3px solid transparent; line-height: 1.5; text-shadow: 0 0 4px #b0559e; }
@@ -21,8 +22,8 @@
     @keyframes inlineRGB { to { background-position: 200% center; } }
     @media (min-width: 768px) { body { padding: 30px; } h1 { font-size: 28px; } .content-text { white-space: nowrap; font-size: 18px; } }
     
-    /* КНОПКИ */
-    .button-container { width: 100%; display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-top: 25px; opacity: 0; box-sizing: border-box; animation: fadeInButton 0.6s ease-out 7.0s forwards; }
+    /* Кнопки ускорены (выезжают на 4.2с вместо 7.0с) */
+    .button-container { width: 100%; display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-top: 25px; opacity: 0; box-sizing: border-box; animation: fadeInButton 0.4s ease-out 4.2s forwards; }
     
     .terminal-btn { display: inline-block; padding: 12px 28px; background-color: transparent; border: 2px solid; font-family: 'Courier New', Courier, monospace; font-size: 16px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; text-decoration: none; cursor: pointer; transition: all 0.3s ease; text-align: center; box-sizing: border-box; max-width: 100%; }
     
@@ -41,12 +42,12 @@
     .btn-orange { color: #FF8C00; border-color: #FF8C00; box-shadow: 0 0 10px rgba(255,140,0,0.2); text-shadow: 0 0 4px #FF8C00; }
     .btn-orange:hover { background-color: #FF8C00; color: #050005; box-shadow: 0 0 25px rgba(255,140,0,0.6); text-shadow: none; }
 
-    /* АНИМАЦИИ */
-    .line-1 { animation: typing 1.2s steps(40) 0.0s forwards, blink 0.5s step-end 1.2s 1; }
-    .line-2 { animation: typing 1.2s steps(40) 1.5s forwards, blink 0.5s step-end 2.7s 1; }
-    .line-3 { animation: typing 1.2s steps(40) 3.0s forwards, blink 0.5s step-end 4.2s 1; }
-    .line-4 { animation: typing 1.2s steps(40) 4.5s forwards, blink 0.8s step-end 5.7s 1; }
-    .line-5 { animation: typing 1.2s steps(40) 6.0s forwards, blink 0.8s step-end 7.2s 1; }
+    /* Анимации строк ускорены в 2 раза (было 1.2s и задержки 1.5, 3.0, 4.5, 6.0) */
+    .line-1 { animation: typing 0.6s steps(40) 0.0s forwards, blink 0.3s step-end 0.6s 1; }
+    .line-2 { animation: typing 0.6s steps(40) 0.8s forwards, blink 0.3s step-end 1.4s 1; }
+    .line-3 { animation: typing 0.6s steps(40) 1.5s forwards, blink 0.3s step-end 2.1s 1; }
+    .line-4 { animation: typing 0.6s steps(40) 2.3s forwards, blink 0.4s step-end 2.9s 1; }
+    .line-5 { animation: typing 0.6s steps(40) 3.0s forwards, blink 0.4s step-end 3.6s 1; }
     
     @keyframes typingTitle { from { max-width: 0; } to { max-width: 100%; } }
     @keyframes blinkCursor { 50% { border-color: #b0559e; } }
@@ -55,9 +56,9 @@
     @keyframes monitor-flicker { 0% { opacity: 0.98; } 50% { opacity: 1; } 100% { opacity: 0.99; } }
     @keyframes fadeInButton { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     
-    /* ДИСКЛЕЙМЕР */
+    /* Дисклеймер ускорен (появляется на 5.0с вместо 9с) */
     @keyframes showDisclaimer { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 0.4; transform: translateY(0); } }
-    .disclaimer { width: 100%; text-align: center; margin-top: 50px; padding-bottom: 20px; pointer-events: none; font-size: 11px; color: #888; letter-spacing: 1px; opacity: 0; animation: showDisclaimer 1s ease-out 9s forwards; }
+    .disclaimer { width: 100%; text-align: center; margin-top: 50px; padding-bottom: 20px; pointer-events: none; font-size: 11px; color: #888; letter-spacing: 1px; opacity: 0; animation: showDisclaimer 0.5s ease-out 5.0s forwards; }
     
     @media (max-width: 500px) { h1 { white-space: normal; animation: fadeInButton 0.5s forwards; border: none; } }
   </style>
@@ -72,7 +73,7 @@
       <div class="line-wrapper" style="margin-top: 15px;"><div class="content-text line-4" style="color: #803d73;">- [ ТЕРМИНАЛ СТАБИЛЕН. ОЖИДАНИЕ ВЫБОРА... ]</div></div>
       <div class="line-wrapper"><div class="content-text line-5"><span class="rgb-text">-[Д0СТ7П Р4ЗРЕШ3Н]</span>.</div></div>
       
-      <!-- КНОПКИ ИЗ ВТОРОГО ФАЙЛА -->
+      <!-- КНОПКИ -->
       <div class="button-container">
         <a href="master-usov/usov_s1.html" class="terminal-btn btn-orange">[ USOV ]</a>
         <a href="master-wmt/wmt.html" class="terminal-btn btn-gold">[ WMT ]</a>
