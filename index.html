@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QWERTY DARK ARCHIVE</title>
-  <style>
+   <style>
     html, body { margin: 0; padding: 0; width: 100%; min-height: 100%; background-color: #050005; box-sizing: border-box; }
     body { padding: 15px; color: #b0559e; font-family: 'Courier New', Courier, monospace; position: relative; animation: monitor-flicker 0.15s infinite; overflow-x: hidden; }
     body::before { content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0; background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.4) 50%); background-size: 100% 4px; z-index: 9999; pointer-events: none; }
@@ -16,7 +16,9 @@
     @keyframes blink { from, to { border-color: transparent; } 50% { border-color: #b0559e; } }
     @keyframes monitor-flicker { 0% { opacity: 0.96; } 50% { opacity: 1; } 100% { opacity: 0.97; } }
     @keyframes fadeInButton { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-       body.started .line-1 { animation: typing 0.5s steps(30) 0.0s forwards, blink 0.5s step-end 0.0s 2; }
+    
+    /* БЫСТРЫЕ СТРОКИ */
+    body.started .line-1 { animation: typing 0.5s steps(30) 0.0s forwards, blink 0.5s step-end 0.0s 2; }
     body.started .line-2 { animation: typing 1s steps(30) 1s forwards, blink 0.5s step-end 0.5s 2; }
     body.started .line-3 { animation: typing 1s steps(30) 2s forwards, blink 0.5s step-end 1.0s 2; }
     body.started .line-4 { animation: typing 1s steps(30) 3s forwards, blink 0.5s step-end 1.2s; }
@@ -24,11 +26,17 @@
     body.started .line-6 { animation: typing 0.5s steps(30) 4s forwards, blink 0.5s step-end 2s 2; }
     body.started .line-7 { animation: typing 0.5s steps(30) 4.5s forwards, blink 0.5s step-end 2.2s 2; }
     body.started .line-8 { animation: typing 0.5s steps(30) 5s forwards, blink 0.5s step-end 2.5s 2; }
-    body.started .terminal-btn { animation: fadeInButton 0.4s ease-out 2s forwards; }
+    
+    /* Кнопки и их контейнер */
     .button-container { width: 100%; display: flex; justify-content: center; margin-top: 20px; clear: both; }
     .terminal-btn { padding: 12px 24px; background-color: transparent; color: #b0559e; border: 2px solid #b0559e; font-family: 'Courier New', Courier, monospace; font-size: 15px; font-weight: bold; cursor: pointer; text-shadow: 0 0 4px #b0559e; opacity: 0; box-shadow: 0 0 10px rgba(176,85,158,0.2); transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; }
-    body.started .terminal-btn { animation: fadeInButton 0.6s ease-out 8.2s forwards; }
+    
+    /* ВОТ ЗДЕСЬ ОДНА ЕДИНСТВЕННАЯ СТРОКА ДЛЯ КНОПКИ (выезжает на 5.5с) */
+    body.started .terminal-btn { animation: fadeInButton 0.4s ease-out 5.5s forwards; }
+    
     .terminal-btn:hover { background-color: #b0559e; color: #050005; box-shadow: 0 0 25px rgba(176,85,158,0.6); text-shadow: none; }
+    
+    /* Оверлей */
     #boot-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #050005; z-index: 10000; display: flex; justify-content: center; align-items: center; cursor: pointer; }
     .boot-text { font-family: 'Courier New', Courier, monospace; font-size: 16px; color: #b0559e; text-shadow: 0 0 8px #b0559e; animation: blink 0.8s step-end infinite; text-align: center; padding: 0 20px; }
   </style>
