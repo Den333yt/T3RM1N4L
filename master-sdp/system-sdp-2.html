@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SDP-2 // СИСТЕМНЫЙ ПАСПОРТ</title>
+  <style>
+    /* БАЗОВЫЙ СТИЛЬ SDP-2 */
+    :root { 
+      --bg: #050005; 
+      --main: #00CED1; 
+      --border: #00CED1; 
+      --panel: rgba(0,206,209,0.05);
+      --warn: #FFD700;
+      --danger: #FF4500;
+    }
+    html, body { 
+      margin: 0; padding: 0; width: 100%; min-height: 100vh; 
+      background: var(--bg); color: var(--main); 
+      font-family: 'Courier New', Courier, monospace; box-sizing: border-box; 
+    }
+    body { 
+      padding: 20px; display: flex; flex-direction: column; align-items: center; 
+      animation: flicker 0.05s infinite; overflow-x: hidden; 
+    }
+    body::before { 
+      content: " "; position: fixed; inset: 0; 
+      background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.25) 50%); 
+      background-size: 100% 4px; z-index: 9999; pointer-events: none; 
+    }
+    
+    h1 { 
+      text-transform: uppercase; letter-spacing: 3px; 
+      border-bottom: 2px dashed var(--border); padding-bottom: 10px; 
+      text-align: center; font-size: 24px; text-shadow: 0 0 10px var(--main); 
+      width: 100%; max-width: 800px;
+    }
+    .subtitle { color: #888; text-align: center; margin-bottom: 30px; font-size: 14px; letter-spacing: 2px; }
+
+    /* КОНТЕЙНЕР ДОСЬЕ */
+    .dossier { 
+      width: 100%; max-width: 800px; 
+      background: var(--panel); border: 1px solid var(--border); 
+      box-shadow: 0 0 20px rgba(0,206,209,0.2); padding: 30px; 
+      position: relative; 
+    }
+    
+    /* Шапка досье */
+    .dossier-header { 
+      display: flex; justify-content: space-between; align-items: center; 
+      border-bottom: 2px solid var(--main); padding-bottom: 15px; margin-bottom: 20px; 
+    }
+    .dossier-header h2 { margin: 0; font-size: 22px; color: #FFF; text-transform: uppercase; }
+    .status-badge { 
+      background: rgba(0,250,154,0.1); color: #00FA9A; 
+      border: 1px solid #00FA9A; padding: 5px 10px; font-weight: bold; font-size: 12px; 
+      letter-spacing: 1px; box-shadow: 0 0 10px rgba(0,250,154,0.3); 
+    }
+
+    /* Таблица с данными */
+    .info-grid { 
+      display: grid; grid-template-columns: 1fr; gap: 15px; 
+    }
+    @media (min-width: 600px) { .info-grid { grid-template-columns: 1fr 1fr; } }
+    
+    .info-item { 
+      border-bottom: 1px dashed rgba(0,206,209,0.3); padding-bottom: 10px; 
+    }
+    .info-label { 
+      font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; 
+    }
+    .info-value { 
+      font-size: 16px; color: #FFF; font-weight: bold; text-shadow: 0 0 5px rgba(255,255,255,0.3); 
+    }
+    .info-value.danger { color: var(--danger); text-shadow: 0 0 5px rgba(255,69,0,0.5); }
+    .info-value.warn { color: var(--warn); text-shadow: 0 0 5px rgba(255,215,0,0.5); }
+
+    /* Предупреждение */
+    .warning-box { 
+      margin-top: 30px; padding: 15px; 
+      border: 1px solid var(--danger); background: rgba(255,69,0,0.05); 
+      color: var(--danger); font-size: 13px; line-height: 1.5; text-align: justify;
+    }
+    .warning-box strong { text-transform: uppercase; }
+
+    /* Кнопка возврата */
+    .back { 
+      margin-top: 40px; padding: 12px 24px; 
+      background: transparent; border: 2px solid var(--main); 
+      color: var(--main); text-decoration: none; font-weight: bold; 
+      text-transform: uppercase; transition: 0.3s; 
+    }
+    .back:hover { background: var(--main); color: #000; box-shadow: 0 0 20px var(--main); }
+    
+    @keyframes flicker { 0% { opacity: 0.98; } 50% { opacity: 1; } 100% { opacity: 0.99; } }
+  </style>
+</head>
+<body>
+
+  <h1>СИСТЕМНЫЙ ПАСПОРТ ТЕРМИНАЛА</h1>
+  <p class="subtitle">// ДОСЬЕ НА СЕКТОР SDP-2 //</p>
+
+  <div class="dossier">
+    <div class="dossier-header">
+      <h2>Сектор SDP-2</h2>
+      <div class="status-badge">СТАТУС: АКТИВЕН</div>
+    </div>
+
+    <div class="info-grid">
+      <!-- 1. Год создания -->
+      <div class="info-item">
+        <div class="info-label">Год создания</div>
+        <div class="info-value">2026 (Эра Скорпиона)</div>
+      </div>
+
+      <!-- 2. Создатель / Издатель -->
+      <div class="info-item">
+        <div class="info-label">Издатель / Создатель</div>
+        <div class="info-value">Qwerty Studio (Хозяин: Скорпион)</div>
+      </div>
+
+      <!-- 3. Страна / Локация -->
+      <div class="info-item">
+        <div class="info-label">Страна / Локация</div>
+        <div class="info-value">Сектор 0-1S (Внешний Архив)</div>
+      </div>
+
+      <!-- 4. Назначение -->
+      <div class="info-item">
+        <div class="info-label">Назначение</div>
+        <div class="info-value">Хранение аномалий и логов QWERTY</div>
+      </div>
+
+      <!-- 5. Ядро системы -->
+      <div class="info-item">
+        <div class="info-label">Ядро системы</div>
+        <div class="info-value danger">Квантовое ядро "QWERTY-91X"</div>
+      </div>
+
+      <!-- 6. Энергопотребление -->
+      <div class="info-item">
+        <div class="info-label">Энергопотребление</div>
+        <div class="info-value warn">ВНЕШТАТНОЕ (Скачки до 2050 В)</div>
+      </div>
+
+      <!-- 7. Уровень доступа -->
+      <div class="info-item">
+        <div class="info-label">Требуемый уровень доступа</div>
+        <div class="info-value">3 (Агент Qwerty)</div>
+      </div>
+
+      <!-- 8. Время автономной работы -->
+      <div class="info-item">
+        <div class="info-label">Время автономной работы</div>
+        <div class="info-value">Бесконечно (при наличии ключа)</div>
+      </div>
+    </div>
+
+    <div class="warning-box">
+      <strong>⚠ ВНИМАНИЕ:</strong> Терминал SDP-2 подключен к Ядру QWERTY. Зафиксированы случаи временных петель и искажения данных. При обнаружении файлов с датой "2050 год" немедленно сообщите в Главный Штаб (O-1S). Не пытайтесь открыть зашифрованные файлы без кода доступа.
+    </div>
+  </div>
+
+  <a href="sector.html" class="back">&lt;&lt; НАЗАД В СЕКТОР</a>
+
+</body>
+</html>
