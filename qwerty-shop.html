@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QWERTY.SHOP // УСЛУГИ T3RM1N4L</title>
+  <style>
+    :root {
+      --bg: #050005;
+      --main-color: #00FA9A;
+      --border-color: #00FA9A;
+      --panel-bg: rgba(0, 20, 10, 0.7);
+      --text-white: #ffffff;
+      --premium: #FFD700;
+      --lock: #9B59B6;
+    }
+
+    html, body {
+      margin: 0; padding: 0; width: 100%; min-height: 100vh;
+      background-color: var(--bg); box-sizing: border-box;
+      font-family: 'Courier New', Courier, monospace;
+      color: var(--main-color);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0;
+      background:
+        radial-gradient(circle, rgba(0,0,0,0) 50%, rgba(0,0,0,0.9) 100%),
+        linear-gradient(rgba(0, 20, 10, 0) 50%, rgba(0,0,0,0.25) 50%);
+      background-size: 100% 100%, 100% 4px;
+      z-index: 9999; pointer-events: none;
+      animation: crt-flicker 0.15s infinite;
+    }
+
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 40px;
+      border-bottom: 2px dashed var(--border-color);
+      background: rgba(0,0,0,0.85);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .logo {
+      font-size: 24px; font-weight: bold; letter-spacing: 3px;
+      text-shadow: 0 0 10px var(--main-color);
+      text-transform: uppercase;
+    }
+    .nav-links {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 20px;
+    }
+    .nav-links a {
+      color: var(--main-color); text-decoration: none;
+      font-size: 14px; text-transform: uppercase; transition: 0.3s;
+    }
+    .nav-links a:hover { text-shadow: 0 0 15px var(--main-color); }
+
+    .hero {
+      text-align: center; padding: 80px 20px;
+      border-bottom: 1px solid var(--border-color);
+      background: linear-gradient(180deg, rgba(0,250,154,0.05) 0%, transparent 100%);
+    }
+    .hero h1 {
+      font-size: clamp(30px, 6vw, 50px); margin: 0; letter-spacing: 5px;
+      text-shadow: 0 0 20px var(--main-color);
+      border-right: 2px solid var(--main-color);
+      display: inline-block; padding-right: 6px;
+      animation: blink-cursor 0.4s step-end infinite;
+    }
+    .hero p { font-size: 16px; color: #888; margin-top: 15px; }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+      padding: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .product-card {
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      padding: 25px;
+      position: relative;
+      transition: 0.3s;
+      display: flex; flex-direction: column;
+      box-shadow: 0 0 15px rgba(0,250,154,0.1);
+    }
+    .product-card:hover {
+      box-shadow: 0 0 30px rgba(0,250,154,0.4);
+      transform: translateY(-5px);
+      border-color: #FFF;
+    }
+
+    .product-icon {
+      width: 150px; height: 150px;
+      margin: 0 auto 15px auto;
+      border: 2px solid var(--border-color);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 60px; color: var(--main-color);
+      text-shadow: 0 0 15px var(--main-color);
+      background: linear-gradient(180deg, rgba(0,250,154,0.1) 0%, transparent 100%);
+      transition: 0.3s;
+    }
+    .product-card:hover .product-icon {
+      border-color: #FFF;
+      box-shadow: 0 0 20px var(--main-color);
+    }
+
+    .premium-badge {
+      position: absolute; top: 10px; right: 10px;
+      background: var(--premium); color: #000; padding: 2px 8px;
+      font-size: 10px; font-weight: bold; border-radius: 4px;
+    }
+    .lock-badge {
+      position: absolute; top: 10px; left: 10px;
+      color: var(--lock); font-size: 18px;
+      text-shadow: 0 0 10px var(--lock);
+    }
+
+    .product-title {
+      font-size: 20px; font-weight: bold; text-transform: uppercase;
+      margin: 0 0 10px 0; color: var(--text-white);
+      text-shadow: 0 0 5px var(--main-color);
+      text-align: center;
+    }
+    .product-desc {
+      font-size: 14px; color: #AAA; margin-bottom: 20px; line-height: 1.5;
+      flex-grow: 1; text-align: center;
+    }
+    .product-price {
+      font-size: 24px; color: var(--main-color); font-weight: bold;
+      margin-bottom: 15px; text-shadow: 0 0 10px var(--main-color);
+      text-align: center;
+    }
+
+    .buy-btn {
+      background: transparent; color: var(--main-color);
+      border: 2px solid var(--main-color);
+      padding: 12px 20px; font-family: 'Courier New', monospace;
+      font-size: 14px; font-weight: bold; text-transform: uppercase;
+      cursor: pointer; transition: 0.3s; width: 100%;
+    }
+    .buy-btn:hover {
+      background: var(--main-color); color: #000;
+      box-shadow: 0 0 20px var(--main-color);
+    }
+    .buy-btn:active { transform: scale(0.97); }
+
+    /* НЕОНОВОЕ МОДАЛЬНОЕ ОКНО ТЕРМИНАЛА */
+    .term-modal-overlay {
+      display: none;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 2000;
+      justify-content: center; align-items: center;
+      padding: 20px;
+    }
+    .term-modal-box {
+      background: #050a08;
+      border: 2px solid var(--main-color);
+      box-shadow: 0 0 30px rgba(0, 250, 154, 0.4);
+      max-width: 450px; width: 100%;
+      padding: 25px;
+      text-align: center;
+      position: relative;
+    }
+    .term-modal-title {
+      font-size: 20px; color: var(--text-white);
+      border-bottom: 1px dashed var(--main-color);
+      padding-bottom: 10px; margin-bottom: 15px;
+    }
+    .term-modal-text {
+      font-size: 14px; color: #ccc; line-height: 1.5; margin-bottom: 20px;
+    }
+    .pole_vvoda {
+      width: 100%; padding: 10px; margin-bottom: 15px;
+      background: #000; border: 1px solid var(--main-color);
+      color: var(--main-color); font-family: 'Courier New', monospace;
+      font-size: 14px; box-sizing: border-box; text-align: center;
+    }
+    .modal-actions {
+      display: flex; gap: 10px;
+    }
+    .btn-close-modal {
+      border-color: #ff4444; color: #ff4444;
+    }
+    .btn-close-modal:hover {
+      background: #ff4444; color: #000; box-shadow: 0 0 15px #ff4444;
+    }
+
+    .map-section {
+      padding: 60px 20px;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+      text-align: center;
+      background: linear-gradient(180deg, transparent 0%, rgba(0,250,154,0.03) 100%);
+    }
+    .map-section h2 {
+      font-size: 28px; letter-spacing: 4px; text-transform: uppercase;
+      text-shadow: 0 0 15px var(--main-color); margin-bottom: 30px;
+    }
+    .map-svg { max-width: 700px; width: 100%; height: auto; }
+
+    footer {
+      text-align: center; padding: 40px 20px;
+      border-top: 1px solid var(--border-color);
+      font-size: 12px; color: #666;
+    }
+
+    .floating-panel {
+      position: fixed; bottom: 20px; right: 20px;
+      display: flex; flex-direction: column; gap: 10px;
+      z-index: 1000;
+    }
+    .float-btn {
+      background: rgba(0,0,0,0.9); color: var(--main-color);
+      border: 2px solid var(--main-color);
+      width: 50px; height: 50px;
+      font-size: 20px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: 0.3s;
+      box-shadow: 0 0 10px rgba(0,250,154,0.3);
+    }
+    .float-btn:hover {
+      background: var(--main-color); color: #000;
+      box-shadow: 0 0 20px var(--main-color);
+    }
+
+    @keyframes crt-flicker {
+      0% { opacity: 0.95; }
+      50% { opacity: 1; }
+      100% { opacity: 0.98; }
+    }
+    @keyframes blink-cursor {
+      0%, 100% { border-color: transparent; }
+      50% { border-color: var(--main-color); }
+    }
+
+    @media (max-width: 600px) {
+      header { flex-direction: column; gap: 15px; padding: 15px; }
+      .products-grid { padding: 15px; }
+      .product-icon { width: 120px; height: 120px; font-size: 48px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">QWERTY.SHOP</div>
+    <div class="nav-links">
+      <a href="#services">Услуги</a>
+      <a href="#map">Архипелаг</a>
+      <a href="#" id="headerBalance" onclick="openPromoModal(); return false;">[ БАЛАНС: 0₴ ]</a>
+      <a href="index.html">[ В ТЕРМИНАЛ ]</a>
+    </div>
+  </header>
+
+  <div class="hero">
+    <h1 id="typed-title"></h1>
+    <p>// УСЛУГИ ДЛЯ ТЕРМИНАЛОВ T3RM1N4L //</p>
+  </div>
+
+  <div class="products-grid" id="services">
+    <div class="product-card">
+      <span class="lock-badge">🔒</span>
+      <span class="premium-badge">PREMIUM</span>
+      <div class="product-icon">🔐</div>
+      <h3 class="product-title">ПРЕМИУМ ДОСТУП</h3>
+      <p class="product-desc">Полный доступ к закрытым секторам, секретным лорам и эксклюзивным файлам терминала. Снимите ограничения.</p>
+      <div class="product-price">500₴ / мес</div>
+      <button class="buy-btn" onclick="openOrderModal('ПРЕМИУМ ДОСТУП', 500)">[ АКТИВИРОВАТЬ ]</button>
+    </div>
+
+    <div class="product-card">
+      <span class="premium-badge">BETA</span>
+      <div class="product-icon">🎮</div>
+      <h3 class="product-title">РАННИЙ ДОСТУП</h3>
+      <p class="product-desc">Играйте в новые игры (CloverPit, Змейка SDP) до официального релиза. Влияйте на разработку.</p>
+      <div class="product-price">300₴ / мес</div>
+      <button class="buy-btn" onclick="openOrderModal('РАННИЙ ДОСТУП', 300)">[ ПОЛУЧИТЬ ]</button>
+    </div>
+
+    <div class="product-card">
+      <div class="product-icon">💻</div>
+      <h3 class="product-title">РАЗРАБОТКА САЙТА</h3>
+      <p class="product-desc">Создание сайта под ключ в стиле Qwerty (терминал, ЭЛТ, неон). Адаптив, анимации, логика.</p>
+      <div class="product-price">от 5,000₴</div>
+      <button class="buy-btn" onclick="openOrderModal('РАЗРАБОТКА САЙТА', 5000)">[ ЗАКАЗАТЬ ]</button>
+    </div>
+
+    <div class="product-card">
+      <div class="product-icon">🤖</div>
+ <h3 class="product-title">DISCORD ПОД КЛЮЧ</h3>
+      <p class="product-desc">Настройка сервера, создание каналов, установка ботов (Arcane, Carl-bot) и настройка прав доступа.</p>
+      <div class="product-price">от 1,500₴</div>
+      <button class="buy-btn" onclick="openOrderModal('DISCORD ПОД КЛЮЧ', 1500)">[ ЗАКАЗАТЬ ]</button>
+    </div>
+  </div>
+
+  <!-- СЕКЦИЯ КАРТЫ АРХИПЕЛАГА -->
+  <div class="map-section" id="map">
+    <h2>КАРТА АРХИПЕЛАГА</h2>
+    <svg class="map-svg" viewBox="0 0 700 300" xmlns="http://w3.org">
+      <ellipse cx="200" cy="150" rx="160" ry="100" fill="none" stroke="#00FA9A" stroke-width="2" opacity="0.6"/>
+      <ellipse cx="500" cy="150" rx="160" ry="100" fill="none" stroke="#00FA9A" stroke-width="2" opacity="0.6"/>
+      <circle cx="150" cy="120" r="20" fill="none" stroke="#00FA9A" stroke-width="1.5"/>
+      <circle cx="220" cy="180" r="15" fill="none" stroke="#00FA9A" stroke-width="1.5"/>
+      <circle cx="170" cy="200" r="12" fill="none" stroke="#00FA9A" stroke-width="1.5"/>
+      <circle cx="460" cy="130" r="18" fill="none" stroke="#00FA9A" stroke-width="1.5"/>
+      <circle cx="540" cy="170" r="22" fill="none" stroke="#00FA9A" stroke-width="1.5"/>
+      <circle cx="490" cy="210" r="14" fill="none" stroke="#00FA9A" stroke-width="1.5"/>
+      <text x="200" y="270" fill="#00FA9A" font-family="Courier New" font-size="12" text-anchor="middle">СЕКТОР 0-1S</text>
+      <text x="500" y="270" fill="#00FA9A" font-family="Courier New" font-size="12" text-anchor="middle">СЕКТОР 0-2S</text>
+    </svg>
+  </div>
+
+  <!-- НЕОНОВОЕ МОДАЛЬНОЕ ОКНО -->
+  <div class="term-modal-overlay" id="termModal">
+    <div class="term-modal-box">
+      <div class="term-modal-title" id="modalTitle">// ТЕРМИНАЛ ОПЛАТЫ //</div>
+      <div class="term-modal-text" id="modalText">Описание операции...</div>
+      <input type="text" id="modalInput" class="pole_vvoda" placeholder="ВВЕДИТЕ ПРОМОКОД ИЛИ НИК TG...">
+      <div class="modal-actions">
+        <button class="buy-btn" id="modalConfirmBtn">[ ПОДТВЕРДИТЬ ]</button>
+        <button class="buy-btn btn-close-modal" onclick="closeModal()">[ ОТМЕНА ]</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ПОДВАЛ -->
+  <footer>
+    // QWERTY.SHOP // СЕКТОР 0-1S // ВСЕ СИСТЕМЫ В НОРМЕ //
+  </footer>
+
+  <!-- ПЛАВАЮЩАЯ ПАНЕЛЬ -->
+  <div class="floating-panel">
+    <button class="float-btn" onclick="playBeep(); window.scrollTo({top:0, behavior:'smooth'})" title="Наверх">⬆</button>
+    <button class="float-btn" onclick="openPromoModal()" title="Ввести промокод">🔑</button>
+    <button class="float-btn" onclick="showBalanceInfo()" title="Баланс">₴</button>
+  </div>
+    <script>
+    let audioCtx = null;
+
+    function playBeep() {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.08);
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.1);
+      } catch (e) {}
+    }
+
+    const titleText = "QWERTY.SHOP";
+    const titleEl = document.getElementById('typed-title');
+    let charIndex = 0;
+    function typeWriter() {
+      if (charIndex < titleText.length) {
+        titleEl.textContent += titleText.charAt(charIndex);
+        charIndex++;
+        setTimeout(typeWriter, 40);
+      }
+    }
+    typeWriter();
+
+    function getBalance() {
+      return parseInt(localStorage.getItem('t3rm_balance')) || 0;
+    }
+
+    function updateBalanceUI() {
+      document.getElementById('headerBalance').textContent = `[ БАЛАНС: ${getBalance()}₴ ]`;
+    }
+    updateBalanceUI();
+
+    const modal = document.getElementById('termModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalText = document.getElementById('modalText');
+    const modalInput = document.getElementById('modalInput');
+    const modalConfirmBtn = document.getElementById('modalConfirmBtn');
+
+    function closeModal() {
+      playBeep();
+      modal.style.display = 'none';
+      modalInput.value = '';
+    }
+
+    function openOrderModal(serviceName, price) {
+      playBeep();
+      const balance = getBalance();
+      modalTitle.textContent = `// ЗАКАЗ: ${serviceName} //`;
+      modalInput.style.display = 'block';
+      modalInput.placeholder = 'ВВЕДИТЕ ВАШ @TELEGRAM ДЛЯ СВЯЗИ...';
+
+      if (balance >= price) {
+        modalText.innerHTML = `Стоимость: <b>${price}₴</b>.<br>Ваш баланс: <b>${balance}₴</b> (Средств достаточно!).<br>Укажите контакт для выдачи доступа:`;
+        modalConfirmBtn.textContent = '[ ОПЛАТИТЬ С БАЛАНСА ]';
+        modalConfirmBtn.onclick = function() {
+          localStorage.setItem('t3rm_balance', balance - price);
+          updateBalanceUI();
+          playBeep();
+          modalText.innerHTML = `<span style="color:#00FA9A;">✔ УСПЕШНО ОПЛАЧЕНО!</span><br>Заявка на <b>${serviceName}</b> зафиксирована в системе.`;
+          modalInput.style.display = 'none';
+          modalConfirmBtn.textContent = '[ ГОТОВО ]';
+          modalConfirmBtn.onclick = closeModal;
+        };
+      } else {
+        modalText.innerHTML = `Стоимость: <b>${price}₴</b>.<br>Ваш баланс: <b>${balance}₴</b> (Недостаточно средств на счету).<br>Оставьте ваш @Telegram, и Оператор (Скорпион) свяжется с вами для прямой оплаты:`;
+        modalConfirmBtn.textContent = '[ ОТПРАВИТЬ ЗАЯВКУ ]';
+        modalConfirmBtn.onclick = function() {
+          const contact = modalInput.value.trim();
+          if (!contact) return;
+          playBeep();
+          modalText.innerHTML = `<span style="color:#00FA9A;">✔ ЗАЯВКА ПРИНЯТА!</span><br>Оператор свяжется с <b>${contact}</b> по услуге «${serviceName}».`;
+          modalInput.style.display = 'none';
+          modalConfirmBtn.textContent = '[ ГОТОВО ]';
+          modalConfirmBtn.onclick = closeModal;
+        };
+      }
+      modal.style.display = 'flex';
+    }
+
+    function openPromoModal() {
+      playBeep();
+      modalTitle.textContent = '// АКТИВАЦИЯ КЛЮЧА //';
+      modalText.textContent = 'Введите секретный код из терминалов T3RM1N4L для пополнения баланса:';
+      modalInput.style.display = 'block';
+      modalInput.placeholder = 'НАПРИМЕР: QWERTY2050';
+      modalConfirmBtn.textContent = '[ АКТИВИРОВАТЬ ]';
+
+      modalConfirmBtn.onclick = function() {
+        const code = modalInput.value.trim().toUpperCase();
+        playBeep();
+        if (code === 'QWERTY2050') {
+          localStorage.setItem('t3rm_balance', getBalance() + 500);
+          updateBalanceUI();
+          modalText.innerHTML = `<span style="color:#00FA9A;">✔ КЛЮЧ ПРИНЯТ!</span><br>На баланс начислено +500₴.`;
+          modalInput.style.display = 'none';
+          modalConfirmBtn.textContent = '[ ОТЛИЧНО ]';
+          modalConfirmBtn.onclick = closeModal;
+        } else {
+          modalText.innerHTML = `<span style="color:#ff4444;">✕ ОШИБКА:</span> Неверный или уже использованный ключ доступа.`;
+        }
+      };
+      modal.style.display = 'flex';
+    }
+
+    function showBalanceInfo() {
+      playBeep();
+      modalTitle.textContent = '// СОСТОЯНИЕ СЧЁТА //';
+      modalText.innerHTML = `Текущий баланс агента: <b>${getBalance()}₴</b>.<br>Зарабатывайте валюту в Аркадном Хабе или активируйте ключи доступа.`;
+      modalInput.style.display = 'none';
+      modalConfirmBtn.textContent = '[ ЗАКРЫТЬ ]';
+      modalConfirmBtn.onclick = closeModal;
+      modal.style.display = 'flex';
+    }
+  </script>
+</body>
+</html>
