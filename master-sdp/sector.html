@@ -5,158 +5,226 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>СЕКТОР SDP-2 // ГЛАВНАЯ</title>
   <style>
-    /* БАЗОВЫЕ ПЕРЕМЕННЫЕ */
-    :root { 
-      --rgb-start: #00FA9A; 
-      --rgb-mid: #00CED1; 
-      --rgb-end: #00BFFF; 
-      --text-main: #00CED1; 
-      --bg-deep: #050005; 
-      --accent-ok: #00FA9A; 
-      --accent-warn: #FFD700; 
-      --accent-bad: #FF4500; 
+    /* Основные переменные и сброс отступов */
+    :root {
+      --sdp-cyan: #00CED1; /* Фирменный бирюзовый цвет сектора SDP-2 */
+      --bg-dark: #050a0c;
+      --panel-bg: #0a1418;
     }
 
-    /* СБРОС И ФОН */
-    html, body { 
-      margin: 0; padding: 0; width: 100%; min-height: 100vh; 
-      background-color: var(--bg-deep); box-sizing: border-box; 
-      overflow-x: hidden; 
-    }
-    
-    body { 
-      padding: 15px; color: var(--text-main); 
-      font-family: 'Courier New', Courier, monospace; 
-      position: relative; animation: monitor-flicker 0.05s infinite; 
-      background: radial-gradient(900px 600px at 15% 10%, rgba(0,250,154,0.08), transparent 60%), radial-gradient(900px 600px at 90% 95%, rgba(0,191,255,0.08), transparent 60%), var(--bg-deep); 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    /* ЭЛТ-ЭФФЕКТ */
-    body::before { 
-      content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0; 
-      background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.25) 50%); 
-      z-index: 9999; background-size: 100% 4px; pointer-events: none; 
+    @keyframes fadeInTerminal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1; /* 1 = 100% видимости */
+  }
+}
+
+    /* Простой линейный градиент на фоне и запуск анимации появления */
+    body {
+      background: linear-gradient(180deg, #030709 0%, #09181d 100%);
+      color: var(--sdp-cyan);
+      font-family: 'Courier New', Courier, monospace;
+      min-height: 100vh;
+      padding: 30px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      animation: fadeInTerminal 2.2s ease-out forwards;
     }
 
-    /* ЗАГОЛОВОК */
-    h1 { 
-      font-size: clamp(22px, 4vw, 32px); text-transform: uppercase; letter-spacing: 4px; 
-      text-align: center; margin: 0 auto 8px auto; padding-bottom: 12px; 
-      border-bottom: 2px dashed var(--rgb-mid); 
-      background: linear-gradient(90deg, var(--rgb-start) 0%, var(--rgb-mid) 50%, var(--rgb-end) 100%); 
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; 
-      filter: drop-shadow(0 0 8px rgba(0,250,154,0.5)); 
-      overflow: hidden; white-space: nowrap; border-right: 2px solid transparent; 
-      width: max-content; max-width: 100%; 
-      animation: typingTitle 0.75s steps(25) 0.1s forwards, blinkCursor 0.5s step-end infinite; 
+    /* Основной контейнер терминала */
+    .terminal-box {
+      width: 100%;
+      max-width: 850px;
+      background: var(--panel-bg);
+      border: 2px solid var(--sdp-cyan);
+      box-shadow: 0 0 20px rgba(0, 206, 209, 0.2);
+      padding: 25px;
+      position: relative;
     }
 
-    .subtitle { 
-      text-align: center; font-size: 13px; color: rgba(0,206,209,0.6); 
-      letter-spacing: 3px; margin-bottom: 28px; text-transform: uppercase; 
+    /* Шапка терминала */
+    .header-status {
+      font-size: 13px;
+      opacity: 0.85;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
     }
 
-    /* СЕКЦИИ */
-    .section { 
-      margin-bottom: 32px; padding: 20px 22px; 
-      background: rgba(0, 206, 209, 0.03); border: 1px solid rgba(0, 206, 209, 0.25); 
-      border-radius: 10px; box-shadow: 0 0 12px rgba(0,206,209,0.12); 
-    }
-    .section h2 { 
-      font-size: 18px; text-transform: uppercase; letter-spacing: 3px; 
-      margin: 0 0 16px; padding-bottom: 8px; border-bottom: 1px solid rgba(0,206,209,0.3); 
-      background: linear-gradient(90deg, var(--rgb-start), var(--rgb-end)); 
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; 
-    }
-    .section p { 
-      font-size: 15px; line-height: 1.65; margin: 0 0 12px; 
-      color: var(--text-main); text-shadow: 0 0 4px rgba(0,206,209,0.5); 
+    h1 {
+      font-size: 26px;
+      border-bottom: 1px dashed var(--sdp-cyan);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
     }
 
-    /* ЦВЕТОВЫЕ АКЦЕНТЫ */
-    .hl-green { color: var(--accent-ok); text-shadow: 0 0 8px rgba(0,250,154,0.8); font-weight: bold; }
-    .hl-blue  { color: var(--rgb-end); text-shadow: 0 0 8px rgba(0,191,255,0.8); font-weight: bold; }
-    .hl-warn  { color: var(--accent-warn); text-shadow: 0 0 8px rgba(255,215,0,0.8); font-weight: bold; }
-    .hl-bad   { color: var(--accent-bad); text-shadow: 0 0 8px rgba(255,69,0,0.8); font-weight: bold; }
-
-    /* КНОПКИ */
-    .button-container { 
-      display: flex; justify-content: center; flex-wrap: wrap; 
-      gap: 15px; margin: 20px 0 10px; opacity: 0; 
-      animation: fadeIn 0.5s 1.5s forwards; 
+    /* Эффект быстрой печатной машинки (строго 0.4с по правилам) */
+    .typewriter {
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 2px solid var(--sdp-cyan);
+      animation: typing 0.4s steps(30, end), blink-caret 0.7s step-end infinite;
+      max-width: fit-content;
     }
 
-    .terminal-btn { 
-      display: inline-block; padding: 12px 26px; background-color: transparent; 
-      color: var(--text-main); border: 2px solid var(--rgb-mid); 
-      font-family: 'Courier New', Courier, monospace; font-size: 15px; font-weight: bold; 
-      text-transform: uppercase; letter-spacing: 2px; text-decoration: none; 
-      cursor: pointer; border-radius: 6px; box-shadow: 0 0 10px rgba(0,206,209,0.25); 
-      text-shadow: 0 0 4px rgba(0,206,209,0.8); transition: all 0.3s ease; 
-      text-align: center; 
-    }
-    
-    .terminal-btn:hover { 
-      background: linear-gradient(90deg, var(--rgb-start), var(--rgb-end)); 
-      color: #001a1a; border-color: var(--rgb-start); 
-      box-shadow: 0 0 22px rgba(0,250,154,0.7); text-shadow: none; 
-      transform: translateY(-2px); 
-    }
-    
-    .terminal-btn.danger { 
-      color: var(--accent-bad); border-color: var(--accent-bad); 
-      text-shadow: 0 0 4px rgba(255,69,0,0.8); 
-    }
-    .terminal-btn.danger:hover { 
-      background: var(--accent-bad); color: #000; 
-      box-shadow: 0 0 22px rgba(255,69,0,0.8); 
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
     }
 
-    /* АНИМАЦИИ */
-    @keyframes typingTitle { from { max-width: 0; } to { max-width: 100%; } }
-    @keyframes blinkCursor { 50% { border-color: var(--rgb-mid); } }
-    @keyframes fadeIn { to { opacity: 1; } }
-    @keyframes monitor-flicker { 0% { opacity: 0.98; } 50% { opacity: 1; } 100% { opacity: 0.99; } }
+    @keyframes blink-caret {
+      from, to { border-color: transparent; }
+      50% { border-color: var(--sdp-cyan); }
+    }
 
-    @media (min-width: 768px) { body { padding: 30px; } }
-    @media (max-width: 500px) { h1 { white-space: normal; animation: fadeIn 0.5s forwards; border: none; width: 100%; } }
+    /* Секции контента */
+    .section-title {
+      font-size: 18px;
+      margin: 25px 0 12px 0;
+      color: #ffffff;
+    }
+
+    .summary-text {
+      line-height: 1.6;
+      margin-bottom: 15px;
+      color: #b8f2f4;
+    }
+
+    /* Сетка навигационных кнопок */
+    .nav-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 20px 0 30px 0;
+    }
+
+    /* Кнопки терминала с быстрой анимацией 0.3с */
+    .term-btn {
+      display: inline-block;
+      padding: 12px 18px;
+      background: linear-gradient(90deg, rgba(0, 206, 209, 0.1) 0%, rgba(0, 206, 209, 0.25) 100%);
+      border: 1px solid var(--sdp-cyan);
+      color: var(--sdp-cyan);
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .term-btn:hover {
+      background: var(--sdp-cyan);
+      color: #030709;
+      box-shadow: 0 0 12px var(--sdp-cyan);
+    }
+
+    /* Кнопка сброса доступа (красный акцент) */
+    .btn-reset {
+      background: linear-gradient(90deg, rgba(255, 50, 50, 0.1) 0%, rgba(255, 50, 50, 0.25) 100%);
+      border-color: #ff4444;
+      color: #ff4444;
+      font-family: inherit;
+    }
+
+    .btn-reset:hover {
+      background: #ff4444;
+      color: #000;
+      box-shadow: 0 0 12px #ff4444;
+    }
+
+    /* Плавающая панель статуса в правом нижнем углу (Правило №7) */
+    .floating-panel {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      background: #050a0c;
+      border: 1px solid var(--sdp-cyan);
+      padding: 10px 15px;
+      font-size: 12px;
+      z-index: 100;
+      box-shadow: 0 0 10px rgba(0, 206, 209, 0.3);
+    }
   </style>
 </head>
 <body>
 
-  <h1>СЕКТОР SDP-2 // ГЛАВНАЯ</h1>
-  <div class="subtitle">// доступ разрешён // статус: активен //</div>
-  
-  <div class="section">
-    <h2>▸ Общая сводка</h2>
-    <p>Вы находитесь в <span class="hl-green">главном узле сектора SDP-2</span>. Все системы функционируют в штатном режиме. Доступ предоставлен на <span class="hl-warn">72 часа</span>, после чего потребуется повторная авторизация.</p>
-    <p>В этом секторе собраны <span class="hl-blue">фото, видео и текстовые отчёты</span> о ключевых событиях.</p>
+  <div class="terminal-box">
+    <div class="header-status typewriter">// доступ разрешён // статус: активен //</div>
+    <h1>СЕКТОР SDP-2 // ГЛАВНАЯ</h1>
+
+    <h2 class="section-title">▸ Общая сводка</h2>
+    <p class="summary-text">
+      Вы находитесь в главном узле сектора SDP-2. Все системы функционируют в штатном режиме. 
+      Доступ предоставлен на 72 часа, после чего потребуется повторная авторизация.
+    </p>
+    <p class="summary-text">
+      В этом секторе собраны фото, видео и текстовые отчёты о ключевых событиях.
+    </p>
+
+    <h2 class="section-title">▸ НАВИГАЦИЯ ПО СЕКТОРУ</h2>
+    <nav class="nav-grid">
+      <!-- Ссылки на внутренние модули сектора -->
+      <a href="database-sdp-2.html" class="term-btn">[ БАЗА ДАННЫХ ]</a>
+      <a href="media-sdp-2.html" class="term-btn">[ МЕДИА-АРХИВ ]</a>
+      <a href="map-sdp-2.html" class="term-btn">[ КАРТА СЕКТОРА ]</a>
+      <!-- Привязанная кнопка СИСТЕМА к файлу системного паспорта -->
+      <a href="system-sdp-2.html" class="term-btn">[ СИСТЕМА ]</a>
+    </nav>
+
+    <!-- Кнопка сброса сессии -->
+    <button class="term-btn btn-reset" onclick="resetAccess()">✕ СБРОСИТЬ ДОСТУП</button>
   </div>
 
-  <!-- НОВЫЕ 4 КНОПКИ -->
-  <div class="section" style="text-align: center;">
-    <h2>▸ НАВИГАЦИЯ ПО СЕКТОРУ</h2>
-    <div class="button-container" style="animation-delay: 0.5s; margin-top: 10px;">
-      <a href="sdp-database.html" class="terminal-btn">[ БАЗА ДАННЫХ ]</a>
-      <a href="sdp-archive.html" class="terminal-btn">[ МЕДИА-АРХИВ ]</a>
-      <a href="sdp-map.html" class="terminal-btn">[ КАРТА СЕКТОРА ]</a>
-      <a href="sdp-sys.html" class="terminal-btn">[ СИСТЕМА ]</a>
-    </div>
-  </div>
-
-  <!-- КНОПКА СБРОСА -->
-  <div class="button-container" style="margin-top: 30px; animation-delay: 1s;">
-    <button class="terminal-btn danger" onclick="logout()">✕ СБРОСИТЬ ДОСТУП</button>
+  <!-- Плавающая панель информации в правом нижнем углу -->
+  <div class="floating-panel" id="statusPanel">
+    УЗЕЛ: SDP-2 | СЕЗОН: S-1<br>
+    <span id="timerDisplay">СЕССИЯ: 72:00:00</span>
   </div>
 
   <script>
-    // Функция сброса доступа (возврат на экран ввода кода)
-    function logout() {
-      if (confirm('Сбросить доступ и выйти из сектора?')) {
-        try { localStorage.removeItem('sdp2_access'); } catch (e) {}
-        window.location.href = 'sdp-2.html'; // Возврат на страницу ввода кода
+    // Объяснение JS:
+    // 1. При загрузке страницы проверяем/устанавливаем метку времени доступа на 72 часа в localStorage.
+    // 2. Отображаем фракцию игрока (t3rm_faction) в плавающей панели, если она записана.
+    // 3. Функция resetAccess() очищает доступ к сектору и возвращает игрока в главный штаб (index.html).
+
+    const ACCESS_KEY = 'sdp2_access_until';
+    const HOURS_72_MS = 72 * 60 * 60 * 1000;
+
+    function initSector() {
+      let expireTime = localStorage.getItem(ACCESS_KEY);
+      const now = Date.now();
+
+      // Если таймер еще не запущен — выдаем доступ на 72 часа
+      if (!expireTime || now > parseInt(expireTime)) {
+        expireTime = now + HOURS_72_MS;
+        localStorage.setItem(ACCESS_KEY, expireTime);
+      }
+
+      // Проверяем фракцию из Книги Тьмы
+      const faction = localStorage.getItem('t3rm_faction') || 'ГОСТЬ';
+      const panel = document.getElementById('statusPanel');
+      panel.innerHTML = `УЗЕЛ: SDP-2 | ФРАКЦИЯ: <b>${faction}</b><br><span id="timerDisplay">ДОСТУП АКТИВЕН (72Ч)</span>`;
+    }
+
+    function resetAccess() {
+      if (confirm('Сбросить авторизацию сектора SDP-2 и вернуться в Главный Штаб?')) {
+        localStorage.removeItem(ACCESS_KEY);
+        // Переход на главный терминал master-01s (index.html)
+        window.location.href = 'index.html';
       }
     }
+
+    // Запуск при открытии страницы
+    initSector();
   </script>
 </body>
 </html>
