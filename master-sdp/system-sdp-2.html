@@ -5,163 +5,230 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SDP-2 // СИСТЕМНЫЙ ПАСПОРТ</title>
   <style>
-    /* БАЗОВЫЙ СТИЛЬ SDP-2 */
-    :root { 
-      --bg: #050005; 
-      --main: #00CED1; 
-      --border: #00CED1; 
-      --panel: rgba(0,206,209,0.05);
-      --warn: #FFD700;
-      --danger: #FF4500;
-    }
-    html, body { 
-      margin: 0; padding: 0; width: 100%; min-height: 100vh; 
-      background: var(--bg); color: var(--main); 
-      font-family: 'Courier New', Courier, monospace; box-sizing: border-box; 
-    }
-    body { 
-      padding: 20px; display: flex; flex-direction: column; align-items: center; 
-      animation: flicker 0.05s infinite; overflow-x: hidden; 
-    }
-    body::before { 
-      content: " "; position: fixed; inset: 0; 
-      background: linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.25) 50%); 
-      background-size: 100% 4px; z-index: 9999; pointer-events: none; 
-    }
-    
-    h1 { 
-      text-transform: uppercase; letter-spacing: 3px; 
-      border-bottom: 2px dashed var(--border); padding-bottom: 10px; 
-      text-align: center; font-size: 24px; text-shadow: 0 0 10px var(--main); 
-      width: 100%; max-width: 800px;
-    }
-    .subtitle { color: #888; text-align: center; margin-bottom: 30px; font-size: 14px; letter-spacing: 2px; }
-
-    /* КОНТЕЙНЕР ДОСЬЕ */
-    .dossier { 
-      width: 100%; max-width: 800px; 
-      background: var(--panel); border: 1px solid var(--border); 
-      box-shadow: 0 0 20px rgba(0,206,209,0.2); padding: 30px; 
-      position: relative; 
-    }
-    
-    /* Шапка досье */
-    .dossier-header { 
-      display: flex; justify-content: space-between; align-items: center; 
-      border-bottom: 2px solid var(--main); padding-bottom: 15px; margin-bottom: 20px; 
-    }
-    .dossier-header h2 { margin: 0; font-size: 22px; color: #FFF; text-transform: uppercase; }
-    .status-badge { 
-      background: rgba(0,250,154,0.1); color: #00FA9A; 
-      border: 1px solid #00FA9A; padding: 5px 10px; font-weight: bold; font-size: 12px; 
-      letter-spacing: 1px; box-shadow: 0 0 10px rgba(0,250,154,0.3); 
+    /* Основные цвета сектора SDP-2 */
+    :root {
+      --sdp-cyan: #00CED1;
+      --warn-amber: #ffae00;
+      --bg-dark: #050a0c;
+      --panel-bg: #0a1418;
     }
 
-    /* Таблица с данными */
-    .info-grid { 
-      display: grid; grid-template-columns: 1fr; gap: 15px; 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-    @media (min-width: 600px) { .info-grid { grid-template-columns: 1fr 1fr; } }
-    
-    .info-item { 
-      border-bottom: 1px dashed rgba(0,206,209,0.3); padding-bottom: 10px; 
-    }
-    .info-label { 
-      font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; 
-    }
-    .info-value { 
-      font-size: 16px; color: #FFF; font-weight: bold; text-shadow: 0 0 5px rgba(255,255,255,0.3); 
-    }
-    .info-value.danger { color: var(--danger); text-shadow: 0 0 5px rgba(255,69,0,0.5); }
-    .info-value.warn { color: var(--warn); text-shadow: 0 0 5px rgba(255,215,0,0.5); }
 
-    /* Предупреждение */
-    .warning-box { 
-      margin-top: 30px; padding: 15px; 
-      border: 1px solid var(--danger); background: rgba(255,69,0,0.05); 
-      color: var(--danger); font-size: 13px; line-height: 1.5; text-align: justify;
+    /* Анимация плавного появления из прозрачности (0.4с) */
+    @keyframes fadeInTerminal {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
     }
-    .warning-box strong { text-transform: uppercase; }
 
-    /* Кнопка возврата */
-    .back { 
-      margin-top: 40px; padding: 12px 24px; 
-      background: transparent; border: 2px solid var(--main); 
-      color: var(--main); text-decoration: none; font-weight: bold; 
-      text-transform: uppercase; transition: 0.3s; 
+    /* Простой линейный градиент фона и запуск анимации появления */
+    body {
+      background: linear-gradient(180deg, #030709 0%, #09181d 100%);
+      color: var(--sdp-cyan);
+      font-family: 'Courier New', Courier, monospace;
+      min-height: 100vh;
+      padding: 30px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      animation: fadeInTerminal 3s ease-out forwards;
     }
-    .back:hover { background: var(--main); color: #000; box-shadow: 0 0 20px var(--main); }
-    
-    @keyframes flicker { 0% { opacity: 0.98; } 50% { opacity: 1; } 100% { opacity: 0.99; } }
+
+    /* Контейнер паспорта */
+    .passport-box {
+      width: 100%;
+      max-width: 850px;
+      background: var(--panel-bg);
+      border: 2px solid var(--sdp-cyan);
+      box-shadow: 0 0 20px rgba(0, 206, 209, 0.2);
+      padding: 25px;
+    }
+
+    .sub-header {
+      font-size: 13px;
+      opacity: 0.85;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    h1 {
+      font-size: 24px;
+      border-bottom: 1px dashed var(--sdp-cyan);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+
+    .sector-badge {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(90deg, rgba(0, 206, 209, 0.15) 0%, rgba(0, 206, 209, 0.05) 100%);
+      border-left: 4px solid var(--sdp-cyan);
+      padding: 10px 15px;
+      margin-bottom: 20px;
+    }
+
+    .status-online {
+      color: #00ff88;
+      font-weight: bold;
+    }
+
+    /* Таблица характеристик ядра */
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 25px;
+    }
+
+    .specs-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(0, 206, 209, 0.25);
+      vertical-align: top;
+    }
+
+    .spec-label {
+      width: 40%;
+      color: #88d8da;
+      font-weight: bold;
+    }
+
+    .spec-value {
+      width: 60%;
+      color: #ffffff;
+    }
+
+    .danger-text {
+      color: #ff5555;
+      font-weight: bold;
+    }
+
+    /* Блок предупреждения о временной петле 2050 года */
+    .warning-box {
+      border: 1px solid var(--warn-amber);
+      background: linear-gradient(90deg, rgba(255, 174, 0, 0.15) 0%, rgba(255, 174, 0, 0.05) 100%);
+      color: #ffd27d;
+      padding: 15px;
+      margin-bottom: 25px;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .warning-box strong {
+      color: var(--warn-amber);
+    }
+
+    /* Кнопка возврата с быстрой анимацией 0.3с */
+    .back-btn {
+      display: inline-block;
+      padding: 12px 20px;
+      background: linear-gradient(90deg, rgba(0, 206, 209, 0.1) 0%, rgba(0, 206, 209, 0.25) 100%);
+      border: 1px solid var(--sdp-cyan);
+      color: var(--sdp-cyan);
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: var(--sdp-cyan);
+      color: #030709;
+      box-shadow: 0 0 12px var(--sdp-cyan);
+    }
+
+    /* Плавающая панель в правом нижнем углу */
+    .floating-panel {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      background: #050a0c;
+      border: 1px solid var(--sdp-cyan);
+      padding: 10px 15px;
+      font-size: 12px;
+      z-index: 100;
+    }
   </style>
 </head>
 <body>
 
-  <h1>СИСТЕМНЫЙ ПАСПОРТ ТЕРМИНАЛА</h1>
-  <p class="subtitle">// ДОСЬЕ НА СЕКТОР SDP-2 //</p>
+  <div class="passport-box">
+    <div class="sub-header">// ДОСЬЕ НА СЕКТОР SDP-2 //</div>
+    <h1>СИСТЕМНЫЙ ПАСПОРТ ТЕРМИНАЛА</h1>
 
-  <div class="dossier">
-    <div class="dossier-header">
+    <div class="sector-badge">
       <h2>Сектор SDP-2</h2>
-      <div class="status-badge">СТАТУС: АКТИВЕН</div>
+      <span class="status-online">СТАТУС: АКТИВЕН</span>
     </div>
 
-    <div class="info-grid">
-      <!-- 1. Год создания -->
-      <div class="info-item">
-        <div class="info-label">Год создания</div>
-        <div class="info-value">2026 (Эра Скорпиона)</div>
-      </div>
+    <!-- Таблица системных данных -->
+    <table class="specs-table">
+      <tr>
+        <td class="spec-label">Год создания</td>
+        <td class="spec-value">2026 (Эра Скорпиона)</td>
+      </tr>
+      <tr>
+        <td class="spec-label">Издатель / Создатель</td>
+        <td class="spec-value">Qwerty Studio (Хозяин: Скорпион)</td>
+      </tr>
+      <tr>
+        <td class="spec-label">Страна / Локация</td>
+        <td class="spec-value">Сектор 0-1S (Внешний Архив)</td>
+      </tr>
+      <tr>
+        <td class="spec-label">Назначение</td>
+        <td class="spec-value">Хранение аномалий и логов QWERTY</td>
+      </tr>
+      <tr>
+        <td class="spec-label">Ядро системы</td>
+        <td class="spec-value">Квантовое ядро "QWERTY-91X"</td>
+      </tr>
+      <tr>
+        <td class="spec-label">Энергопотребление</td>
+        <td class="spec-value danger-text">ВНЕШТАТНОЕ (Скачки до 2050 В)</td>
+      </tr>
+      <tr>
+        <td class="spec-label">Требуемый уровень доступа</td>
+        <td class="spec-value">3 (Агент Qwerty)</td>
+      </tr>
+      <tr>
+        <td class="spec-label">Время автономной работы</td>
+        <td class="spec-value">Бесконечно (при наличии ключа)</td>
+      </tr>
+    </table>
 
-      <!-- 2. Создатель / Издатель -->
-      <div class="info-item">
-        <div class="info-label">Издатель / Создатель</div>
-        <div class="info-value">Qwerty Studio (Хозяин: Скорпион)</div>
-      </div>
-
-      <!-- 3. Страна / Локация -->
-      <div class="info-item">
-        <div class="info-label">Страна / Локация</div>
-        <div class="info-value">Сектор 0-1S (Внешний Архив)</div>
-      </div>
-
-      <!-- 4. Назначение -->
-      <div class="info-item">
-        <div class="info-label">Назначение</div>
-        <div class="info-value">Хранение аномалий и логов QWERTY</div>
-      </div>
-
-      <!-- 5. Ядро системы -->
-      <div class="info-item">
-        <div class="info-label">Ядро системы</div>
-        <div class="info-value danger">Квантовое ядро "QWERTY-91X"</div>
-      </div>
-
-      <!-- 6. Энергопотребление -->
-      <div class="info-item">
-        <div class="info-label">Энергопотребление</div>
-        <div class="info-value warn">ВНЕШТАТНОЕ (Скачки до 2050 В)</div>
-      </div>
-
-      <!-- 7. Уровень доступа -->
-      <div class="info-item">
-        <div class="info-label">Требуемый уровень доступа</div>
-        <div class="info-value">3 (Агент Qwerty)</div>
-      </div>
-
-      <!-- 8. Время автономной работы -->
-      <div class="info-item">
-        <div class="info-label">Время автономной работы</div>
-        <div class="info-value">Бесконечно (при наличии ключа)</div>
-      </div>
-    </div>
-
+    <!-- Предупреждение по лору (Временная петля 2050) -->
     <div class="warning-box">
-      <strong>⚠ ВНИМАНИЕ:</strong> Терминал SDP-2 подключен к Ядру QWERTY. Зафиксированы случаи временных петель и искажения данных. При обнаружении файлов с датой "2050 год" немедленно сообщите в Главный Штаб (O-1S). Не пытайтесь открыть зашифрованные файлы без кода доступа.
+      <strong>⚠ ВНИМАНИЕ:</strong> Терминал SDP-2 подключен к Ядру QWERTY. 
+      Зафиксированы случаи временных петель и искажения данных. 
+      При обнаружении файлов с датой "2050 год" немедленно сообщите в Главный Штаб (O-1S). 
+      Не пытайтесь открыть зашифрованные файлы без кода доступа.
     </div>
+
+    <!-- Прямой возврат на главную страницу сектора SDP-2 -->
+    <a href="sdp-2.html" class="back-btn">&lt;&lt; НАЗАД В СЕКТОР</a>
   </div>
 
-  <a href="sector.html" class="back">&lt;&lt; НАЗАД В СЕКТОР</a>
+  <!-- Плавающая панель -->
+  <div class="floating-panel" id="sysPanel">
+    ЯДРО: QWERTY-91X | СТАТУС: 2050V
+  </div>
 
+  <script>
+    // Объяснение JS:
+    // Подтягиваем текущую фракцию агента из localStorage для отображения в нижней панели,
+    // чтобы сохранялась сквозная связь между страницами терминала.
+    const faction = localStorage.getItem('t3rm_faction');
+    if (faction) {
+      document.getElementById('sysPanel').innerHTML = `ЯДРО: QWERTY-91X | АГЕНТ: <b>${faction}</b>`;
+    }
+  </script>
 </body>
 </html>
